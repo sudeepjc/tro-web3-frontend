@@ -14,6 +14,10 @@ export class Staking extends Component {
 
     render() {
 
+        if (window.innerWidth < 1000) {
+            console.log(window.innerWidth)
+            window.location.href = "https://trodl.com/"
+        }
         const scrollToMyRef = () => window.scrollTo(0, this.myRef.current.offsetTop)
 
         const heroSection = () => {
