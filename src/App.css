@@ -14,12 +14,12 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #1C2636;
   min-height: 100vh;
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
   font-size: calc(10px + 2vmin);
   color: white;
 }
@@ -32,7 +32,259 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Staking */
+.staking-body {
+  background-color: #1C2636;
+
+  max-width: 1248px;
+  margin: 0 auto;
+  padding: 50px 64px;
+}
+
+.connect-btn {
+  width: auto;
+  /* height: 45px; */
+  padding: 10px 25px;
+  /* padding: 0px 25px 0px 25px; */
+  background-color: #5F3DF2;
+  box-shadow: 0px 6px 8px #00000029;
+  border-radius: 90px;
+  border: none;
+  color: #F9F9F9;
+  font-size: 16px;
+}
+
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
+}
+
+.logo-img {
+  width: 138px;
+  /* height: 54px;  */
+  margin-top: 5px;
+}
+
+.wallet-img {
+  width: 32px;
+  height: 25px;
+  margin-right: 10px
+}
+
+.right-img {
+  width: auto;
+  height: 500px;
+}
+
+.mg-t-75 {
+  margin-top: 75px !important;
+}
+
+.head1 {
+  font-size: 50px;
+  color: #F9F9F9;
+  font-weight: 600;
+}
+
+.subhead {
+  color: #F9F9F9;
+  font-size: 18px;
+  margin-top: 35px;
+  width: 76%;
+}
+
+.stake-btn {
+  background: #5F3DF2 0% 0% no-repeat padding-box;
+  box-shadow: 0px 4px 8px #00000029;
+  border-radius: 90px;
+  border: none;
+  font-size: 18px;
+  padding: 8px 45px;
+  color: white;
+  border: 2px solid #5f3cf2;
+}
+
+.ido-btn {
+  box-shadow: 0px 4px 8px #00000029;
+  border: 2px solid #5339EA;
+  border-radius: 90px;
+  color: #5339EA;
+  /* border: none; */
+  background-color: transparent;
+  font-size: 18px;
+  padding: 8px 45px;
+  margin-left: 20px;
+
+}
+
+.mt-50 {
+  margin-top: 50px;
+}
+
+.head2 {
+  letter-spacing: 0.44px;
+  color: #F9F9F9;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.font16 {
+  font-size: 16px;
+}
+
+.card-sec {
+  background-color: #202E44;
+  height: 180px;
+  box-shadow: 0px 5px 6px #00000029;
+  border-radius: 16px;
+  margin-left: 28px;
+  margin-right: 28px;
+}
+
+.card-heigh1 {
+  height: 180px;
+}
+
+.card-height2 {
+  height: 350px;
+}
+
+.col-theme {
+  color: #5F3DF2;
+}
+
+.mt-30 {
+  margin-top: 30px !important;
+}
+
+.mt-40 {
+  margin-top: 40px !important;
+}
+
+.sec-imgs {
+  width: 35px;
+  height: 35px;
+}
+
+.mtb18 {
+  margin-top: 18px;
+  margin-bottom: 18px;
+}
+
+.mt70 {
+  margin-top: 70px;
+}
+
+.colsec {
+  flex: 0 0 auto;
+  width: 28% !important;
+}
+
+.card-btns {
+  background: #5F3DF2 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+  border-radius: 90px;
+  border: none;
+  padding: 5px 65px;
+  color: white;
+
+}
+
+.padimp {
+  padding: 5px 55px !important
+}
+
+.borderDark {
+  background-color: #1B2536;
+  width: 320px;
+  height: 1px;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.mt-50 {
+  margin-top: 50px !important;
+}
+
+.input-cls {
+  border: 1px solid #8d8d8d96;
+  border-radius: 90px;
+  /* opacity: 0.2; */
+  background: transparent !important;
+  color: white !important;
+  height: 40px;
+  padding: 10px;
+
+}
+
+input:focus-visible {
+  outline: none;
+}
+
+.input-cls:focus {
+  background-color: #1c2636 !important;
+  color: white;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.mt-80 {
+  margin-top: 80px;
+}
+
+.mt-36 {
+  margin-top: 36px !important;
+}
+
+.mt-60 {
+  margin-top: 60px !important;
+}
+
+.mar-left-75 {
+  margin-left: 75px !important;
+}
+
+.t-and-c {
+  letter-spacing: 0.18px;
+  color: #F9F9F9;
+  opacity: 1;
+  font-size: 12px;
+  margin-top: 50px;
+  margin-bottom: -30px;
+}
+
+.secDivider {
+  margin-top: 200px;
+}
+
+.stake-btn:hover {
+  background-image: linear-gradient(to right, #614ade, #5f3df2);
+}
+
+.connect-btn:hover {
+  background-image: linear-gradient(to right, #614ade, #5f3df2);
+}
+
+.card-btns:hover {
+  background-image: linear-gradient(to right, #614ade, #5f3df2);
+
+}
+
+.ido-btn:hover {
+  background-image: linear-gradient(to right, #5f3df2, #614ade);
+  box-shadow: none;
+  color: #fff !important;
 }
