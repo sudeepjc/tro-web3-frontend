@@ -1,13 +1,14 @@
-import logo from './logo.svg';
 import './App.css';
 import { Staking } from './component/staking/Staking';
+import ErrorBoundry from './containers/ErrorBoundry/ErrorBoundry';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-
-        <Staking></Staking>
+        <ErrorBoundry>
+          <Staking></Staking>
+        </ErrorBoundry>
       </header>
     </div>
   );
