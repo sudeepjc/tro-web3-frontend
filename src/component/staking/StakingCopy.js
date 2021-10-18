@@ -13,15 +13,15 @@ export class Staking extends Component {
         super(props)
         this.myRef = React.createRef()
         this.state = {
-            isInstalled : false,
+            isInstalled: false,
             isInstalling: false,
             isConnected: false,
         }
     }
 
-    componentDidMount = () =>{
+    componentDidMount = () => {
         if (this.isMetaMaskInstalled()) {
-            this.setState({isInstalled: true});
+            this.setState({ isInstalled: true });
         }
     }
 
@@ -38,13 +38,13 @@ export class Staking extends Component {
 
         const currentUrl = new URL(window.location.href);
         console.log(currentUrl);
-        const forwarderOrigin = currentUrl.hostname === 'localhost'? 'http://localhost:3000': undefined;
+        const forwarderOrigin = currentUrl.hostname === 'localhost' ? 'http://localhost:3000' : undefined;
         console.log(forwarderOrigin);
         let onboarding;
 
         try {
             onboarding = new MetaMaskOnboarding({ forwarderOrigin });
-            this.setState({isInstalling: true});
+            this.setState({ isInstalling: true });
             onboarding.startOnboarding();
         } catch (error) {
             console.error(error);
@@ -52,7 +52,7 @@ export class Staking extends Component {
     }
 
     connectToMetamask = async () => {
-        if(! this.state.isInstalled) {
+        if (!this.state.isInstalled) {
             this.installMetamask();
         } else {
             const web3 = await getWeb3(1);
@@ -62,10 +62,10 @@ export class Staking extends Component {
 
     getConnectButtonString = () => {
         let connectButtonString = 'Connect';
-        if(! this.state.isInstalled) {
-            if(this.state.isInstalling){
+        if (!this.state.isInstalled) {
+            if (this.state.isInstalling) {
                 connectButtonString = 'Installing Metamask';
-            }else {
+            } else {
                 connectButtonString = 'Install Metamask';
             }
         }
@@ -122,7 +122,7 @@ export class Staking extends Component {
                     <div ref={this.myRef} className="head2">
                         User Dashboard
                     </div>
-                    <div className="row mar-left-75 font16 mt-50">
+                    <div className="row  font16 mt-50">
                         <div className="col-3 card-sec card-height1">
                             <div className="mt-30">
                                 <img src={secOne} className="sec-imgs" alt='sec-one'></img>

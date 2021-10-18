@@ -1,19 +1,29 @@
-import React,{useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
+import ErrorModal from '../modals/errorModal';
 
-const XTRORewardCard = ({trodlStake, accounts, web3}) => {
+const XTRORewardCard = ({ trodlStake, accounts, web3, }) => {
     const [xTROBalance, setXTROBalance] = useState(0);
     const [stakedTRO, setStakedTRO] = useState(0);
+    const [show, setShow] = useState(false)
+    const [error, setError] = useState(null)
 
-    useEffect(()=>{
-        async function getData(){
+    const showModal = () => {
+        setShow(
+            !show
+        );
+    };
+    useEffect(() => {
+        async function getData() {
             if (trodlStake && accounts && web3) {
-                try{
-                    let value = await trodlStake.methods.getxTROBalance(accounts[0]).call({from: accounts[0]});
-                    value = web3.utils.fromWei(value,'ether');
+                try {
+                    let value = await trodlStake.methods.getxTROBalance(accounts[0]).call({ from: accounts[0] });
+                    value = web3.utils.fromWei(value, 'ether');
                     setXTROBalance(value);
                     console.log(value);
                 } catch (error) {
                     console.log(error);
+                    setError(error)
+
                     throw error;
                 }
             }
@@ -21,16 +31,18 @@ const XTRORewardCard = ({trodlStake, accounts, web3}) => {
         getData();
     });
 
-    useEffect(()=>{
-        async function getData(){
+    useEffect(() => {
+        async function getData() {
             if (trodlStake && accounts && web3) {
-                try{
-                    let value = await trodlStake.methods.getStakedTROBalance().call({from: accounts[0]});
-                    value = web3.utils.fromWei(value,'ether');
+                try {
+                    let value = await trodlStake.methods.getStakedTROBalance().call({ from: accounts[0] });
+                    value = web3.utils.fromWei(value, 'ether');
                     setStakedTRO(value);
                     console.log(value);
                 } catch (error) {
                     console.log(error);
+                    setError(error)
+
                     throw error;
                 }
             }
@@ -39,18 +51,26 @@ const XTRORewardCard = ({trodlStake, accounts, web3}) => {
     });
 
     const unstakeAll = async () => {
-        try{
-            let tx = await trodlStake.methods.unstakeAll().send({from: accounts[0]});
+        showModal()
+
+        try {
+            let tx = await trodlStake.methods.unstakeAll().send({ from: accounts[0] });
             //Sudeep : Show Some Kind of UI notification
             console.log(tx);
         } catch (error) {
             console.log(error);
-            throw error;
+            setError(error)
+
+            // throw error;
         }
     }
 
-    return(
+    return (
         <div className="col-3 card-sec card-height2" >
+            {error ?
+                <ErrorModal onClose={showModal} show={show} >
+                    Connect your Wallet.
+</ErrorModal> : null}
             <div className="mtb18 mt-50">
                 Earned xTRO
             </div>
