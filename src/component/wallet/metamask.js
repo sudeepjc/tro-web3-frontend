@@ -1,6 +1,7 @@
 import React,{useState, useEffect} from 'react';
 import MetaMaskOnboarding from '@metamask/onboarding';
 import { shortAddress } from '../../utils/web3/addressUtils';
+import ErrorModal from '../modals/errorModal';
 
 import walletImg from "../../assets/images/wallet-solid.svg";
 
@@ -9,30 +10,40 @@ function MetaMaskWallet({onConnection, onAccountChange}) {
     const [isInstalling, setIsInstalling] = useState(false);
     const [isConnected, setIsConnected] = useState(false);
     const [accounts, setAccounts] = useState([]);
+    const [show, setShow] = useState(false);
+    const [error, setError] = useState(null);
+
     let onboarding;
 
     useEffect(()=>{
         if (isMetaMaskInstalled()) {
             setIsInstalled(true);
+            window.ethereum.on('accountsChanged', handleNewAccounts);
+            window.ethereum.on('chainChanged', handleNewChain);
+            window.ethereum.on('connect', handleOnConnection);
         }
 
         return function cleanup () {
             if(isMetaMaskInstalled()){
                 window.ethereum.removeListener('accountsChanged', handleNewAccounts);
                 window.ethereum.removeListener('chainChanged', handleNewAccounts);
-                window.ethereum.removeListener('networkChanged', handleNewAccounts);
+                window.ethereum.removeListener('connect', handleOnConnection);
             }
         }
-    },[]);
+    });
+
+    const showModal = () => {
+        setShow(!show);
+    };
 
     const isMetaMaskInstalled = () => {
         const { ethereum } = window
         return Boolean(ethereum && ethereum.isMetaMask)
     }
 
-    const isMetaMaskConnected = () => {
-        return accounts && (accounts.length > 0);
-    }
+    // const isMetaMaskConnected = () => {
+    //     return accounts && (accounts.length > 0);
+    // }
 
     const installMetamask = () => {
         const currentUrl = new URL(window.location.href);
@@ -44,19 +55,21 @@ function MetaMaskWallet({onConnection, onAccountChange}) {
             onboarding = new MetaMaskOnboarding({ forwarderOrigin });
             setIsInstalling(true);
             onboarding.startOnboarding();
-        } catch (error) {
-            throw error;
+        } catch (err) {
+            setError(err);
+            showModal();
+            // throw err;
         }
     }
 
     const connectToMetamask =  async() => {
         try {
             const { ethereum } = window;
-            if(!isMetaMaskConnected()){
-                ethereum.on('accountsChanged', handleNewAccounts);
-                ethereum.on('chainChanged', handleNewChain);
-                // ethereum.on('connect', handleOnConnection);
-            }
+            // if(!isMetaMaskConnected()){
+            //     ethereum.on('accountsChanged', handleNewAccounts);
+            //     ethereum.on('chainChanged', handleNewChain);
+            //     // ethereum.on('connect', handleOnConnection);
+            // }
 
             const newAccounts = await ethereum.request({
                 method: 'eth_requestAccounts',
@@ -70,8 +83,10 @@ function MetaMaskWallet({onConnection, onAccountChange}) {
             setIsConnected(true);
             
 
-        } catch (error) {
-            throw error;
+        } catch (err) {
+            setError(err);
+            showModal();
+            // throw err;
         } finally {
             if (onboarding) {
                 console.log('onboarding stopped');
@@ -107,22 +122,33 @@ function MetaMaskWallet({onConnection, onAccountChange}) {
         onAccountChange(newAccounts);
     }
 
-    // const handleOnConnection = (connectionInfo) => {
-    //     console.log(`ConnectionInfo: ${connectionInfo.chainId}`);
-    // }
+    const handleOnConnection = (connectionInfo) => {
+        console.log(`ConnectionInfo: ${connectionInfo.chainId}`);
+        // setIsConnected(true);
+        if (onboarding) {
+            console.log('onboarding stopped');
+            onboarding.stopOnboarding();
+        }
+    }
 
     function handleNewChain (chainId) {
         onConnection(chainId);
         // console.log(chainId);
 
         // SUdeep: To be enable for production
-        // if( !(chainId === '0x38' || chainId === '0x61')) {
-        //     throw new Error(`Connect to the Binance Chain. Current ChainID: ${chainId}`);
-        // }
+        if( !(chainId === '0x38' || chainId === '0x61')) {
+            setError( new Error(`Connect to the Binance Chain. Current ChainID: ${chainId}`));
+            showModal();
+        }
     }
     
     return(
         <div>
+            {error ?
+                <ErrorModal onClose={showModal} show={show}>
+                    {`${error.message}`}
+				</ErrorModal> : null
+			}
             <button className="connect-btn" onClick={connectWallet}>
                 <img src={walletImg} className="wallet-img" alt='wallet-img'></img>
                 {getConnectButtonString()}

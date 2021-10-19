@@ -1,88 +1,119 @@
 import React, { useState, useEffect } from 'react';
 import ErrorModal from '../modals/errorModal';
+import useRecursiveTimeout from '../../utils/useRecursiveTimeout';
+import { formatValue } from '../../utils/wrappers';
 
 const XTRORewardCard = ({ trodlStake, accounts, web3, }) => {
-    const [xTROBalance, setXTROBalance] = useState(0);
-    const [stakedTRO, setStakedTRO] = useState(0);
+    const [xTROBalance, setXTROBalance] = useState('--');
+    const [stakedTRO, setStakedTRO] = useState('--');
+    const [xTROError, setxTROError] = useState(null);
+    const [sTROError, setsTROError] = useState(null);
     const [show, setShow] = useState(false)
     const [error, setError] = useState(null)
 
+    const isValidConnectionForCard = () => {
+        if( (trodlStake && (trodlStake._address !== null)) && (accounts && accounts.length > 0) && (web3 !== undefined)){
+            return true;
+        }else {
+            return false;
+        }
+    }
+    
     const showModal = () => {
-        setShow(
-            !show
-        );
+        setShow( !show );
     };
-    useEffect(() => {
-        async function getData() {
-            if (trodlStake && accounts && web3) {
-                try {
-                    let value = await trodlStake.methods.getxTROBalance(accounts[0]).call({ from: accounts[0] });
-                    value = web3.utils.fromWei(value, 'ether');
-                    setXTROBalance(value);
-                    console.log(value);
-                } catch (error) {
-                    console.log(error);
-                    setError(error)
-
-                    throw error;
-                }
+    
+    async function getUserXTROBalance() {
+        if (isValidConnectionForCard()) {
+            try{
+                let xTROBalance = await trodlStake.methods.getxTROBalance(accounts[0]).call({from: accounts[0]});
+                xTROBalance = web3.utils.fromWei(xTROBalance,'ether');
+                setXTROBalance(xTROBalance);
+                setxTROError(null);
+                // DEBUG_LOG
+            } catch (err) {
+                console.log(err);
+                //PROD_LOG
+                setxTROError(err);
             }
         }
-        getData();
+    }
+
+    useEffect(()=>{
+        getUserXTROBalance();
     });
 
-    useEffect(() => {
-        async function getData() {
-            if (trodlStake && accounts && web3) {
-                try {
-                    let value = await trodlStake.methods.getStakedTROBalance().call({ from: accounts[0] });
-                    value = web3.utils.fromWei(value, 'ether');
-                    setStakedTRO(value);
-                    console.log(value);
-                } catch (error) {
-                    console.log(error);
-                    setError(error)
+    useRecursiveTimeout(() => {
+        getUserXTROBalance();
+    }, 10000);
 
-                    throw error;
+    useEffect(()=>{
+        async function getUserTROStaked(){
+            if (isValidConnectionForCard()) {
+                try{
+                    let stakedTROBalance = await trodlStake.methods.getStakedTROBalance().call({from: accounts[0]});
+                    stakedTROBalance = web3.utils.fromWei(stakedTROBalance,'ether');
+                    setStakedTRO(stakedTROBalance);
+                    setsTROError(null);
+                    //DEBUG_LOG
+                } catch (err) {
+                    console.log(err);
+                    //PROD_LOG
+                    setsTROError(err);
                 }
             }
         }
-        getData();
+        getUserTROStaked();
     });
 
     const unstakeAll = async () => {
-        showModal()
-
         try {
-            let tx = await trodlStake.methods.unstakeAll().send({ from: accounts[0] });
-            //Sudeep : Show Some Kind of UI notification
-            console.log(tx);
-        } catch (error) {
-            console.log(error);
-            setError(error)
+        	if (isValidConnectionForCard()) {
+                let tx = await trodlStake.methods.unstakeAll().send({ from: accounts[0] });
+                //Sudeep : Show Some Kind of UI notification
+                console.log(tx);
+                //DEBUG_LOG
+        	} else {
+                //PROD_LOG
+                setError( new Error('Connect to Binance Smart Chain'));
+                showModal();
+            }
+        } catch (err) {
+            console.log(err);
+            //PROD_LOG
+            // throw err;
+            setError(err);
+            showModal();
+		}
+    }
 
-            // throw error;
-        }
+    const formatUserXTROBalance = () => {
+        return formatValue(xTROError, xTROBalance, 4)
+    }
+
+    const formatUserStakedTROBalance = () => {
+        return formatValue(sTROError, stakedTRO, 2);
     }
 
     return (
         <div className="col-3 card-sec card-height2" >
             {error ?
                 <ErrorModal onClose={showModal} show={show} >
-                    Connect your Wallet.
-</ErrorModal> : null}
+                    {`${error.message}`}
+				</ErrorModal> : null
+			}
             <div className="mtb18 mt-50">
                 Earned xTRO
             </div>
             <div className="col-theme">
-                {xTROBalance}
+                {formatUserXTROBalance()}
             </div>
             <div className="borderDark"> </div>
             <div className="mtb18 mt-30">
                 Staked TRO
             </div>
             <div className="col-theme">
-                {stakedTRO}
+                {formatUserStakedTROBalance()}
             </div>
             <div className="mt-30">
                 <button className="  card-btns" onClick={unstakeAll}>

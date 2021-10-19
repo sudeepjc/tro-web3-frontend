@@ -1,30 +1,44 @@
 import React, { useState, useEffect } from 'react';
+import { formatValue } from '../../utils/wrappers';
 
 import secOne from '../../assets/images/university-solid.svg';
-import { convertThousands } from '../../utils/wrappers';
 
 const TotalStakedTROCard = ({ trodlStake, accounts, web3 }) => {
-    const [totalTROStaked, setTotalTROStaked] = useState(0);
+    const [totalTROStaked, setTotalTROStaked] = useState('--');
+	const [uError, setUError] = useState(null);
+	
+	const isValidConnectionForCard = () => {
+		if ((trodlStake && (trodlStake._address !== null))
+            && (accounts && accounts.length > 0)
+            && (web3 !== undefined)) {
+			return true;
+		}else {
+			return false;
+		}
+	};
 
     useEffect(() => {
-
-        async function getData() {
-
-            if (trodlStake && accounts) {
-                try {
-                    let value = await trodlStake.methods.getTotalTROStaked().call({ from: accounts[0] });
-                    value = web3.utils.fromWei(value, 'ether');
-                    setTotalTROStaked(value);
-                    console.log(value);
-
-                } catch (error) {
-                    console.log(error);
-                    throw error;
-                }
-            }
-        }
-        getData();
-    });
+		async function fetchTotalTROStaked() {
+			if (isValidConnectionForCard()) {
+				try {
+					let value = await trodlStake.methods.getTotalTROStaked().call({ from: accounts[0] });
+					value = web3.utils.fromWei(value, 'ether');
+					setTotalTROStaked(value);
+					setUError(null);
+					//DEBUG_LOG
+				} catch (err) {
+					console.log(err);
+					setUError(err);
+					//PROD_LOG
+				}
+			}
+		}
+		fetchTotalTROStaked();
+	});
+	
+	const formatTotalTROStaked = () => {
+		return formatValue(uError, totalTROStaked, 2);
+    }
 
     return (
         <div className="col-3 card-sec card-height1">
@@ -35,7 +49,7 @@ const TotalStakedTROCard = ({ trodlStake, accounts, web3 }) => {
                 Total Staked TRO
             </div>
             <div className="col-theme">
-                {convertThousands(totalTROStaked)}
+                {formatTotalTROStaked()}
             </div>
         </div>
     );
