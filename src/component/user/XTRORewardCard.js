@@ -3,7 +3,7 @@ import ErrorModal from '../modals/errorModal';
 import useRecursiveTimeout from '../../utils/useRecursiveTimeout';
 import { formatValue } from '../../utils/wrappers';
 
-const XTRORewardCard = ({ trodlStake, accounts, web3, }) => {
+const XTRORewardCard = ({ trodlStake, accounts, web3, onTransaction }) => {
     const [xTROBalance, setXTROBalance] = useState('--');
     const [stakedTRO, setStakedTRO] = useState('--');
     const [xTROError, setxTROError] = useState(null);
@@ -72,6 +72,7 @@ const XTRORewardCard = ({ trodlStake, accounts, web3, }) => {
                 let tx = await trodlStake.methods.unstakeAll().send({ from: accounts[0] });
                 //Sudeep : Show Some Kind of UI notification
                 console.log(tx);
+                onTransaction();
                 //DEBUG_LOG
         	} else {
                 //PROD_LOG

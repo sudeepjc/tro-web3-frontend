@@ -26,7 +26,8 @@ export class Staking extends Component {
             trodlToken: undefined,
             trodlStake: undefined,
             show: false,
-            error: null
+            error: null,
+            chainRender: false
         }
     }
 
@@ -54,6 +55,10 @@ export class Staking extends Component {
     onAccountChange = (newAccounts) => {
     	//DEBUG_LOG
         this.setState({ accounts: newAccounts });
+    }
+
+    onChainRender = () => {
+        this.setState({chainRender: true });
     }
 
     render() {
@@ -108,9 +113,9 @@ export class Staking extends Component {
                         <TROPriceCard />
                     </div>
                     <div className="row  mt-50 font16">
-                        <TROBalanceCard trodlToken={this.state.trodlToken} trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} />
-                        <XTRORewardCard trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} />
-                        <TROWithdrawCard trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} />
+                        <TROBalanceCard trodlToken={this.state.trodlToken} trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} onTransaction={this.onChainRender}/>
+                        <XTRORewardCard trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} onTransaction={this.onChainRender}/>
+                        <TROWithdrawCard trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} onTransaction={this.onChainRender}/>
                     </div>
                 </div>
             )

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ErrorModal from '../modals/errorModal';
 import { formatValue } from '../../utils/wrappers';
 
-const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3 }) => {
+const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction }) => {
 	const [TRObalance, setTROBalance] = useState('--');
     const [inputamount, setInputAmount] = useState(0);
     const [buttonState, setButtonState] = useState('Approve');
@@ -71,6 +71,7 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3 }) => {
                 let tx = await trodlToken.methods.approve(trodlStake._address, amount).send({from: accounts[0]});
                 //Sudeep : Show Some Kind of UI notification
                 console.log(tx);
+                setButtonState('Stake');
                 //DEBUG_LOG
             }else{
                 //PROD_LOG
@@ -91,6 +92,8 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3 }) => {
             if(isValidConnectionForCard()){
                 let amount = web3.utils.toWei(inputamount,'ether');
                 let tx = await trodlStake.methods.stake(amount).send({from: accounts[0]});
+                setButtonState('Approve');
+                onTransaction();
                 //Sudeep : Show Some Kind of UI notification
                 console.log(tx);
                 //DEBUG_LOG

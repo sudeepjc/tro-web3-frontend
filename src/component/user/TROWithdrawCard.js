@@ -3,7 +3,7 @@ import ErrorModal from '../modals/errorModal';
 // import TransactionModal from '../modals/transactionModal';
 import {formatValue} from '../../utils/wrappers';
 
-const TROWithdrawCard = ({ trodlStake, accounts, web3 }) => {
+const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
     const [lockedTRO, setLockedTRO] = useState('--');
     const [unlockedTRO, setUnlockedTRO] = useState('--');
     const [uError, setUError] = useState(null);
@@ -55,6 +55,7 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3 }) => {
                 let tx = await trodlStake.methods.reStake().send({from: accounts[0]});
                 //Sudeep : Show Some Kind of UI notification
                 console.log(tx);
+                onTransaction();
                 //DEBUG_LOG
             } else {
                 //PROD_LOG
@@ -77,6 +78,7 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3 }) => {
                 let tx = await trodlStake.methods.withdrawAllTRO().send({from: accounts[0]});
                 //Sudeep : Show Some Kind of UI notification
                 console.log(tx);
+                onTransaction();
                 //DEBUG_LOG
             } else {
                 //PROD_LOG
