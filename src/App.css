@@ -484,3 +484,7 @@ input::-webkit-inner-spin-button {
 .col-pending {
   color: #9F6000;
 }
+
+.word-break {
+  word-break: break-all;
+}

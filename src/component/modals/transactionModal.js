@@ -23,14 +23,14 @@ export default class TransactionModal extends React.Component {
                         x
                     </div>
                 </div>
-                <div className="content2 row">
+                <div className="content2 ">
                     {/* <div className="col-2">
                         <i class="fa fa-check-circle-o font-s-fa col-success" aria-hidden="true" ></i>
                         <i class="fa fa-plus-circle font-s-cross  col-fail" aria-hidden="true"></i>
                         <i class="fa fa-spinner font-s-fa  col-pending" aria-hidden="true"></i>
 
                     </div> */}
-                    <div className="col-10 txt-left">
+                    <div className=" txt-left word-break">
                         {this.props.children}
 
                     </div>
