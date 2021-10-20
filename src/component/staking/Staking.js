@@ -5,18 +5,16 @@ import { getTokenContract, getStakeContract } from '../../utils/web3/getContract
 import TotalStakedTROCard from '../global/TotalStakedTROCard';
 import TotalMintedxTROCard from '../global/TotalMintedxTROCard';
 import TROPriceCard from '../global/TROPriceCard';
-
-import trodlLogo from "../../assets/images/trodl_logo_2.png";
-import rightImg from '../../assets/images/Group 2@2x.png';
 import TROBalanceCard from '../user/TROBalanceCard';
 import XTRORewardCard from '../user/XTRORewardCard';
 import TROWithdrawCard from '../user/TROWithdrawCard';
 import ErrorModal from '../modals/errorModal';
-import { dataService } from '../../services/DataService';
 
-
+import trodlLogo from "../../assets/images/trodl_logo_2.png";
+import rightImg from '../../assets/images/Group 2@2x.png';
 
 export class Staking extends Component {
+    
     constructor(props) {
         super(props);
         this.myRef = React.createRef();
@@ -27,27 +25,40 @@ export class Staking extends Component {
             web3: undefined,
             trodlToken: undefined,
             trodlStake: undefined,
-            show: false
+            show: false,
+            error: null,
+            chainRender: false
         }
-
-
     }
-    showModal = e => {
+
+    showErrorModal = e => {
         this.setState({
             show: !this.state.show
         });
     };
-    onConnect = async (chainId) => {
-        const web3 = await getWeb3();
-
-        const tokenContract = await getTokenContract(web3, chainId);
-        const stakeContract = await getStakeContract(web3, chainId);
-
-        this.setState({ chainId: chainId, web3: web3, trodlToken: tokenContract, trodlStake: stakeContract });
+    
+    onConnect = async(chainId) =>{
+        try{
+            const web3 = await getWeb3();
+            
+            const tokenContract = await getTokenContract(web3, chainId);
+            const stakeContract = await getStakeContract(web3, chainId);
+            //DEBUG_LOG
+            this.setState({chainId: chainId, web3: web3, trodlToken: tokenContract, trodlStake: stakeContract});
+        }catch(err){
+            //PROD_LOG
+            this.setState({error: err});
+            //throw err;
+        }
     }
 
     onAccountChange = (newAccounts) => {
+    	//DEBUG_LOG
         this.setState({ accounts: newAccounts });
+    }
+
+    onTransaction = () => {
+        this.setState({chainRender: true });
     }
 
     render() {
@@ -102,29 +113,21 @@ export class Staking extends Component {
                         <TROPriceCard />
                     </div>
                     <div className="row  mt-50 font16">
-                        <TROBalanceCard trodlToken={this.state.trodlToken} trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} />
-                        <XTRORewardCard trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} />
-                        <TROWithdrawCard trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} />
+                        <TROBalanceCard trodlToken={this.state.trodlToken} trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} onTransaction={this.onTransaction}/>
+                        <XTRORewardCard trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} onTransaction={this.onTransaction}/>
+                        <TROWithdrawCard trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} onTransaction={this.onTransaction}/>
                     </div>
                 </div>
             )
         }
         return (
             <div className="staking-body">
+                {this.state.error ?
+                    <ErrorModal onClose={this.showErrorModal} show={this.state.show}>
+                        {`${this.state.error.message}`}
+                    </ErrorModal> : null
+                }
                 {heroSection()}
-                {/* <button
-                    class="toggle-button"
-                    id="centered-toggle-button"
-                    onClick={e => {
-                        this.showModal(e);
-                    }}
-                >
-                    show modl
-                </button> */}
-                {/* {  dataService.getModalData()
-                <ErrorModal onClose={this.showModal} show={this.state.show}>
-                    test mdata
-        </ErrorModal>} */}
                 {dashboardSection()}
                 <div className="t-and-c">
                     © Trodl.com 2021-22. All rights reserved.

@@ -1,30 +1,49 @@
 import React, { useState, useEffect } from 'react';
+import { formatValue } from '../../utils/wrappers';
+import useRecursiveTimeout from '../../utils/useRecursiveTimeout';
 
 import secTwo from '../../assets/images/spinner-solid.svg';
-import { convertThousands } from '../../utils/wrappers';
 
 const TotalMintedxTROCard = ({ trodlStake, accounts, web3 }) => {
-    const [totalxTROMinted, setTotalxTROMinted] = useState(0);
+    const [totalxTROMinted, setTotalxTROMinted] = useState('--');
+	const [uError, setUError] = useState(null);
+	
+	const isValidConnectionForCard = () => {
+		if ((trodlStake && (trodlStake._address !== null))
+            && (accounts && accounts.length > 0)
+            && (web3 !== undefined)) {
+			return true;
+		}
+		return false;
+	}
+	async function getTotalxTROMinted() {
+		if (isValidConnectionForCard()) {
+			try {
+				let rewardAmount = await trodlStake.methods.getTotalxTRO().call({ from: accounts[0] });
+				rewardAmount = web3.utils.fromWei(rewardAmount,'ether');
+				setTotalxTROMinted(rewardAmount);
+				setUError(null);
+				// DEBUG_LOG
+			} catch (err) {
+				console.log(err);
+				setUError(err);
+				//PROD_LOG
+			}
+		}
+	}
 
-    useEffect(() => {
-        async function getData() {
-            if (trodlStake && accounts) {
-                try {
-                    let value = await trodlStake.methods.getTotalxTRO().call({ from: accounts[0] });
-                    value = web3.utils.fromWei(value, 'ether');
-                    setTotalxTROMinted(value);
-                    console.log(value);
+	useEffect(() => {
+		getTotalxTROMinted();
+	});
 
-                } catch (error) {
-                    console.log(error);
-                    throw error;
-                }
-            }
-        }
+	useRecursiveTimeout(async () => {
+		getTotalxTROMinted();
+	}, 10000);
 
-        getData();
-    });
-
+	const formatTotalxTROMinted = () => {
+		return formatValue(uError, totalxTROMinted, 4);
+    }
+    
     return (
         <div className="col-3 card-sec card-height1" >
             <div className="mt-30">
@@ -34,8 +53,7 @@ const TotalMintedxTROCard = ({ trodlStake, accounts, web3 }) => {
                 Total Minted xTRO
             </div>
             <div className="col-theme">
-
-                {convertThousands(totalxTROMinted)}
+                {formatTotalxTROMinted()}
             </div>
         </div>
     );

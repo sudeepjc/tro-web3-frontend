@@ -1,42 +1,56 @@
 import React, { useState, useEffect } from 'react';
-import { convertThousands } from '../../utils/wrappers';
 import ErrorModal from '../modals/errorModal';
+import { formatValue } from '../../utils/wrappers';
 
-const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3 }) => {
+const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction }) => {
+	const [TRObalance, setTROBalance] = useState('--');
     const [inputamount, setInputAmount] = useState(0);
-    const [TRObalance, setTROBalance] = useState(0);
     const [buttonState, setButtonState] = useState('Approve');
-    const [show, setShow] = useState(false)
-    const [error, setError] = useState(null)
+    const [uError, setUError] = useState(null);
+    
+    //ERROR Modal
+    const [show, setShow] = useState(false);
+    const [error, setError] = useState(null);
 
+    //TX Modal
+    // const [txShow, setTXShow] = useState(false);
+    // const [status, setStatus] = useState('');
+    // const [content, setContent] = useState('');
 
-    const showModal = () => {
-        setShow(
-            !show
-        );
+	const isValidConnectionForCard = () => {
+        if( (trodlToken && (trodlToken._address !== null)) && (trodlStake && (trodlStake._address !== null)) && (accounts && accounts.length > 0) && (web3 !== undefined)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    const showErrorModal = () => {
+        setShow(!show);
     };
-    useEffect(() => {
-        async function getData() {
-            if (trodlToken && accounts && web3) {
-                try {
-                    let value = await trodlToken.methods.balanceOf(accounts[0]).call({ from: accounts[0] });
-                    value = web3.utils.fromWei(value, 'ether');
-                    setTROBalance(value);
-                    console.log(value);
-                } catch (error) {
-                    console.log(error);
-                    setError(error)
-                    throw error;
+    
+    useEffect(()=>{
+        async function getUserTROBalance(){
+            if (isValidConnectionForCard()) {
+                try{
+                    let balance = await trodlToken.methods.balanceOf(accounts[0]).call({from: accounts[0]});
+                    balance = web3.utils.fromWei(balance,'ether');
+                    setTROBalance(balance);
+                    setUError(null);
+                    //DEBUG_LOG
+                } catch (err) {
+                    console.log(err);
+                    setUError(err);
+                    //PROD_LOG
                 }
             }
         }
-        getData();
+        getUserTROBalance();
     });
 
     useEffect(() => {
-
-        async function getData() {
-            if (trodlToken && accounts && web3) {
+        async function getAllowance() {
+            if (isValidConnectionForCard()) {
                 try {
                     let allowance = await trodlToken.methods.allowance(accounts[0], trodlStake._address).call({ from: accounts[0] });
                     allowance = web3.utils.fromWei(allowance, 'ether');
@@ -47,47 +61,64 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3 }) => {
                             setButtonState('Approve');
                         }
                     }
-                } catch (error) {
-                    setError(error)
-                    console.log(error);
-                    throw error;
+                    //DEBUG_LOG
+                } catch (err) {
+                    console.log(err);
+                    //PROD_LOG
                 }
             }
         }
-        getData();
+        getAllowance();
     });
 
     const approveTROForStaking = async () => {
-        try {
-            let amount = web3.utils.toWei(inputamount, 'ether');
-            let tx = await trodlToken.methods.approve(trodlStake._address, amount).send({ from: accounts[0] });
-            //Sudeep : Show Some Kind of UI notification
-            console.log(tx);
-        } catch (error) {
-            setError(error)
-
-            console.log(error);
-
-            // throw error;
+        try{
+            if(isValidConnectionForCard()){
+                let amount = web3.utils.toWei(inputamount,'ether');
+                let tx = await trodlToken.methods.approve(trodlStake._address, amount).send({from: accounts[0]});
+                //Sudeep : Show Some Kind of UI notification
+                console.log(tx);
+                setButtonState('Stake');
+                //DEBUG_LOG
+            }else{
+                //PROD_LOG
+                setError( new Error('Connect to Binance Smart Chain'));
+                showErrorModal();
+            }
+        } catch (err) {
+            console.log(err);
+            //PROD_LOG
+            //throw err;
+            setError(err);
+            showErrorModal();
         }
     }
 
     const stakeTRO = async () => {
-        try {
-            let amount = web3.utils.toWei(inputamount, 'ether');
-            let tx = await trodlStake.methods.stake(amount).send({ from: accounts[0] });
-            //Sudeep : Show Some Kind of UI notification
-            console.log(tx);
-        } catch (error) {
-            setError(error)
-
-            console.log(error);
-            throw error;
+        try{
+            if(isValidConnectionForCard()){
+                let amount = web3.utils.toWei(inputamount,'ether');
+                let tx = await trodlStake.methods.stake(amount).send({from: accounts[0]});
+                setButtonState('Approve');
+                onTransaction();
+                //Sudeep : Show Some Kind of UI notification
+                console.log(tx);
+                //DEBUG_LOG
+            }else{
+                //PROD_LOG
+                setError( new Error('Connect to Binance Smart Chain'));
+                showErrorModal();
+            }
+        } catch (err) {
+            console.log(err);
+            //PROD_LOG
+            setError(err);
+            showErrorModal();
+            //throw err;
         }
     }
 
     const approveAndStake = async () => {
-        showModal();
 
         if (buttonState === 'Approve') {
             approveTROForStaking();
@@ -99,19 +130,23 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3 }) => {
     const onValueChange = (event) => {
         setInputAmount(event.target.value);
     }
+    
+    const formatUserTROBalance = () => {
+        return formatValue(uError, TRObalance, 2 );
+    }
 
     return (
-
         <div className="col-3 card-sec card-height2">
             {error ?
-                <ErrorModal onClose={showModal} show={show}>
-                    Connect your Wallet.
-</ErrorModal> : null}
+                <ErrorModal onClose={showErrorModal} show={show}>
+                    {`${error.message}`}
+				</ErrorModal> : null
+			}
             <div className="mtb18 mt-50">
                 Available TRO Balance
             </div>
             <div className="col-theme">
-                {convertThousands(TRObalance)}
+                {formatUserTROBalance()}
             </div>
             <div className="borderDark"> </div>
             <div className="mt-60">

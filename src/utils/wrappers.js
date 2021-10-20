@@ -1,4 +1,4 @@
-export const convertThousands = number => {
+export const convertThousands = (number, decimals) => {
     if (isNaN(number)) return null; // will only work value is a number
     if (number === null) return null;
     if (number === 0) return null;
@@ -25,7 +25,7 @@ export const convertThousands = number => {
     }
 
     let ins = parseFloat(number);
-    ins = ins.toFixed(2);
+    ins = ins.toFixed(decimals);
     // let f = ins.toLocaleString(undefined, {
     //   minimumFractionDigits: 2,
     //   maximumFractionDigits: 2
@@ -34,9 +34,9 @@ export const convertThousands = number => {
     return (isNegative ? '-' : '') + ins + key;
 };
 
-export const twoFractions = input => {
+export const twoFractions = ( input, decimals) => {
     let ins = parseFloat(input);
-    ins = ins.toFixed(2);
+    ins = ins.toFixed(decimals);
 
     // let f = ins.toLocaleString(undefined, {
     //   minimumFractionDigits: 2,
@@ -46,11 +46,11 @@ export const twoFractions = input => {
     return ins;
 };
 
-export const commaSeperator = x => {
+export const commaSeperator = ( x, decimals) => {
     x = x.toString();
     if (x.includes('.')) {
         x = parseFloat(x);
-        x = x.toFixed(2);
+        x = x.toFixed(decimals);
     } else x = parseInt(x);
     x = x.toString();
     var afterPoint = '';
@@ -65,3 +65,15 @@ export const commaSeperator = x => {
 
     return res;
 };
+
+export const formatValue = (error, value, decimals) => {
+    if(error != null){
+        return '--';
+    } else {
+        if(value === '0' || value === '--') {
+            return '--';
+        } else {
+            return convertThousands( value, decimals);
+        }
+    }
+}
