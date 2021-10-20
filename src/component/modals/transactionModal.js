@@ -2,6 +2,8 @@ import React from "react";
 
 import PropTypes from "prop-types";
 import { dataService } from "../../services/DataService";
+
+
 export default class TransactionModal extends React.Component {
     onClose = e => {
         console.log(e, 'eee')
@@ -22,7 +24,18 @@ export default class TransactionModal extends React.Component {
                         x
           </div>
                 </div>
-                <div className="content2">{this.props.children}</div>
+                <div className="content2 row">
+                    <div className="col-2">
+                        <i class="fa fa-check-circle-o font-s-fa col-success" aria-hidden="true" ></i>
+                        <i class="fa fa-plus-circle font-s-cross  col-fail" aria-hidden="true"></i>
+                        <i class="fa fa-spinner font-s-fa  col-pending" aria-hidden="true"></i>
+
+                    </div>
+                    <div className="col-10 txt-left">
+                        {this.props.children}
+
+                    </div>
+                </div>
                 <div className="actions">
 
                 </div>

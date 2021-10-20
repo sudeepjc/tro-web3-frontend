@@ -1,3 +1,5 @@
+@import url("https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+
 .App {
   text-align: center;
 }
@@ -76,6 +78,7 @@
 
 .left {
   text-align: left;
+  padding: 4px;
 }
 
 .right {
@@ -344,6 +347,7 @@ input::-webkit-inner-spin-button {
   border-radius: 8px;
   border: none !important;
   border: 1px solid #212e44 !important;
+  box-shadow: 0 0 0 100000px rgb(12 22 33 / 50%)
 }
 
 .modal.off {
@@ -382,6 +386,14 @@ input::-webkit-inner-spin-button {
 
 .content {
   margin-top: 130px;
+}
+
+.content2 {
+  margin-top: 80px !important;
+}
+
+.txt-left {
+  text-align: left;
 }
 
 .modal .actions {
@@ -430,6 +442,7 @@ input::-webkit-inner-spin-button {
 }
 
 .modal3 {
+  box-shadow: 0 0 0 100000px rgb(12 22 33 / 50%);
   position: fixed;
   width: 500px;
   height: 150px;
@@ -448,4 +461,26 @@ input::-webkit-inner-spin-button {
   border-radius: 8px;
   border: none !important;
   border: 1px solid #212e44 !important;
+}
+
+.font-s-fa {
+  font-size: 30px;
+}
+
+.font-s-cross {
+  transform: rotate(45deg);
+  font-size: 30px;
+
+}
+
+.col-success {
+  color: #4F8A10;
+}
+
+.col-fail {
+  color: #D8000C;
+}
+
+.col-pending {
+  color: #9F6000;
 }
