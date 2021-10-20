@@ -19,7 +19,7 @@ const XTRORewardCard = ({ trodlStake, accounts, web3, onTransaction }) => {
         }
     }
     
-    const showModal = () => {
+    const showErrorModal = () => {
         setShow( !show );
     };
     
@@ -77,14 +77,14 @@ const XTRORewardCard = ({ trodlStake, accounts, web3, onTransaction }) => {
         	} else {
                 //PROD_LOG
                 setError( new Error('Connect to Binance Smart Chain'));
-                showModal();
+                showErrorModal();
             }
         } catch (err) {
             console.log(err);
             //PROD_LOG
             // throw err;
             setError(err);
-            showModal();
+            showErrorModal();
 		}
     }
 
@@ -99,7 +99,7 @@ const XTRORewardCard = ({ trodlStake, accounts, web3, onTransaction }) => {
     return (
         <div className="col-3 card-sec card-height2" >
             {error ?
-                <ErrorModal onClose={showModal} show={show} >
+                <ErrorModal onClose={showErrorModal} show={show} >
                     {`${error.message}`}
 				</ErrorModal> : null
 			}

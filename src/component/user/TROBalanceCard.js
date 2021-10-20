@@ -7,18 +7,25 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction 
     const [inputamount, setInputAmount] = useState(0);
     const [buttonState, setButtonState] = useState('Approve');
     const [uError, setUError] = useState(null);
+    
+    //ERROR Modal
     const [show, setShow] = useState(false);
     const [error, setError] = useState(null);
+
+    //TX Modal
+    // const [txShow, setTXShow] = useState(false);
+    // const [status, setStatus] = useState('');
+    // const [content, setContent] = useState('');
 
 	const isValidConnectionForCard = () => {
         if( (trodlToken && (trodlToken._address !== null)) && (trodlStake && (trodlStake._address !== null)) && (accounts && accounts.length > 0) && (web3 !== undefined)){
             return true;
-        }else {
+        } else {
             return false;
         }
     }
 
-    const showModal = () => {
+    const showErrorModal = () => {
         setShow(!show);
     };
     
@@ -76,14 +83,14 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction 
             }else{
                 //PROD_LOG
                 setError( new Error('Connect to Binance Smart Chain'));
-                showModal();
+                showErrorModal();
             }
         } catch (err) {
             console.log(err);
             //PROD_LOG
             //throw err;
             setError(err);
-            showModal();
+            showErrorModal();
         }
     }
 
@@ -100,13 +107,13 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction 
             }else{
                 //PROD_LOG
                 setError( new Error('Connect to Binance Smart Chain'));
-                showModal();
+                showErrorModal();
             }
         } catch (err) {
             console.log(err);
             //PROD_LOG
             setError(err);
-            showModal();
+            showErrorModal();
             //throw err;
         }
     }
@@ -131,7 +138,7 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction 
     return (
         <div className="col-3 card-sec card-height2">
             {error ?
-                <ErrorModal onClose={showModal} show={show}>
+                <ErrorModal onClose={showErrorModal} show={show}>
                     {`${error.message}`}
 				</ErrorModal> : null
 			}

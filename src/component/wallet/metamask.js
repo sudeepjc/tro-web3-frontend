@@ -32,7 +32,7 @@ function MetaMaskWallet({onConnection, onAccountChange}) {
         }
     });
 
-    const showModal = () => {
+    const showErrorModal = () => {
         setShow(!show);
     };
 
@@ -57,7 +57,7 @@ function MetaMaskWallet({onConnection, onAccountChange}) {
             onboarding.startOnboarding();
         } catch (err) {
             setError(err);
-            showModal();
+            showErrorModal();
             // throw err;
         }
     }
@@ -85,7 +85,7 @@ function MetaMaskWallet({onConnection, onAccountChange}) {
 
         } catch (err) {
             setError(err);
-            showModal();
+            showErrorModal();
             // throw err;
         } finally {
             if (onboarding) {
@@ -138,14 +138,14 @@ function MetaMaskWallet({onConnection, onAccountChange}) {
         // SUdeep: To be enable for production
         if( !(chainId === '0x38' || chainId === '0x61')) {
             setError( new Error(`Connect to the Binance Chain. Current ChainID: ${chainId}`));
-            showModal();
+            showErrorModal();
         }
     }
     
     return(
         <div>
             {error ?
-                <ErrorModal onClose={showModal} show={show}>
+                <ErrorModal onClose={showErrorModal} show={show}>
                     {`${error.message}`}
 				</ErrorModal> : null
 			}

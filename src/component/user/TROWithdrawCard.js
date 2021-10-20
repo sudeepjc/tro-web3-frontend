@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ErrorModal from '../modals/errorModal';
-// import TransactionModal from '../modals/transactionModal';
+import TransactionModal from '../modals/transactionModal';
 import {formatValue} from '../../utils/wrappers';
 
 const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
@@ -10,8 +10,18 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
     const [error, setError] = useState(null)
     const [show, setShow] = useState(false)
 
-    const showModal = () => {
+    //TX Modal
+    const [txShow, setTXShow] = useState(false);
+    const [txHash, setTXHash] = useState('');
+    // const [txStatus, setTXStatus] = useState('');
+    const [txContent, setTXContent] = useState('');
+
+    const showErrorModal = () => {
         setShow( !show );
+    };
+
+    const showTransactionModal = () => {
+        setTXShow( !txShow );
     };
     
     const isValidConnectionForCard = () => {
@@ -52,21 +62,36 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
     const restakeAll = async () => {
         try{
             if (isValidConnectionForCard()) {
-                let tx = await trodlStake.methods.reStake().send({from: accounts[0]});
+                await trodlStake.methods.reStake().send({from: accounts[0]})
+                .on('transactionHash', function(hash){
+                    setTXHash(hash);
+                    setTXContent(`Pending: ${hash}`);
+                    showTransactionModal();
+                // })
+                // .on('receipt', function(receipt){
+                //     setTXContent(`Success: ${txHash}`);
+                //     console.log(receipt.events.ReStake.returnValues);
+                //     onTransaction();
+                // })
+                // .on('error', function(error, receipt) {
+                //     setTXContent(`Failure: ${txHash}`);
+                //     // console.log(error);
+                //     // console.log(receipt);
+                });
                 //Sudeep : Show Some Kind of UI notification
-                console.log(tx);
-                onTransaction();
+                // console.log(tx);
+                // onTransaction();
                 //DEBUG_LOG
             } else {
                 //PROD_LOG
                 setError( new Error('Connect to Binance Smart Chain'));
-                showModal();
+                showErrorModal();
             }
         } catch (err) {
             console.log(err);
             //PROD_LOG
             setError(err);
-            showModal();
+            showErrorModal();
             //throw err;
         }
     }
@@ -75,21 +100,37 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
 
         try{
             if (isValidConnectionForCard()) {
-                let tx = await trodlStake.methods.withdrawAllTRO().send({from: accounts[0]});
-                //Sudeep : Show Some Kind of UI notification
-                console.log(tx);
-                onTransaction();
+                // let tx = await trodlStake.methods.withdrawAllTRO().send({from: accounts[0]});
+                // //Sudeep : Show Some Kind of UI notification
+                // console.log(tx);
+                // onTransaction();
                 //DEBUG_LOG
+                await trodlStake.methods.withdrawAllTRO().send({from: accounts[0]})
+                .on('transactionHash', function(hash){
+                    setTXHash(hash);
+                    setTXContent(`Pending: ${hash}`);
+                    showTransactionModal();
+                // })
+                // .on('receipt', function(receipt){
+                //     setTXContent(`Success: ${txHash}`);
+                //     console.log(receipt.events.ReStake.returnValues);
+                //     onTransaction();
+                // })
+                // .on('error', function(error, receipt) {
+                //     setTXContent(`Failure: ${txHash}`);
+                //     // console.log(error);
+                //     // console.log(receipt);
+                });
             } else {
                 //PROD_LOG
                 setError( new Error('Connect to Binance Smart Chain'));
-                showModal();
+                showErrorModal();
             }
         } catch (err) {
             console.log(err);
             //PROD_LOG
             setError(err);
-            showModal();
+            showErrorModal();
 		}
     }
 
@@ -104,9 +145,14 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
     return (
         <div className="col-3 card-sec card-height2">
             {error ?
-                <ErrorModal onClose={showModal} show={show}>
+                <ErrorModal onClose={showErrorModal} show={show}>
                     {`${error.message}`}
                 </ErrorModal> : null
+            }
+            {txHash ?
+                <TransactionModal onClose={showTransactionModal} show={txShow}>
+                    {txContent}
+                </TransactionModal> : null
             }
             <div className="mtb18 mt-36">
                 Locked TRO balance

@@ -31,7 +31,7 @@ export class Staking extends Component {
         }
     }
 
-    showModal = e => {
+    showErrorModal = e => {
         this.setState({
             show: !this.state.show
         });
@@ -57,7 +57,7 @@ export class Staking extends Component {
         this.setState({ accounts: newAccounts });
     }
 
-    onChainRender = () => {
+    onTransaction = () => {
         this.setState({chainRender: true });
     }
 
@@ -113,9 +113,9 @@ export class Staking extends Component {
                         <TROPriceCard />
                     </div>
                     <div className="row  mt-50 font16">
-                        <TROBalanceCard trodlToken={this.state.trodlToken} trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} onTransaction={this.onChainRender}/>
-                        <XTRORewardCard trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} onTransaction={this.onChainRender}/>
-                        <TROWithdrawCard trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} onTransaction={this.onChainRender}/>
+                        <TROBalanceCard trodlToken={this.state.trodlToken} trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} onTransaction={this.onTransaction}/>
+                        <XTRORewardCard trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} onTransaction={this.onTransaction}/>
+                        <TROWithdrawCard trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} onTransaction={this.onTransaction}/>
                     </div>
                 </div>
             )
@@ -123,7 +123,7 @@ export class Staking extends Component {
         return (
             <div className="staking-body">
                 {this.state.error ?
-                    <ErrorModal onClose={this.showModal} show={this.state.show}>
+                    <ErrorModal onClose={this.showErrorModal} show={this.state.show}>
                         {`${this.state.error.message}`}
                     </ErrorModal> : null
                 }
