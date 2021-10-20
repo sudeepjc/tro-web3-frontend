@@ -90,7 +90,7 @@ export class Staking extends Component {
                             </div>
                             <div className="mt-40">
                                 <button className="stake-btn" onClick={scrollToMyRef}> STAKE TRO</button>
-                                <a href="https://forms.gle/kLYhRVPyyj64M7jE7" target="_blank"><button className="ido-btn" >APPLY FOR IDO</button></a>
+                                <a href="https://forms.gle/kLYhRVPyyj64M7jE7" target="_blank" rel="noreferrer"><button className="ido-btn" >APPLY FOR IDO</button></a>
                             </div>
                         </div>
                         <div className="col-4 right">
