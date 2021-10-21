@@ -18,23 +18,25 @@ export default class TransactionModal extends React.Component {
         }
         return (
             <div className="modal3" id="modal">
-                <div className="modal-top">
-                    <div className="toggle-button" onClick={this.onClose}>
-                        x
-                    </div>
-                </div>
-                <div className="content2 ">
-                    {/* <div className="col-2">
-                        <i class="fa fa-check-circle-o font-s-fa col-success" aria-hidden="true" ></i>
-                        <i class="fa fa-plus-circle font-s-cross  col-fail" aria-hidden="true"></i>
-                        <i class="fa fa-spinner font-s-fa  col-pending" aria-hidden="true"></i>
 
-                    </div> */}
-                    <div className=" txt-left word-break">
-                        {this.props.children}
+                <div className="container1" >
+                    <div className={this.props.type == "Success" ? 'col-green one' : this.props.type == "Failure" ? 'col-red one' : ''}>
 
                     </div>
+                    <div className="content2 two row ">
+                        <div className="col-1">
+                            {this.props.type == "Success" ?
+                                <i class="fas fa-check-circle success-fa"></i> : this.props.type == "Failure" ? <i class="fas fa-times-circle fail-fa"></i> : null}
+                        </div>
+
+                        <div className=" col-auto txt-left word-break mrgs-tr">
+                            {this.props.children}
+
+                        </div>
+                    </div>
                 </div>
+
+
                 <div className="actions">
                 </div>
             </div>

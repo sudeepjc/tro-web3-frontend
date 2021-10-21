@@ -10,8 +10,8 @@ export const convertThousands = (number, decimals) => {
         { key: ' Q', value: Math.pow(10, 15) },
         { key: ' T', value: Math.pow(10, 12) },
         { key: ' B', value: Math.pow(10, 9) },
-        { key: ' M', value: Math.pow(10, 6) },
-        { key: ' K', value: 1000 },
+        // { key: ' M', value: Math.pow(10, 6) },
+        // { key: ' K', value: 1000 },
     ];
     for (let i = 0; i < powers.length; i++) {
         let reduced = number / powers[i].value;
@@ -25,16 +25,24 @@ export const convertThousands = (number, decimals) => {
     }
 
     let ins = parseFloat(number);
+
     ins = ins.toFixed(decimals);
     // let f = ins.toLocaleString(undefined, {
     //   minimumFractionDigits: 2,
     //   maximumFractionDigits: 2
     // });
+    if (!key) {
+        var str = ins.toString().split(".");
+        str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        ins = str.join(".");
+    }
+
+    // ins = ins.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
     return (isNegative ? '-' : '') + ins + key;
 };
 
-export const twoFractions = ( input, decimals) => {
+export const twoFractions = (input, decimals) => {
     let ins = parseFloat(input);
     ins = ins.toFixed(decimals);
 
@@ -46,7 +54,7 @@ export const twoFractions = ( input, decimals) => {
     return ins;
 };
 
-export const commaSeperator = ( x, decimals) => {
+export const commaSeperator = (x, decimals) => {
     x = x.toString();
     if (x.includes('.')) {
         x = parseFloat(x);
@@ -67,13 +75,13 @@ export const commaSeperator = ( x, decimals) => {
 };
 
 export const formatValue = (error, value, decimals) => {
-    if(error != null){
+    if (error != null) {
         return '--';
     } else {
-        if(value === '0' || value === '--') {
+        if (value === '0' || value === '--') {
             return '--';
         } else {
-            return convertThousands( value, decimals);
+            return convertThousands(value, decimals);
         }
     }
 }

@@ -15,7 +15,8 @@ import trodlLogo from "../../assets/images/trodl_logo_2.png";
 import rightImg from '../../assets/images/Group 2@2x.png';
 
 export class Staking extends Component {
-    
+
+
     constructor(props) {
         super(props);
         this.myRef = React.createRef();
@@ -28,7 +29,9 @@ export class Staking extends Component {
             trodlStake: undefined,
             show: false,
             error: null,
-            chainRender: false
+            chainRender: false,
+            type: null
+
         }
     }
 
@@ -37,22 +40,23 @@ export class Staking extends Component {
             show: !this.state.show
         });
     };
-    
-    onConnect = async(chainId) =>{
-        try{
+
+    onConnect = async (chainId) => {
+        try {
             console.log(`Connected to chain : ${config.get('link')}`);
             const web3 = await getWeb3();
             const tokenContract = await getTokenContract(web3, chainId);
             const stakeContract = await getStakeContract(web3, chainId);
-            this.setState({chainId: chainId, web3: web3, trodlToken: tokenContract, trodlStake: stakeContract});
+            this.setState({ chainId: chainId, web3: web3, trodlToken: tokenContract, trodlStake: stakeContract });
             console.log("On Connection:");
             console.log(web3);
             console.log(tokenContract);
             console.log(stakeContract);
             console.log(chainId);
-        } catch(err) {
+        } catch (err) {
             console.log(`Connection failed. ${err.message}`);
-            this.setState({error: err});
+            this.setState({ error: err });
+            this.setState({ type: 'other errror' })
             this.showErrorModal(err.message);
         }
     }
@@ -62,7 +66,7 @@ export class Staking extends Component {
     }
 
     onTransaction = () => {
-        this.setState({chainRender: true });
+        this.setState({ chainRender: true });
     }
 
     render() {
@@ -117,9 +121,9 @@ export class Staking extends Component {
                         <TROPriceCard />
                     </div>
                     <div className="row  mt-50 font16">
-                        <TROBalanceCard trodlToken={this.state.trodlToken} trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} onTransaction={this.onTransaction}/>
-                        <XTRORewardCard trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} onTransaction={this.onTransaction}/>
-                        <TROWithdrawCard trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} onTransaction={this.onTransaction}/>
+                        <TROBalanceCard trodlToken={this.state.trodlToken} trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} onTransaction={this.onTransaction} />
+                        <XTRORewardCard trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} onTransaction={this.onTransaction} />
+                        <TROWithdrawCard trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} onTransaction={this.onTransaction} />
                     </div>
                 </div>
             )
@@ -127,7 +131,7 @@ export class Staking extends Component {
         return (
             <div className="staking-body">
                 {this.state.error ?
-                    <ErrorModal onClose={this.showErrorModal} show={this.state.show}>
+                    <ErrorModal onClose={this.showErrorModal} show={this.state.show} type={this.state.type}>
                         {`${this.state.error.message}`}
                     </ErrorModal> : null
                 }
