@@ -124,7 +124,7 @@ const XTRORewardCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                     .on('receipt', function (receipt) {
                         setTXStatus('Success');
                         let amount = web3.utils.fromWei(receipt.events.Unstaked.returnValues.amount, 'ether');
-                        setTXMessage(`UnStaked ${amount} TRO from Trodl Stake`);
+                        setTXMessage(`${amount} TRO Unstaked Successfully`);
                         showTransactionStatusModal();
                         onTransaction();
                     })
@@ -156,7 +156,7 @@ const XTRORewardCard = ({ trodlStake, accounts, web3, onTransaction }) => {
             <div>
                 <div>
                     {/* <span> {`${txStatus}: `} </span> */}
-                    <span> {txMessage} {txStatus == 'Success' ? 'Successfully' : null} </span>
+                    <span> {txMessage} </span>
                     <a rel="noreferrer" href={`${config.get('link')}/tx/${txHash}`} target="_blank" ><i class="fas fa-external-link-alt  m-link"></i> </a>
 
                 </div>

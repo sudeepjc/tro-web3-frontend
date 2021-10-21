@@ -111,7 +111,7 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                     .on('receipt', function (receipt) {
                         setTXStatus('Success');
                         let amount = web3.utils.fromWei(receipt.events.ReStake.returnValues.amount, 'ether');
-                        setTXMessage(`Re-Staked ${amount} TRO at Trodl Stake`);
+                        setTXMessage(`${amount} TRO Re-Staked Successfully`);
                         showTransactionStatusModal();
                         setTimeout(() => { setTXStatusShow(false) }, 5000);
                         onTransaction();
@@ -142,7 +142,7 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                     .on('receipt', function (receipt) {
                         setTXStatus('Success');
                         let amount = web3.utils.fromWei(receipt.events.Withdraw.returnValues.amount, 'ether');
-                        setTXMessage(`${amount} TRO Withdrawn`);
+                        setTXMessage(`${amount} TRO Withdrawn Successfully`);
                         showTransactionStatusModal();
                         onTransaction();
                     })
@@ -174,7 +174,7 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
             <div>
                 <div>
                     {/* <span> {`${txStatus}: `} </span> */}
-                    <span> {txMessage} {txStatus == 'Success' ? 'Successfully' : null} </span>
+                    <span> {txMessage} </span>
                     <a rel="noreferrer" href={`${config.get('link')}/tx/${txHash}`} target="_blank" ><i class="fas fa-external-link-alt  m-link"></i> </a>
 
                 </div>

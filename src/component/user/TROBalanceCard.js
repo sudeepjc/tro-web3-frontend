@@ -73,12 +73,10 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction 
                 try {
                     let allowance = await trodlToken.methods.allowance(accounts[0], trodlStake._address).call({ from: accounts[0] });
                     allowance = web3.utils.fromWei(allowance, 'ether');
-                    if (allowance > 0) {
-                        if (allowance >= inputamount) {
-                            setButtonState('Stake');
-                        } else {
-                            setButtonState('Approve');
-                        }
+                    if (parseFloat(allowance) >= inputamount) {
+                        setButtonState('Stake');
+                    } else {
+                        setButtonState('Approve');
                     }
                     console.log(`TRO allowance for ${accounts[0]} : ${allowance}`);
                 } catch (err) {
@@ -133,7 +131,7 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction 
                             setTXStatus('Success');
 
                             let amt = web3.utils.fromWei(receipt.events.Approval.returnValues.value, 'ether');
-                            setTXMessage(`${amt} TRO Approved for Staking`);
+                            setTXMessage(`${amt} TRO Approved Successfully`);
                             setButtonState('Stake');
                             showTransactionStatusModal();
 
@@ -175,7 +173,7 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction 
                             setTXStatus('Success');
 
                             let amt = web3.utils.fromWei(receipt.events.Staked.returnValues.amount, 'ether');
-                            setTXMessage(`${amt} TRO Staked`);
+                            setTXMessage(`${amt} TRO Staked Successfully`);
                             setButtonState('Approve');
                             showTransactionStatusModal();
 
@@ -219,7 +217,7 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction 
             <div>
                 <div>
                     {/* <span> {`${txStatus}: `} </span> */}
-                    <span> {txMessage} {txStatus == 'Success' ? 'Successfully' : null} </span>
+                    <span> {txMessage} </span>
                     <a rel="noreferrer" href={`${config.get('link')}/tx/${txHash}`} target="_blank" ><i class="fas fa-external-link-alt  m-link"></i> </a>
 
                 </div>
