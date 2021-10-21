@@ -58,7 +58,15 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                     let userInfo = await trodlStake.methods.getUserRewardInfo(accounts[0]).call({ from: accounts[0] });
                     let unStakeBalance = web3.utils.fromWei(userInfo['unstakedAmount'], 'ether');
                     let block = await web3.eth.getBlock('latest');
-                    if (block.timestamp > ((86400 * lockUpPeriod) + userInfo['lastAccountingTimestampSec'])) {
+
+                    // console.log("************************************");
+                    // console.log(`TimeStamp: ${parseInt (block.timestamp)}`);
+                    // console.log(`LockupPeriod: ${parseInt (lockUpPeriod)}`);
+                    // console.log(`lastAccountingTimestamp: ${parseInt (userInfo['lastAccountingTimestampSec'])}`);
+                    // console.log(`${parseInt (block.timestamp) > ((86400 * parseInt(lockUpPeriod)) + parseInt(userInfo['lastAccountingTimestampSec']))}`)
+                    // console.log(`${parseInt (block.timestamp) > ( parseInt(userInfo['lastAccountingTimestampSec']))}`)
+                    // console.log("************************************");
+                    if (parseInt (block.timestamp) > ((86400 * parseInt(lockUpPeriod)) + parseInt(userInfo['lastAccountingTimestampSec']))) {
                         setLockedTRO('0');
                         setUnlockedTRO(unStakeBalance);
                     } else {
