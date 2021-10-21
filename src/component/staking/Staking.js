@@ -129,17 +129,26 @@ export class Staking extends Component {
             )
         }
         return (
-            <div className="staking-body">
-                {this.state.error ?
-                    <ErrorModal onClose={this.showErrorModal} show={this.state.show} type={this.state.type}>
-                        {`${this.state.error.message}`}
-                    </ErrorModal> : null
-                }
-                {heroSection()}
-                {dashboardSection()}
-                <div className="t-and-c">
-                    © Trodl.com 2021-22. All rights reserved.
+
+            <div >
+                { window.innerWidth < 1000 ? <div>Redicrecting ...</div> :
+                    <div className="staking-body">
+                        {this.state.error ?
+                            <ErrorModal onClose={this.showErrorModal} show={this.state.show} type={this.state.type}>
+                                {`${this.state.error.message}`}
+                            </ErrorModal> : null
+                        }
+                        {heroSection()}
+                        {dashboardSection()}
+                        <div className="t-and-c">
+                            © Trodl.com 2021-22. All rights reserved.
                 </div>
+
+                    </div>
+                }
+
+
+
             </div>
         )
     }
