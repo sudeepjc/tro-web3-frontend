@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import config from 'react-global-configuration';
 import ErrorModal from '../modals/errorModal';
 import TransactionModal from '../modals/transactionModal';
 import TransactionSubmitModal from '../modals/transactionSubmitModal';
@@ -55,9 +56,9 @@ const XTRORewardCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                 xTROBalance = web3.utils.fromWei(xTROBalance, 'ether');
                 setXTROBalance(xTROBalance);
                 setxTROError(null);
-                // DEBUG_LOG
+                console.log(`xTRO balance for ${accounts[0]} : ${xTROBalance}`);
             } catch (err) {
-                console.log(err);
+                console.log(`Fetching xTRO balance for ${accounts[0]} failed. ${err.message}`);
                 setxTROError(err);
             }
         }
@@ -79,9 +80,9 @@ const XTRORewardCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                     stakedTROBalance = web3.utils.fromWei(stakedTROBalance, 'ether');
                     setStakedTRO(stakedTROBalance);
                     setsTROError(null);
-                    //DEBUG_LOG
+                    console.log(`Staked TRO balance for ${accounts[0]} : ${stakedTROBalance}`);
                 } catch (err) {
-                    console.log(err);
+                    console.log(`Fetching staked TRO balance for ${accounts[0]} failed. ${err.message}`);
                     setsTROError(err);
                 }
             }
@@ -90,6 +91,10 @@ const XTRORewardCard = ({ trodlStake, accounts, web3, onTransaction }) => {
     });
 
     const handleError = (err, receipt, eventName) => {
+        console.log('Handling Error:');
+        console.log(err);
+        console.log(receipt);
+        console.log(eventName);
         if (receipt) {
             setTXStatus('Failure');
             setTXMessage(`${eventName} Failed`);
@@ -128,7 +133,7 @@ const XTRORewardCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                     });
                 console.log(tx);
             } else {
-                //PROD_LOG
+                console.log('Validation failed: Connect to Binance Smart Chain');
                 setError(new Error('Connect to Binance Smart Chain'));
                 setType('connect wallet')
                 showErrorModal();
@@ -152,10 +157,10 @@ const XTRORewardCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                 <div>
                     {/* <span> {`${txStatus}: `} </span> */}
                     <span> {txMessage} {txStatus == 'Success' ? 'Successfully' : null} </span>
-                    <a rel="noreferrer" href={`https://testnet.bscscan.com/tx/${txHash}`} target="_blank" ><i class="fas fa-external-link-alt  m-link"></i> </a>
+                    <a rel="noreferrer" href={`${config.get('link')}/tx/${txHash}`} target="_blank" ><i class="fas fa-external-link-alt  m-link"></i> </a>
 
                 </div>
-            </div>
+            </div >
         );
     }
 
@@ -168,18 +173,19 @@ const XTRORewardCard = ({ trodlStake, accounts, web3, onTransaction }) => {
             }
             {txHash ?
                 <TransactionSubmitModal onClose={showTransactionSubmitModal} show={txSubmitShow}>
-                    <a rel="noreferrer" href={`https://testnet.bscscan.com/tx/${txHash}`} target="_blank" >
+                    <a rel="noreferrer" href={`${config.get('link')}/tx/${txHash}`} target="_blank" >
                         <button class="bscScan-btn">
                             View on bscscan.com <i class="fas fa-external-link-alt  m-link"></i>
                         </button>
                     </a>
                     {/* <a rel="noreferrer" href={`https://testnet.bscscan.com/tx/${txHash}`} target="_blank" >View Transaction on BSC</a> */}
-                </TransactionSubmitModal> : null
+                </TransactionSubmitModal > : null
             }
-            {txStatus !== '' ?
-                <TransactionModal onClose={showTransactionStatusModal} show={txStatusShow} type={txStatus}>
-                    {processTransactionMessage()}
-                </TransactionModal> : null
+            {
+                txStatus !== '' ?
+                    <TransactionModal onClose={showTransactionStatusModal} show={txStatusShow} type={txStatus}>
+                        {processTransactionMessage()}
+                    </TransactionModal> : null
             }
             <div className="mtb18 mt-50">
                 Earned xTRO
@@ -199,7 +205,7 @@ const XTRORewardCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                     Unstake
                 </button>
             </div>
-        </div>
+        </div >
     );
 }
 

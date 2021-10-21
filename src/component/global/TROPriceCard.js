@@ -14,12 +14,10 @@ const TROPriceCard = () => {
             .then((result) => {
                     setTROPrice(result.trodl.usd);
                     setUError(null);
-                    // console.log(result.trodl.usd);
-                    //DEBUG_LOG
                 },
                 (err) => {
+                    console.log(`Fetch TRO price failed. ${err.message}`);
                     setUError(err);
-                    //PROD_LOG
                 }
             );
     }

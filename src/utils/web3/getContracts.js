@@ -1,5 +1,6 @@
 import tokenContractABI from '../abi/contracts/Trodl.json';
 import stakeContractABI from '../abi/contracts/TrodlStake.json';
+// import stakeContractABI from '../abi/contracts/TrodlStakeCopy.json';
 
 const getTokenContract = async(web3, chainId) => {
 

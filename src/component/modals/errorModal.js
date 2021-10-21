@@ -13,8 +13,7 @@ export default class ErrorModal extends React.Component {
 
 
     render() {
-        console.log(this.props, 'pp')
-        //PROD_LOG
+        console.log(this.props, 'Prop')
         dataService.setModalData(true)
         if (!this.props.show) {
             return null;

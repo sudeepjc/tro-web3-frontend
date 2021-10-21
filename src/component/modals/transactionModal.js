@@ -4,13 +4,13 @@ import { dataService } from "../../services/DataService";
 
 export default class TransactionModal extends React.Component {
     onClose = e => {
-        console.log(e, 'eee')
+        console.log(e, 'error')
         this.props.onClose && this.props.onClose(e);
     };
 
     render() {
-        // setTimeout(() => { this.onClose() }, 1000);
-        console.log(this.props, 'pp')
+        // this.props.ref2.current.style.background = "#0c162180"
+        console.log(this.props, 'props')
         //DEBUG_LOG
         dataService.setModalData(true)
         if (!this.props.show) {
