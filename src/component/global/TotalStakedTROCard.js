@@ -25,11 +25,10 @@ const TotalStakedTROCard = ({ trodlStake, accounts, web3 }) => {
 					value = web3.utils.fromWei(value, 'ether');
 					setTotalTROStaked(value);
 					setUError(null);
-					//DEBUG_LOG
+					console.log(`Total staked TRO : ${value}`);
 				} catch (err) {
-					console.log(err);
+					console.log(`Total staked TRO failed. ${err.message}`);
 					setUError(err);
-					//PROD_LOG
 				}
 			}
 		}

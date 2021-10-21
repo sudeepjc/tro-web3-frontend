@@ -9,8 +9,7 @@ export default class TransactionSubmitModal extends React.Component {
     };
 
     render() {
-        console.log(this.props, 'pp')
-        //PROD_LOG
+        console.log(this.props, 'props')
         dataService.setModalData(true)
         if (!this.props.show) {
             return null;

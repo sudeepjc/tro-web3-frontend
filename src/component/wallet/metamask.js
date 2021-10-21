@@ -1,4 +1,5 @@
 import React,{useState, useEffect} from 'react';
+import config from 'react-global-configuration';
 import MetaMaskOnboarding from '@metamask/onboarding';
 import { shortAddress } from '../../utils/web3/addressUtils';
 import ErrorModal from '../modals/errorModal';
@@ -58,7 +59,6 @@ function MetaMaskWallet({onConnection, onAccountChange}) {
         } catch (err) {
             setError(err);
             showErrorModal();
-            // throw err;
         }
     }
 
@@ -86,7 +86,7 @@ function MetaMaskWallet({onConnection, onAccountChange}) {
         } catch (err) {
             setError(err);
             showErrorModal();
-            // throw err;
+            console.log(err);
         } finally {
             if (onboarding) {
                 console.log('onboarding stopped');
@@ -131,13 +131,23 @@ function MetaMaskWallet({onConnection, onAccountChange}) {
         }
     }
 
-    function handleNewChain (chainId) {
-        onConnection(chainId);
-        // console.log(chainId);
+    const setLinkConfiguration = (chainId) => {
+        if(chainId === '0x38') {
+            config.set({link:'https://bscscan.com'}, {freeze: false});
+        }else if(chainId === '0x61'){
+            config.set({link:'https://testnet.bscscan.com'},{freeze: false});
+        }else {
+            config.set({link:''},{freeze: false});
+        }
+    }
 
-        // SUdeep: To be enable for production
+    function handleNewChain (chainId) {
+        setLinkConfiguration(chainId);
+        onConnection(chainId);
+        console.log(`Connected to Chain : ${chainId}`);
+
         if( !(chainId === '0x38' || chainId === '0x61')) {
-            setError( new Error(`Connect to the Binance Chain. Current ChainID: ${chainId}`));
+            setError( new Error(`Connect to the Binance Chain`));
             showErrorModal();
         }
     }

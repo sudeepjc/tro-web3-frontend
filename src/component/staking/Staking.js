@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import config from 'react-global-configuration';
 import MetaMaskWallet from '../wallet/metamask';
 import getWeb3 from '../../utils/web3/getWeb3';
 import { getTokenContract, getStakeContract } from '../../utils/web3/getContracts';
@@ -39,21 +40,24 @@ export class Staking extends Component {
     
     onConnect = async(chainId) =>{
         try{
+            console.log(`Connected to chain : ${config.get('link')}`);
             const web3 = await getWeb3();
-            
             const tokenContract = await getTokenContract(web3, chainId);
             const stakeContract = await getStakeContract(web3, chainId);
-            //DEBUG_LOG
             this.setState({chainId: chainId, web3: web3, trodlToken: tokenContract, trodlStake: stakeContract});
-        }catch(err){
-            //PROD_LOG
+            console.log("On Connection:");
+            console.log(web3);
+            console.log(tokenContract);
+            console.log(stakeContract);
+            console.log(chainId);
+        } catch(err) {
+            console.log(`Connection failed. ${err.message}`);
             this.setState({error: err});
-            //throw err;
+            this.showErrorModal(err.message);
         }
     }
 
     onAccountChange = (newAccounts) => {
-    	//DEBUG_LOG
         this.setState({ accounts: newAccounts });
     }
 

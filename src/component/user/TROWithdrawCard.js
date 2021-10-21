@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import config from 'react-global-configuration';
 import ErrorModal from '../modals/errorModal';
 import TransactionModal from '../modals/transactionModal';
 import TransactionSubmitModal from '../modals/transactionSubmitModal';
@@ -57,9 +58,10 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                         setUnlockedTRO('0');
                     }
                     setUError(null);
-                    //DEBUG_LOG
+                    console.log(userInfo);
+                    console.log(block);
                 } catch (err) {
-                    console.log(err);
+                    console.log(`Fetching Unstaked TRO failed. ${err.message}`);
                     setUError(err);
                 }
             }
@@ -68,6 +70,10 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
     });
 
     const handleError = (err, receipt, eventName) => {
+        console.log('Handling Error:');
+        console.log(err);
+        console.log(receipt);
+        console.log(eventName);
         if(receipt){
             setTXStatus('Failure');
             setTXMessage(`${eventName} Failed`);
@@ -104,7 +110,7 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                 });
                 console.log(tx);
             } else {
-                //PROD_LOG
+                console.log('Validation failed: Connect to Binance Smart Chain');
                 setError( new Error('Connect to Binance Smart Chain'));
                 showErrorModal();
             }
@@ -133,7 +139,7 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                 });
                 console.log(tx);
             } else {
-                //PROD_LOG
+                console.log('Validation failed: Connect to Binance Smart Chain');
                 setError( new Error('Connect to Binance Smart Chain'));
                 showErrorModal();
             }
@@ -157,7 +163,7 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                     <span> {`${txStatus}: `} </span>
                     <span> {txMessage} </span>
                 </div>
-                <a rel="noreferrer" href={`https://testnet.bscscan.com/tx/${txHash}`} target="_blank" >View Transaction on BSC</a>
+                <a rel="noreferrer" href={`${config.get('link')}/tx/${txHash}`} target="_blank" >View Transaction on BSC</a>
             </div>
         );
     }
@@ -171,7 +177,7 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
             }
             {txHash ?
                 <TransactionSubmitModal onClose={showTransactionSubmitModal} show={txSubmitShow}>
-                    <a rel="noreferrer" href={`https://testnet.bscscan.com/tx/${txHash}`} target="_blank" >View Transaction on BSC</a>
+                    <a rel="noreferrer" href={`${config.get('link')}/tx/${txHash}`} target="_blank" >View Transaction on BSC</a>
                 </TransactionSubmitModal> : null
             }
             {txStatus !== '' ?

@@ -23,11 +23,10 @@ const TotalMintedxTROCard = ({ trodlStake, accounts, web3 }) => {
 				rewardAmount = web3.utils.fromWei(rewardAmount,'ether');
 				setTotalxTROMinted(rewardAmount);
 				setUError(null);
-				// DEBUG_LOG
+				console.log(`Total minted xTRO : ${rewardAmount}`);
 			} catch (err) {
-				console.log(err);
+				console.log(`Total minted xTRO failed. ${err.message}`);
 				setUError(err);
-				//PROD_LOG
 			}
 		}
 	}
