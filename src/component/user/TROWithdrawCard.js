@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ErrorModal from '../modals/errorModal';
 import TransactionModal from '../modals/transactionModal';
 import TransactionSubmitModal from '../modals/transactionSubmitModal';
-import {formatValue} from '../../utils/wrappers';
+import { formatValue } from '../../utils/wrappers';
 
 const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
     const [lockedTRO, setLockedTRO] = useState('--');
@@ -11,45 +11,53 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
     // Error Modal
     const [error, setError] = useState(null)
     const [show, setShow] = useState(false)
+    const [type, setType] = useState(null);
 
     //TX Submit Modal
     const [txSubmitShow, setTXSubmitShow] = useState(false);
     const [txHash, setTXHash] = useState('');
-    
+
     //TX Status Modal
     const [txStatusShow, setTXStatusShow] = useState(false);
     const [txStatus, setTXStatus] = useState('');
     const [txMessage, setTXMessage] = useState('');
 
+    const [style, setStyle] = useState({ display: 'none' });
+    const [style2, setStyle2] = useState({ display: 'none' });
+
     const showErrorModal = () => {
-        setShow( !show );
+        setShow(!show);
     };
 
     const showTransactionSubmitModal = () => {
-        setTXSubmitShow( !txSubmitShow );
+        setTXSubmitShow(!txSubmitShow);
+        setTimeout(() => { setTXSubmitShow(false); }, 5000);
+
     };
 
     const showTransactionStatusModal = () => {
-        setTXStatusShow( !txStatusShow );
+        setTXStatusShow(!txStatusShow);
+        setTimeout(() => { setTXStatusShow(false) }, 5000);
+
     };
-    
+
     const isValidConnectionForCard = () => {
-        if( (trodlStake && (trodlStake._address !== null)) && (accounts && accounts.length > 0) && (web3 !== undefined)){
+        if ((trodlStake && (trodlStake._address !== null)) && (accounts && accounts.length > 0) && (web3 !== undefined)) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
-    
+
     useEffect(() => {
         async function getUnstakeBalance() {
             if (isValidConnectionForCard()) {
                 try {
-                    let lockUpPeriod = await trodlStake.methods._lockupPeriod().call({from: accounts[0]});
-                    let userInfo = await trodlStake.methods.getUserRewardInfo(accounts[0]).call({from: accounts[0]});
-                    let unStakeBalance = web3.utils.fromWei(userInfo['unstakedAmount'],'ether');
+                    let lockUpPeriod = await trodlStake.methods._lockupPeriod().call({ from: accounts[0] });
+                    let userInfo = await trodlStake.methods.getUserRewardInfo(accounts[0]).call({ from: accounts[0] });
+                    let unStakeBalance = web3.utils.fromWei(userInfo['unstakedAmount'], 'ether');
                     let block = await web3.eth.getBlock('latest');
-                    if (block.timestamp > ((86400 * lockUpPeriod) + userInfo['lastAccountingTimestampSec'])){
+                    if (block.timestamp > ((86400 * lockUpPeriod) + userInfo['lastAccountingTimestampSec'])) {
                         setLockedTRO('0');
                         setUnlockedTRO(unStakeBalance);
                     } else {
@@ -68,44 +76,48 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
     });
 
     const handleError = (err, receipt, eventName) => {
-        if(receipt){
+        if (receipt) {
             setTXStatus('Failure');
             setTXMessage(`${eventName} Failed`);
             setTXHash(receipt.transactionHash);
             showTransactionStatusModal();
-        }else{
-            if(err.code === 4001){
+        } else {
+            if (err.code === 4001) {
                 //Ignore User Tx Reject
-            }else {
+            } else {
                 let message = `${err.code} : ${err.message}`;
-                setError( new Error(message));
+                setError(new Error(message));
+                setType('other errror')
+
                 showErrorModal();
             }
         }
     }
 
     const restakeAll = async () => {
-        try{
+        try {
             if (isValidConnectionForCard()) {
-                let tx = await trodlStake.methods.reStake().send({from: accounts[0]})
-                .on('transactionHash', function(hash){
-                    setTXHash(hash);
-                    showTransactionSubmitModal();
-                })
-                .on('receipt', function(receipt){
-                    setTXStatus('Success');
-                    let amount = web3.utils.fromWei(receipt.events.ReStake.returnValues.amount,'ether');
-                    setTXMessage(`Re-Staked ${amount} TRO at Trodl Stake`);
-                    showTransactionStatusModal();
-                    onTransaction();
-                })
-                .on('error', function(err, receipt) {
-                    handleError(err, receipt, 'Re-Stake');
-                });
+                let tx = await trodlStake.methods.reStake().send({ from: accounts[0] })
+                    .on('transactionHash', function (hash) {
+                        setTXHash(hash);
+                        showTransactionSubmitModal();
+                    })
+                    .on('receipt', function (receipt) {
+                        setTXStatus('Success');
+                        let amount = web3.utils.fromWei(receipt.events.ReStake.returnValues.amount, 'ether');
+                        setTXMessage(`Re-Staked ${amount} TRO at Trodl Stake`);
+                        showTransactionStatusModal();
+                        setTimeout(() => { setTXStatusShow(false) }, 5000);
+                        onTransaction();
+                    })
+                    .on('error', function (err, receipt) {
+                        handleError(err, receipt, 'Re-Stake');
+                    });
                 console.log(tx);
             } else {
                 //PROD_LOG
-                setError( new Error('Connect to Binance Smart Chain'));
+                setError(new Error('Connect to Binance Smart Chain'));
+                setType('connect wallet')
                 showErrorModal();
             }
         } catch (err) {
@@ -114,30 +126,32 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
     }
 
     const withdrawAll = async () => {
-        try{
+        try {
             if (isValidConnectionForCard()) {
-                let tx = await trodlStake.methods.withdrawAllTRO().send({from: accounts[0]})
-                .on('transactionHash', function(hash){
-                    setTXHash(hash);
-                    showTransactionSubmitModal();
-                })
-                .on('receipt', function(receipt){
-                    setTXStatus('Success');
-                    let amount = web3.utils.fromWei(receipt.events.Withdraw.returnValues.amount,'ether');
-                    setTXMessage(`${amount} TRO Withdrawn`);
-                    showTransactionStatusModal();
-                    onTransaction();
-                })
-                .on('error', function(err, receipt) {
-                    handleError(err, receipt, 'Withdraw');
-                });
+                let tx = await trodlStake.methods.withdrawAllTRO().send({ from: accounts[0] })
+                    .on('transactionHash', function (hash) {
+                        setTXHash(hash);
+                        showTransactionSubmitModal();
+                    })
+                    .on('receipt', function (receipt) {
+                        setTXStatus('Success');
+                        let amount = web3.utils.fromWei(receipt.events.Withdraw.returnValues.amount, 'ether');
+                        setTXMessage(`${amount} TRO Withdrawn`);
+                        showTransactionStatusModal();
+                        onTransaction();
+                    })
+                    .on('error', function (err, receipt) {
+                        handleError(err, receipt, 'Withdraw');
+                    });
                 console.log(tx);
             } else {
                 //PROD_LOG
-                setError( new Error('Connect to Binance Smart Chain'));
+                setError(new Error('Connect to Binance Smart Chain'));
+                setType('connect wallet')
+
                 showErrorModal();
             }
-        } catch(err){
+        } catch (err) {
             console.log(err.message);
         }
     }
@@ -147,17 +161,18 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
     }
 
     const formatUserUnlockedTROBalance = () => {
-        return formatValue(uError, unlockedTRO, 2 );
+        return formatValue(uError, unlockedTRO, 2);
     }
 
     const processTransactionMessage = () => {
         return (
             <div>
                 <div>
-                    <span> {`${txStatus}: `} </span>
-                    <span> {txMessage} </span>
+                    {/* <span> {`${txStatus}: `} </span> */}
+                    <span> {txMessage} {txStatus == 'Success' ? 'Successfully' : null} </span>
+                    <a rel="noreferrer" href={`https://testnet.bscscan.com/tx/${txHash}`} target="_blank" ><i class="fas fa-external-link-alt  m-link"></i> </a>
+
                 </div>
-                <a rel="noreferrer" href={`https://testnet.bscscan.com/tx/${txHash}`} target="_blank" >View Transaction on BSC</a>
             </div>
         );
     }
@@ -165,23 +180,38 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
     return (
         <div className="col-3 card-sec card-height2">
             {error ?
-                <ErrorModal onClose={showErrorModal} show={show}>
+                <ErrorModal onClose={showErrorModal} show={show} type={type}>
                     {`${error.message}`}
                 </ErrorModal> : null
             }
             {txHash ?
                 <TransactionSubmitModal onClose={showTransactionSubmitModal} show={txSubmitShow}>
-                    <a rel="noreferrer" href={`https://testnet.bscscan.com/tx/${txHash}`} target="_blank" >View Transaction on BSC</a>
+                    <a rel="noreferrer" href={`https://testnet.bscscan.com/tx/${txHash}`} target="_blank" >
+                        <button class="bscScan-btn">
+                            View on bscscan.com <i class="fas fa-external-link-alt m-link  m-link"></i>
+                        </button>
+                    </a>
+                    {/* <a rel="noreferrer" href={`https://testnet.bscscan.com/tx/${txHash}`} target="_blank" >View Transaction on BSC</a> */}
                 </TransactionSubmitModal> : null
             }
             {txStatus !== '' ?
-                <TransactionModal onClose={showTransactionStatusModal} show={txStatusShow}>
+                <TransactionModal onClose={showTransactionStatusModal} show={txStatusShow} type={txStatus}>
                     {processTransactionMessage()}
                 </TransactionModal> : null
             }
             <div className="mtb18 mt-36">
-                Locked TRO balance
+                Locked TRO balance <i class="fas fa-exclamation-circle exc-fa-2"
+                    onMouseEnter={e => {
+                        setStyle({ display: 'block' });
+                    }}
+                    onMouseLeave={e => {
+                        setStyle({ display: 'none' })
+                    }}></i>
             </div>
+            <div className="locked-msg" style={style}>
+                Unstaked TRO balances are locked for 14 days. During lock in period you can only re-invest the amount and can’t withdraw.
+            </div>
+
             <div className="col-theme mtb18 ">
                 {formatUserLockedTROBalance()}
             </div>
@@ -191,7 +221,16 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                 </button>
             </div>
             <div className="mtb18 mt-30">
-                Unlocked TRO balance
+                Unlocked TRO balance<i class="fas fa-exclamation-circle exc-fa-2"
+                    onMouseEnter={e => {
+                        setStyle2({ display: 'block' });
+                    }}
+                    onMouseLeave={e => {
+                        setStyle2({ display: 'none' })
+                    }}></i>
+            </div>
+            <div className="unlocked-msg" style={style2}>
+                Unlocked TRO balances have completed 14 days of lock in period and are available for withdrawal.
             </div>
             <div className="col-theme mtb18">
                 {formatUserUnlockedTROBalance()}

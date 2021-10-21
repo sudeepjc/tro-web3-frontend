@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { dataService } from "../../services/DataService";
 
 export default class TransactionSubmitModal extends React.Component {
-    
+
     onClose = e => {
         this.props.onClose && this.props.onClose(e);
     };
@@ -16,12 +16,20 @@ export default class TransactionSubmitModal extends React.Component {
             return null;
         }
         return (
-            <div className="modal2" id="modal">
-                <div className="modal-top">
-                    <div className="toggle-button" onClick={this.onClose}>
-                        x
-                    </div>
+            <div className="modal4" id="modal">
+                {/* <div className="modal-top"> */}
+                <div className="toggle-button" onClick={this.onClose}>
+                    <i class="far fa-times-circle"></i>
+
                 </div>
+                <div class="mg-t-107">
+                    <i class="fas fa-hourglass-half glasshr"></i>
+
+                </div>
+                <div class="mt-40">
+                    Transaction submitted.
+                </div>
+                {/* </div> */}
                 <div className="content"> {this.props.children} </div>
                 <div className="actions">
                 </div>
