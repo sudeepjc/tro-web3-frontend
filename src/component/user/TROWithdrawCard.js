@@ -134,7 +134,7 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                     showTransactionStatusModal();
                     onTransaction();
                 })
-                .on('error', function(err, receipt) {
+                .on('error', async function(err, receipt) {
                     handleError(err, receipt, 'Withdraw');
                 });
                 console.log(tx);

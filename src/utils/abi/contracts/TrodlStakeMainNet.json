@@ -70912,6 +70912,12 @@
       "links": {},
       "address": "0x455aba52022f95676137fdf5487a27897b690ae3",
       "transactionHash": "0x1590fefdf5930a705f6d5e3a16e038ae55af1108827f4afa952291ee4145e70e"
+    },
+    "56": {
+      "events": {},
+      "links": {},
+      "address": "0x73c60ad95e7f8d6aa853b02b3f3a83c3b745ce67",
+      "transactionHash": "0xe859ecdebbbf9e471fc17245a3e7346257b19ccbcd08b96d441df8aa62d1bdcd"
     }
   },
   "schemaVersion": "3.4.2",
