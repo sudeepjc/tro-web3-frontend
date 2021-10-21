@@ -131,7 +131,7 @@ export class Staking extends Component {
         return (
 
             <div >
-                { window.innerWidth < 1000 ? <div>Redicrecting ...</div> :
+                { window.innerWidth < 1000 ? <div>Redirecting ...</div> :
                     <div className="staking-body">
                         {this.state.error ?
                             <ErrorModal onClose={this.showErrorModal} show={this.state.show} type={this.state.type}>
