@@ -4,6 +4,7 @@ import ErrorModal from '../modals/errorModal';
 import TransactionModal from '../modals/transactionModal';
 import TransactionSubmitModal from '../modals/transactionSubmitModal';
 import { formatValue } from '../../utils/wrappers';
+import stakeIcon from "../../assets/images/staking_status.png";
 
 const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
     const [lockedTRO, setLockedTRO] = useState('--');
@@ -66,7 +67,7 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                     // console.log(`${parseInt (block.timestamp) > ((86400 * parseInt(lockUpPeriod)) + parseInt(userInfo['lastAccountingTimestampSec']))}`)
                     // console.log(`${parseInt (block.timestamp) > ( parseInt(userInfo['lastAccountingTimestampSec']))}`)
                     // console.log("************************************");
-                    if (parseInt (block.timestamp) > ((86400 * parseInt(lockUpPeriod)) + parseInt(userInfo['lastAccountingTimestampSec']))) {
+                    if (parseInt(block.timestamp) > ((86400 * parseInt(lockUpPeriod)) + parseInt(userInfo['lastAccountingTimestampSec']))) {
                         setLockedTRO('0');
                         setUnlockedTRO(unStakeBalance);
                     } else {
@@ -191,7 +192,7 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
     }
 
     return (
-        <div className="col-3 card-sec card-height2">
+        <div className="stake-card-2  ">
             {error ?
                 <ErrorModal onClose={showErrorModal} show={show} type={type}>
                     {`${error.message}`}
@@ -213,7 +214,70 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                         {processTransactionMessage()}
                     </TransactionModal> : null
             }
-            <div className="mtb18 mt-36">
+
+            <div className="">
+                <div className="flex-d mb-24">
+                    <div className="">
+                        <img src={stakeIcon} className="idoimg" alt='trodl-logo'></img>
+
+                    </div>
+                    <div className="txt-left ml-10">
+                        <div className="font-16 semi-bold">Staking status</div>
+                        <div className="font-14 color-a8">12 th Nov '21</div>
+                    </div>
+                </div>
+            </div>
+            <div className="txt-left ">
+                <div className="flex-d">
+                    <div>
+                        <div className="font-14 color-cf">
+                            Locked TRO balance
+                        </div>
+                        <div className="locked-msg" style={style}>
+                            Unstaked TRO balances are locked for 14 days. During lock in period you can only re-invest the amount and can’t withdraw.
+            </div>
+                        <div className="font-16 color-a8 ">   {formatUserLockedTROBalance()} <i class="fas fa-exclamation-circle exc-fa-2"
+                            onMouseEnter={e => {
+                                setStyle({ display: 'block' });
+                            }}
+                            onMouseLeave={e => {
+                                setStyle({ display: 'none' })
+                            }}></i></div>
+                    </div>
+
+                    <div className=" ml-25p">
+                        <div className="font-14 color-cf">
+                            Unlocked TRO balance
+                        </div>
+                        <div className="unlocked-msg" style={style2}>
+                            Unlocked TRO balances have completed 14 days of lock in period and are available for withdrawal.
+            </div>
+                        <div className="font-16 color-a8 ">   {formatUserUnlockedTROBalance()} <i class="fas fa-exclamation-circle exc-fa-2"
+                            onMouseEnter={e => {
+                                setStyle2({ display: 'block' });
+                            }}
+                            onMouseLeave={e => {
+                                setStyle2({ display: 'none' })
+                            }}></i></div>
+                    </div>
+                </div>
+
+                <div className="flex-d mt-30">
+                    <div>
+                        <button className="  card-btns" onClick={restakeAll}>
+                            Re-Stake</button>
+                    </div>
+                    <div className="flex-right">
+                        <button className="  card-btns" onClick={withdrawAll}>
+                            Withdraw</button>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+            {/* <div className="mtb18 mt-36">
                 Locked TRO balance <i class="fas fa-exclamation-circle exc-fa-2"
                     onMouseEnter={e => {
                         setStyle({ display: 'block' });
@@ -253,7 +317,7 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                 <button className="card-btns padimp" onClick={withdrawAll}>
                     Withdraw
                 </button>
-            </div>
+            </div> */}
         </div >
     );
 }

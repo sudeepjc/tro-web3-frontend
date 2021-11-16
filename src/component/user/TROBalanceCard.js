@@ -4,6 +4,7 @@ import ErrorModal from '../modals/errorModal';
 import TransactionModal from '../modals/transactionModal';
 import TransactionSubmitModal from '../modals/transactionSubmitModal';
 import { formatValue } from '../../utils/wrappers';
+import metaMaskLogo from "../../assets/images/metamask.png";
 
 const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction }) => {
     const [TRObalance, setTROBalance] = useState('--');
@@ -226,7 +227,7 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction 
     }
 
     return (
-        <div className="col-3 card-sec card-height2">
+        <div className="stake-card-1 ">
             {error ?
                 <ErrorModal onClose={showErrorModal} show={show} type={type}>
                     {`${error.message}`}
@@ -248,20 +249,35 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction 
                         {processTransactionMessage()}
                     </TransactionModal> : null
             }
-            <div className="mtb18 mt-50">
-                Available TRO Balance
+            <div className="">
+                <div className="flex-d mb-24">
+                    <div className="">
+                        <img src={metaMaskLogo} className="idoimg" alt='trodl-logo'></img>
+
+                    </div>
+                    <div className="txt-left ml-10">
+                        <div className="font-16 semi-bold">Metamask details</div>
+                        <div className="font-14 color-a8">12 th Nov '21</div>
+
+                    </div>
+
+
+
+                </div>
+
+
             </div>
-            <div className="col-theme">
-                {formatUserTROBalance()}
-            </div>
-            <div className="borderDark"> </div>
-            <div className="mt-60">
-                <input className="input-cls" type="number" onChange={onValueChange}></input>
-            </div>
-            <div>
-                <button className=" mt-30 card-btns" onClick={approveAndStake}>
-                    {buttonState}
-                </button>
+            <div className="txt-left ">
+                <div className="font-14 color-cf"> Available TRO Balance</div>
+                <div className="font-16 color-a8 "> {formatUserTROBalance()}</div>
+                <div className="flex-d mt-30">
+
+                    <input className="input-cls color-cf font-14" type="number" placeholder="Amount to be staked" onChange={onValueChange}></input>
+                    <button className=" ml-10 card-btns" onClick={approveAndStake}>
+                        {buttonState}
+                    </button>
+                </div>
+
             </div>
         </div >
     );

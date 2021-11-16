@@ -42,7 +42,7 @@
 
 /* Staking */
 .staking-body {
-  background-color: #1C2636;
+  /* background-color: #1C2636; */
 
   max-width: 1440px;
   margin: 0 auto;
@@ -55,6 +55,71 @@
   max-width: 1440px;
   margin: 0 auto;
   padding: 50px 64px;
+}
+
+.color-prim {
+  color: #535EF3;
+}
+
+.font-25 {
+  font-size: 25px;
+}
+
+.color-a8 {
+  color: #A8A8A8
+}
+
+.ml-10 {
+  margin-left: 10px;
+}
+
+.color-cf {
+  color: #CFCFCF;
+}
+
+.mt-25 {
+  margin-top: 25px;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.stake-card-1 {
+  width: 32.5%;
+  background-color: #142130;
+  height: auto;
+  border-radius: 16px;
+  margin-right: 25px;
+  padding: 15px;
+}
+
+.stake-card-2 {
+  width: 36.2%;
+  background-color: #142130;
+  height: auto;
+  border-radius: 16px;
+  padding: 15px;
+
+}
+
+.lp-mrgs-stage {
+  margin-left: 157px;
+  margin-right: 84px
+}
+
+.mlr-50 {
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+.mr-50 {
+  margin-right: 50px;
+
+}
+
+.ml-25p {
+  margin-left: 25%;
 }
 
 /* //col edit */
@@ -222,13 +287,14 @@ margin-left: 20px;
 }
 
 .card-btns {
-  background: #5F3DF2 0% 0% no-repeat padding-box;
-  box-shadow: 0px 3px 6px #00000029;
-  border-radius: 90px;
+  height: 36px;
+  background: #5F3FEE 0% 0% no-repeat padding-box;
+  border-radius: 6px;
+  opacity: 1;
   border: none;
-  padding: 5px 65px;
   color: white;
-
+  font-size: 14px;
+  padding: 0px 12px;
 }
 
 .padimp {
@@ -248,14 +314,13 @@ margin-left: 20px;
 }
 
 .input-cls {
-  border: 1px solid #8d8d8d96;
-  border-radius: 90px;
-  /* opacity: 0.2; */
-  background: transparent !important;
-  color: white !important;
-  height: 40px;
-  padding: 10px;
-
+  width: 219px;
+  height: 36px;
+  background: #324156 0% 0% no-repeat padding-box;
+  border-radius: 6px;
+  opacity: 1;
+  border: none;
+  padding: 15px;
 }
 
 input:focus-visible {
@@ -263,7 +328,7 @@ input:focus-visible {
 }
 
 .input-cls:focus {
-  background-color: #1c2636 !important;
+  /* background-color: #1c2636 !important; */
   color: white;
 }
 
@@ -631,8 +696,8 @@ input::-webkit-inner-spin-button {
   border-radius: 16px 16px 16px 0px;
   opacity: 1;
   position: absolute;
-  top: -3%;
-  right: -10%;
+  top: 35%;
+  right: 15%;
   font-size: 8px;
   padding: 7px;
 }

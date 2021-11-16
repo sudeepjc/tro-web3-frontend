@@ -4,20 +4,20 @@ import { formatValue } from '../../utils/wrappers';
 import secOne from '../../assets/images/university-solid.svg';
 
 const TotalStakedTROCard = ({ trodlStake, accounts, web3 }) => {
-    const [totalTROStaked, setTotalTROStaked] = useState('--');
+	const [totalTROStaked, setTotalTROStaked] = useState('--');
 	const [uError, setUError] = useState(null);
-	
+
 	const isValidConnectionForCard = () => {
 		if ((trodlStake && (trodlStake._address !== null))
-            && (accounts && accounts.length > 0)
-            && (web3 !== undefined)) {
+			&& (accounts && accounts.length > 0)
+			&& (web3 !== undefined)) {
 			return true;
-		}else {
+		} else {
 			return false;
 		}
 	};
 
-    useEffect(() => {
+	useEffect(() => {
 		async function fetchTotalTROStaked() {
 			if (isValidConnectionForCard()) {
 				try {
@@ -34,24 +34,20 @@ const TotalStakedTROCard = ({ trodlStake, accounts, web3 }) => {
 		}
 		fetchTotalTROStaked();
 	});
-	
+
 	const formatTotalTROStaked = () => {
 		return formatValue(uError, totalTROStaked, 2);
-    }
+	}
 
-    return (
-        <div className="col-3 card-sec card-height1">
-            <div className="mt-30">
-                <img src={secOne} className="sec-imgs" alt='sec-one'></img>
-            </div>
-            <div className="mtb18">
-                Total Staked TRO
-            </div>
-            <div className="col-theme">
-                {formatTotalTROStaked()}
-            </div>
-        </div>
-    );
+	return (
+		<div className="font-14 mr-50 ">
+			<span className="color-a8"> Total Staked TRO </span> <span className="semi-bold color-prim  ml-10">{formatTotalTROStaked()}</span>
+		</div>
+
+
+
+
+	);
 }
 
 export default TotalStakedTROCard;

@@ -1,7 +1,7 @@
-// import tokenContractABI from '../abi/contracts/Trodl.json';
-// import stakeContractABI from '../abi/contracts/TrodlStake.json';
-import stakeContractABI from '../abi/contracts/TrodlStakeMainNet.json';
-import tokenContractABI from '../abi/contracts/AnyswapV5ERC20.json';
+import tokenContractABI from '../abi/contracts/Trodl.json';
+import stakeContractABI from '../abi/contracts/TrodlStake.json';
+// import stakeContractABI from '../abi/contracts/TrodlStakeMainNet.json';
+// import tokenContractABI from '../abi/contracts/AnyswapV5ERC20.json';
 
 const getTokenContract = async (web3, chainId) => {
 

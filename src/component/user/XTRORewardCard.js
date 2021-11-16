@@ -5,6 +5,7 @@ import TransactionModal from '../modals/transactionModal';
 import TransactionSubmitModal from '../modals/transactionSubmitModal';
 import useRecursiveTimeout from '../../utils/useRecursiveTimeout';
 import { formatValue } from '../../utils/wrappers';
+import TROicon from "../../assets/images/TROicon.png";
 
 const XTRORewardCard = ({ trodlStake, accounts, web3, onTransaction }) => {
     const [xTROBalance, setXTROBalance] = useState('--');
@@ -165,7 +166,7 @@ const XTRORewardCard = ({ trodlStake, accounts, web3, onTransaction }) => {
     }
 
     return (
-        <div className="col-3 card-sec card-height2" >
+        <div className="stake-card-1  " >
             {error ?
                 <ErrorModal onClose={showErrorModal} show={show} type={type} >
                     {`${error.message}`}
@@ -187,7 +188,37 @@ const XTRORewardCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                         {processTransactionMessage()}
                     </TransactionModal> : null
             }
-            <div className="mtb18 mt-50">
+
+            <div className="">
+                <div className="flex-d mb-24">
+                    <div className="">
+                        <img src={TROicon} className="idoimg" alt='trodl-logo'></img>
+
+                    </div>
+                    <div className="txt-left ml-10">
+                        <div className="font-16 semi-bold">Staking rewards</div>
+                        <div className="font-14 color-a8">12 th Nov '21</div>
+                    </div>
+                </div>
+            </div>
+            <div className="txt-left ">
+                <div className="flex-d">
+                    <div>
+                        <div className="font-14 color-cf"> Earned xTRO</div>
+                        <div className="font-16 color-a8 ">   {formatUserXTROBalance()}</div>
+                    </div>
+
+                    <div className=" ml-25p">
+                        <div className="font-14 color-cf">   Staked TRO</div>
+                        <div className="font-16 color-a8 ">   {formatUserStakedTROBalance()}</div>
+                    </div>
+                </div>
+                <div className="flex-d mt-30">
+                    <button className="  card-btns" onClick={unstakeAll}>
+                        Unstake</button>
+                </div>
+            </div>
+            {/* <div className="mtb18 mt-50">
                 Earned xTRO
             </div>
             <div className="col-theme">
@@ -204,7 +235,7 @@ const XTRORewardCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                 <button className="  card-btns" onClick={unstakeAll}>
                     Unstake
                 </button>
-            </div>
+            </div> */}
         </div >
     );
 }

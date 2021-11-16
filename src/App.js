@@ -1,6 +1,6 @@
 import './App.css';
 import { LandingPage } from './component/langinPage/landingpage';
-import { Staking } from './component/staking/Staking';
+import Staking from './component/staking/Staking';
 import ErrorBoundry from './containers/ErrorBoundry/ErrorBoundry';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PageNotFound from './containers/ErrorBoundry/pagenotfound/PageNotFound';

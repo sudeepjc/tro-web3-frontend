@@ -8,13 +8,13 @@ const TROPriceCard = () => {
     const [TROPrice, setTROPrice] = useState('--');
     const [uError, setUError] = useState(null);
 
-	const fetchTROPrice = () => {
+    const fetchTROPrice = () => {
         fetch("https://api.coingecko.com/api/v3/simple/price?ids=trodl&vs_currencies=usd")
             .then(res => res.json())
             .then((result) => {
-                    setTROPrice(result.trodl.usd);
-                    setUError(null);
-                },
+                setTROPrice(result.trodl.usd);
+                setUError(null);
+            },
                 (err) => {
                     console.log(`Fetch TRO price failed. ${err.message}`);
                     setUError(err);
@@ -34,17 +34,11 @@ const TROPriceCard = () => {
         return formatValue(uError, TROPrice, 4);
     }
 
-    return(
-        <div className="col-3 card-sec card-height1">
-            <div className="mt-30">
-                <img src={secThree} className="sec-imgs" alt='sec-three'></img>
-            </div>
-            <div className="mtb18">
-                $TRO Price
-            </div>
-            <div className="col-theme">
-                {formatTROPrice()}
-            </div>
+    return (
+
+        <div className="font-14 mlr-50">
+            <span className="color-a8">    $TRO Price </span> <span className="semi-bold color-prim  ml-10">       {formatTROPrice()}</span>
+
         </div>
     );
 }

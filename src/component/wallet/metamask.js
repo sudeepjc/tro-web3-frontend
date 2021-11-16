@@ -170,10 +170,12 @@ function MetaMaskWallet({ onConnection, onAccountChange }) {
                     {`${error.message}`}
                 </ErrorModal> : null
             }
-            <button className="connect-btn" onClick={connectWallet}>
+            <button className="meta-btn mr-17  mt-10" onClick={connectWallet} ><i className="fas fa-wallet mr-17" ></i>{getConnectButtonString()}</button>
+
+            {/* <button className="connect-btn" onClick={connectWallet}>
                 <img src={walletImg} className="wallet-img" alt='wallet-img'></img>
                 {getConnectButtonString()}
-            </button>
+            </button> */}
         </div>
     );
 }

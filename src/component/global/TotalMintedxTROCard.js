@@ -5,13 +5,13 @@ import useRecursiveTimeout from '../../utils/useRecursiveTimeout';
 import secTwo from '../../assets/images/spinner-solid.svg';
 
 const TotalMintedxTROCard = ({ trodlStake, accounts, web3 }) => {
-    const [totalxTROMinted, setTotalxTROMinted] = useState('--');
+	const [totalxTROMinted, setTotalxTROMinted] = useState('--');
 	const [uError, setUError] = useState(null);
-	
+
 	const isValidConnectionForCard = () => {
 		if ((trodlStake && (trodlStake._address !== null))
-            && (accounts && accounts.length > 0)
-            && (web3 !== undefined)) {
+			&& (accounts && accounts.length > 0)
+			&& (web3 !== undefined)) {
 			return true;
 		}
 		return false;
@@ -20,7 +20,7 @@ const TotalMintedxTROCard = ({ trodlStake, accounts, web3 }) => {
 		if (isValidConnectionForCard()) {
 			try {
 				let rewardAmount = await trodlStake.methods.getTotalxTRO().call({ from: accounts[0] });
-				rewardAmount = web3.utils.fromWei(rewardAmount,'ether');
+				rewardAmount = web3.utils.fromWei(rewardAmount, 'ether');
 				setTotalxTROMinted(rewardAmount);
 				setUError(null);
 				console.log(`Total minted xTRO : ${rewardAmount}`);
@@ -41,21 +41,14 @@ const TotalMintedxTROCard = ({ trodlStake, accounts, web3 }) => {
 
 	const formatTotalxTROMinted = () => {
 		return formatValue(uError, totalxTROMinted, 4);
-    }
-    
-    return (
-        <div className="col-3 card-sec card-height1" >
-            <div className="mt-30">
-                <img src={secTwo} className="sec-imgs" alt='sec-two'></img>
-            </div>
-            <div className="mtb18">
-                Total Minted xTRO
-            </div>
-            <div className="col-theme">
-                {formatTotalxTROMinted()}
-            </div>
-        </div>
-    );
+	}
+
+	return (
+		<div className="font-14 mlr-50">
+			<span className="color-a8">  Total Minted xTRO </span> <span className="semi-bold color-prim  ml-10"> {formatTotalxTROMinted()}</span>
+		</div>
+
+	);
 }
 
 export default TotalMintedxTROCard;

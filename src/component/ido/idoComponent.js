@@ -16,7 +16,7 @@ const IdoComponent = () => {
             {detailsBool ?
                 <IdoDetails></IdoDetails> :
                 <div>
-                    <div className="ido_head">
+                    <div className="ido_head bold">
                         Trodl IDO launchpad
             </div>
                     <div className="ido_sub">
