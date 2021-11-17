@@ -5,20 +5,27 @@ import TransactionModal from '../modals/transactionModal';
 import TransactionSubmitModal from '../modals/transactionSubmitModal';
 import { formatValue } from '../../utils/wrappers';
 import metaMaskLogo from "../../assets/images/metamask.png";
+import { useSelector, useDispatch } from 'react-redux';
+import { setErrorModal } from '../../redux/actions/errorModalActions';
+import { setTxSubmitModal } from '../../redux/actions/transactionSubmitActions';
+import { setTxStatusModal } from '../../redux/actions/transactionStatusActions'
+const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction, showError }) => {
+    const dispatch = useDispatch()
 
-const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction }) => {
+    const state = useSelector(state => state.transactionStatusReducers);
+
     const [TRObalance, setTROBalance] = useState('--');
     const [inputamount, setInputAmount] = useState(0);
     const [buttonState, setButtonState] = useState('Approve');
     const [uError, setUError] = useState(null);
 
     //ERROR Modal
-    const [show, setShow] = useState(false);
-    const [error, setError] = useState(null);
-    const [type, setType] = useState(null);
+    // const [show, setShow] = useState(false);
+    // const [error, setError] = useState(null);
+    // const [type, setType] = useState(null);
 
     //TX Submit Modal
-    const [txSubmitShow, setTXSubmitShow] = useState(false);
+    // const [txSubmitShow, setTXSubmitShow] = useState(false);
     const [txHash, setTXHash] = useState('');
 
     //TX Status Modal
@@ -26,19 +33,24 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction 
     const [txStatus, setTXStatus] = useState('');
     const [txMessage, setTXMessage] = useState('');
 
-    const showErrorModal = () => {
-        setShow(!show);
+    const showErrorModal = (show1, type1, error1) => {
+
+        // setShow(true);
+        dispatch(setErrorModal(show1, type1, error1.message))
+        showError()
     };
 
-    const showTransactionSubmitModal = () => {
-        setTXSubmitShow(!txSubmitShow);
-        setTimeout(() => { setTXSubmitShow(false); }, 5000);
-
+    const showTransactionSubmitModal = (show, txn) => {
+        // setTXSubmitShow(!txSubmitShow);
+        dispatch(setTxSubmitModal(show, txn))
+        setTimeout(() => { dispatch(setTxSubmitModal(false, null)) }, 5000);
     };
 
-    const showTransactionStatusModal = () => {
-        setTXStatusShow(!txStatusShow);
-        setTimeout(() => { setTXStatusShow(false) }, 5000);
+    const showTransactionStatusModal = (show, status, msg, hash) => {
+        console.log(show, status, msg, hash, 'inside hash')
+
+        dispatch(setTxStatusModal(show, status, msg, hash))
+        setTimeout(() => { dispatch(setTxStatusModal(false, null, null, null)) }, 5000);
 
     };
 
@@ -98,16 +110,16 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction 
 
             setTXMessage(`${eventName} Failed`);
             setTXHash(receipt.transactionHash);
-            showTransactionStatusModal();
+            showTransactionStatusModal(true, 'Failure', `${eventName} Failed`, txHash);
 
         } else {
             if (err.code === 4001) {
                 //Ignore User Tx Reject
             } else if (err.code && (err.code !== 0)) {
                 let message = `${err.code} : ${err.message}`;
-                setError(new Error(message));
-                setType('other errror')
-                showErrorModal();
+                // setError(new Error(message));
+                // setType('other errror')
+                showErrorModal(true, 'other errror', new Error(message));
             }
         }
     }
@@ -117,16 +129,16 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction 
             if (isValidConnectionForCard()) {
                 if (inputamount <= 0) {
                     console.log('Input Validation failed: Value should be greater than ZERO');
-                    setError(new Error('Value should be greater than ZERO'));
-                    setType('other errror')
+                    // setError(new Error('Value should be greater than ZERO'));
+                    // setType('other errror')
 
-                    showErrorModal();
+                    showErrorModal(true, new Error('Value should be greater than ZERO'), 'other errror');
                 } else {
                     let amount = web3.utils.toWei(inputamount, 'ether');
                     let tx = await trodlToken.methods.approve(trodlStake._address, amount).send({ from: accounts[0] })
                         .on('transactionHash', function (hash) {
                             setTXHash(hash);
-                            showTransactionSubmitModal();
+                            showTransactionSubmitModal(true, hash);
                         })
                         .on('receipt', function (receipt) {
                             setTXStatus('Success');
@@ -134,7 +146,7 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction 
                             let amt = web3.utils.fromWei(receipt.events.Approval.returnValues.value, 'ether');
                             setTXMessage(`${amt} TRO Approved Successfully`);
                             setButtonState('Stake');
-                            showTransactionStatusModal();
+                            showTransactionStatusModal(true, 'Success', `${amt} TRO Approved Successfully`, txHash);
 
                             onTransaction();
                         })
@@ -145,9 +157,10 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction 
                 }
             } else {
                 console.log('Validation failed: Connect to Binance Smart Chain');
-                setError(new Error('Connect to Binance Smart Chain'));
-                setType('connect wallet')
-                showErrorModal();
+                // setError(new Error('Connect to Binance Smart Chain'));
+                // setType('connect wallet')
+                showErrorModal(true, 'connect wallet', new Error('Connect to Binance Smart Chain'));
+
             }
         } catch (err) {
             console.log(err.message);
@@ -159,16 +172,16 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction 
             if (isValidConnectionForCard()) {
                 if (inputamount <= 0) {
                     console.log('Input Validation failed: Value should be greater than ZERO');
-                    setError(new Error('Value should be greater than ZERO'));
-                    setType('other errror')
+                    // setError(new Error('Value should be greater than ZERO'));
+                    // setType('other errror')
 
-                    showErrorModal();
+                    showErrorModal(true, 'other errror', new Error('Value should be greater than ZERO'));
                 } else {
                     let amount = web3.utils.toWei(inputamount, 'ether');
                     let tx = await trodlStake.methods.stake(amount).send({ from: accounts[0] })
                         .on('transactionHash', function (hash) {
                             setTXHash(hash);
-                            showTransactionSubmitModal();
+                            showTransactionSubmitModal(true, hash);
                         })
                         .on('receipt', function (receipt) {
                             setTXStatus('Success');
@@ -176,7 +189,7 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction 
                             let amt = web3.utils.fromWei(receipt.events.Staked.returnValues.amount, 'ether');
                             setTXMessage(`${amt} TRO Staked Successfully`);
                             setButtonState('Approve');
-                            showTransactionStatusModal();
+                            showTransactionStatusModal(true, 'Success', `${amt} TRO Staked Successfully`, txHash);
 
                             onTransaction();
                         })
@@ -187,9 +200,9 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction 
                 }
             } else {
                 console.log('Validation failed: Connect to Binance Smart Chain');
-                setError(new Error('Connect to Binance Smart Chain'));
-                setType('connect wallet')
-                showErrorModal();
+                // setError(new Error('Connect to Binance Smart Chain'));
+                // setType('connect wallet')
+                showErrorModal(true, 'connect wallet', new Error('Connect to Binance Smart Chain'));
             }
         } catch (err) {
             console.log(err.message);
@@ -213,27 +226,28 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction 
         return formatValue(uError, TRObalance, 2);
     }
 
-    const processTransactionMessage = () => {
-        return (
-            <div>
-                <div>
-                    {/* <span> {`${txStatus}: `} </span> */}
-                    <span> {txMessage} </span>
-                    <a rel="noreferrer" href={`${config.get('link')}/tx/${txHash}`} target="_blank" ><i class="fas fa-external-link-alt  m-link"></i> </a>
+    // const processTransactionMessage = () => {
+    //     return (
+    //         <div>
+    //             <div>
+    //                 {/* <span> {`${txStatus}: `} </span> */}
+    //                 <span> {txMessage} </span>
+    //                 <a rel="noreferrer" href={`${config.get('link')}/tx/${txHash}`} target="_blank" ><i class="fas fa-external-link-alt  m-link"></i> </a>
 
-                </div>
-            </div >
-        );
-    }
+    //             </div>
+    //         </div >
+    //     );
+    // }
 
     return (
         <div className="stake-card-1 ">
-            {error ?
+            {/* {error ?
                 <ErrorModal onClose={showErrorModal} show={show} type={type}>
                     {`${error.message}`}
                 </ErrorModal> : null
-            }
-            {txHash ?
+            } */}
+
+            {/* {txHash ?
                 <TransactionSubmitModal onClose={showTransactionSubmitModal} show={txSubmitShow}>
                     <a rel="noreferrer" href={`${config.get('link')}/tx/${txHash}`} target="_blank" >
                         <button class="bscScan-btn">
@@ -241,14 +255,15 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction 
                         </button>
                     </a>
                     {/* <a rel="noreferrer" href={`https://testnet.bscscan.com/tx/${txHash}`} target="_blank" >View Transaction on BSC</a> */}
-                </TransactionSubmitModal > : null
-            }
+            {/* </TransactionSubmitModal > : null } */}
+
+            {/* 
             {
                 txStatus !== '' ?
                     <TransactionModal onClose={showTransactionStatusModal} show={txStatusShow} type={txStatus}>
                         {processTransactionMessage()}
                     </TransactionModal> : null
-            }
+            } */}
             <div className="">
                 <div className="flex-d mb-24">
                     <div className="">

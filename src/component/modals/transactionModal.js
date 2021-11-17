@@ -1,49 +1,64 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { dataService } from "../../services/DataService";
+import { ResetTxStatustModal } from "../../redux/actions/transactionStatusActions";
+import config from 'react-global-configuration';
+import { useSelector, useDispatch } from 'react-redux';
 
-export default class TransactionModal extends React.Component {
-    onClose = e => {
-        console.log(e, 'error')
-        this.props.onClose && this.props.onClose(e);
-    };
+const TransactionModal = () => {
+    const dispatch = useDispatch()
 
-    render() {
-        // this.props.ref2.current.style.background = "#0c162180"
-        console.log(this.props, 'props')
-        //DEBUG_LOG
-        dataService.setModalData(true)
-        if (!this.props.show) {
-            return null;
-        }
-        return (
-            <div className="modal3" id="modal">
 
-                <div className="container1" >
-                    <div className={this.props.type == "Success" ? 'col-green one' : this.props.type == "Failure" ? 'col-red one' : ''}>
+    const state = useSelector(state => state.transactionStatusReducers);
+    console.log(state, 'new status')
+    // const onClose = e => {
+    //     dispatch(ResetTxStatustModal())
+    // };
 
-                    </div>
-                    <div className="content2 two row ">
-                        <div className="col-1">
-                            {this.props.type == "Success" ?
-                                <i class="fas fa-check-circle success-fa"></i> : this.props.type == "Failure" ? <i class="fas fa-times-circle fail-fa"></i> : null}
-                        </div>
+    // render() {
+    // props.ref2.current.style.background = "#0c162180"
+    // console.log(props, 'props')
+    //DEBUG_LOG
+    dataService.setModalData(true)
+    if (!state.txStatusShow) {
+        return null;
+    }
+    return (
+        <div className="modal3" id="modal">
 
-                        <div className=" col-auto txt-left word-break mrgs-tr">
-                            {this.props.children}
+            <div className="container1" >
+                <div className={state.txStatus == "Success" ? 'col-green one' : state.txStatus == "Failure" ? 'col-red one' : ''}>
 
-                        </div>
-                    </div>
                 </div>
+                <div className="content2 two row ">
+                    <div className="col-1">
+                        {state.txStatus == "Success" ?
+                            <i class="fas fa-check-circle success-fa"></i> : state.txStatus == "Failure" ? <i class="fas fa-times-circle fail-fa"></i> : null}
+                    </div>
 
+                    <div className=" col-auto txt-left word-break mrgs-tr">
+                        <div>
+                            <div className="stake-status">
+                                {/* <span> {`${txStatus}: `} </span> */}
+                                <div> {state.txMessage} </div>
+                                <a rel="noreferrer" href={`${config.get('link')}/tx/${state.txHash}`} target="_blank" ><i class="fas fa-external-link-alt  m-link"></i> </a>
 
-                <div className="actions">
+                            </div>
+                        </div >
+
+                    </div>
                 </div>
             </div>
-        );
-    }
+
+
+            <div className="actions">
+            </div>
+        </div>
+    );
 }
+// }
 TransactionModal.propTypes = {
-    onClose: PropTypes.func.isRequired,
+    // onClose: PropTypes.func.isRequired,
     show: PropTypes.bool.isRequired
 };
+export default TransactionModal

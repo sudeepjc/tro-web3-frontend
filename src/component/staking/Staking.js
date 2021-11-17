@@ -10,11 +10,20 @@ import TROBalanceCard from '../user/TROBalanceCard';
 import XTRORewardCard from '../user/XTRORewardCard';
 import TROWithdrawCard from '../user/TROWithdrawCard';
 import ErrorModal from '../modals/errorModal';
-
+import { useSelector, useDispatch } from 'react-redux';
 import trodlLogo from "../../assets/images/trodl_logo_2.png";
 import rightImg from '../../assets/images/Group 2@2x.png';
+import { setErrorModal } from '../../redux/actions/errorModalActions';
 
 const Staking = (props) => {
+    const dispatch = useDispatch()
+    // const state1 = useSelector(state1 => state1.errorModalReducers);
+    // console.log(state1, 'st1')
+
+    if (props.error) {
+        dispatch(setErrorModal(props.show, props.type, props.error.message))
+    }
+
 
     console.log(props, 'props')
     // constructor(props) {
@@ -132,9 +141,9 @@ const Staking = (props) => {
                     <TotalMintedxTROCard trodlStake={props.trodlStake} accounts={props.accounts} web3={props.web3} />
                     <TROPriceCard />
                 </div>
-                <hr></hr>
+                <hr class="stake-hr"></hr>
                 <div className="flex-d  mt-50 font16">
-                    <TROBalanceCard trodlToken={props.trodlToken} trodlStake={props.trodlStake} accounts={props.accounts} web3={props.web3} onTransaction={props.onTransaction} />
+                    <TROBalanceCard trodlToken={props.trodlToken} trodlStake={props.trodlStake} accounts={props.accounts} web3={props.web3} onTransaction={props.onTransaction} showError={props.showErrorModal} />
                     <XTRORewardCard trodlStake={props.trodlStake} accounts={props.accounts} web3={props.web3} onTransaction={props.onTransaction} />
                     <TROWithdrawCard trodlStake={props.trodlStake} accounts={props.accounts} web3={props.web3} onTransaction={props.onTransaction} />
                 </div>
@@ -147,11 +156,11 @@ const Staking = (props) => {
             {
                 //  window.innerWidth < 1000 ? <div>Redirecting ...</div> :
                 <div className="">
-                    {props.error ?
+                    {/* {props.error ?
                         <ErrorModal onClose={props.showErrorModal} show={props.show} type={props.type} >
                             {`${props.error.message}`}
                         </ErrorModal> : null
-                    }
+                    } */}
                     {heroSection()}
                     {dashboardSection()}
 

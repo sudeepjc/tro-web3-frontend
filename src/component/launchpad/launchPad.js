@@ -10,10 +10,18 @@ import config from 'react-global-configuration';
 import getWeb3 from '../../utils/web3/getWeb3';
 import { getTokenContract, getStakeContract } from '../../utils/web3/getContracts';
 import Staking from '../staking/Staking';
+import ErrorModal from '../modals/errorModal';
+import { Store } from '../../redux/store';
+import TransactionSubmitModal from '../modals/transactionSubmitModal';
+import TransactionModal from '../modals/transactionModal';
+
 
 export class LaunchPad extends Component {
+
+
     constructor(props) {
         super(props);
+        console.log(props, 'props st')
 
         this.state = {
             currentTab: 'staking',
@@ -25,7 +33,8 @@ export class LaunchPad extends Component {
             show: false,
             error: null,
             chainRender: false,
-            type: null
+            type: null,
+            storeData: null,
         }
 
     }
@@ -33,6 +42,9 @@ export class LaunchPad extends Component {
         this.setState({
             show: !this.state.show
         });
+        const state = Store.getState();
+        this.setState({ storeData: state })
+        console.log(state, 'statecalles')
     };
     onConnect = async (chainId) => {
         try {
@@ -60,7 +72,15 @@ export class LaunchPad extends Component {
     onAccountChange = (newAccounts) => {
         this.setState({ accounts: newAccounts });
     }
+    // componentDidMount = () => {
+
+    // console.log(state, 'state')
+
+    // }
     render() {
+        // const state = Store.getState();
+        // // this.setState({ storeData: state })
+        // console.log(state, 'state')
         const scrollToMyRef = () => window.scrollTo(0, this.myRef.current.offsetTop);
 
         const header = () => {
@@ -113,7 +133,10 @@ export class LaunchPad extends Component {
                 <div>
                     {header()}
                     <div className={this.state.currentTab == 'staking' ? 'lp-mrgs-stage' : "lp-mgrs"}>
-
+                        <ErrorModal ></ErrorModal>
+                        < TransactionSubmitModal></TransactionSubmitModal>
+                        <TransactionModal></TransactionModal>
+                        {/* {this.state.storeData != null ? <ErrorModal showErrorModal={this.showErrorModal} show={this.state.storeData.showErrorModal} type={this.state.storeData.errorType}>{this.state.storeData.errorMessage}</ErrorModal> : null} */}
                         {this.state.currentTab == 'staking' ? <Staking trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} trodlToken={this.state.trodlToken} onTransaction={this.onTransaction} type={this.state.type} error={this.state.error ? this.state.error : ''} showErrorModal={this.showErrorModal} show={this.state.show} type={this.state.type}></Staking> : null}
                         {this.state.currentTab == 'ido' ? <IDOComponent></IDOComponent> : null}
 
@@ -125,3 +148,24 @@ export class LaunchPad extends Component {
     }
 
 }
+// const mapStateToProps = (props) => {
+//     console.log(props, 'pp')
+//     return {
+//         errorModal: props.errorModalReducers
+
+//     }
+// }
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         CallinComponent: () => {
+//             dispatch(MiddlewareName.setErrorModal());
+//         },
+//     };
+// }
+// // const mapDispatchToProps = () => {
+// //     return {
+// //         setErrorModal,
+// //         ResetErrorModal
+// //     }
+// // }
+// connect(mapStateToProps, mapDispatchToProps)(LaunchPad)
