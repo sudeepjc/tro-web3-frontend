@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { formatValue } from '../../utils/wrappers';
 
-import secOne from '../../assets/images/university-solid.svg';
-
 const TotalStakedTROCard = ({ trodlStake, accounts, web3 }) => {
 	const [totalTROStaked, setTotalTROStaked] = useState('--');
 	const [uError, setUError] = useState(null);

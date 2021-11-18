@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { formatValue } from '../../utils/wrappers';
 import useRecursiveTimeout from '../../utils/useRecursiveTimeout';
 
-import secThree from '../../assets/images/hand-holding-usd-solid.svg';
-
 const TROPriceCard = () => {
     const [TROPrice, setTROPrice] = useState('--');
     const [uError, setUError] = useState(null);

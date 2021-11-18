@@ -115,7 +115,7 @@
 
 .lp-mrgs-stage {
   margin-left: 157px;
-  margin-right: 84px
+  margin-right: 84px;
 }
 
 .mlr-50 {
@@ -125,7 +125,6 @@
 
 .mr-50 {
   margin-right: 50px;
-
 }
 
 .ml-25p {
@@ -1031,11 +1030,32 @@ px
   font-size: 14px !important;
 }
 
-.dd-circle {
+.dd-circle-all {
   font-size: 9px;
   margin-left: 5px;
   margin-right: 30px;
   color: #18CA41;
+}
+
+.dd-circle-live {
+  font-size: 9px;
+  margin-left: 5px;
+  margin-right: 30px;
+  color: #18CA41;
+}
+
+.dd-circle-upcoming {
+  font-size: 9px;
+  margin-left: 5px;
+  margin-right: 30px;
+  color: #0D6EDD;
+}
+
+.dd-circle-ended {
+  font-size: 9px;
+  margin-left: 5px;
+  margin-right: 30px;
+  color: #585858;
 }
 
 .ido_card {
@@ -1094,6 +1114,26 @@ px
 .live-tag {
   height: 24px;
   background: #32B071 0% 0% no-repeat padding-box;
+  border-radius: 4px;
+  opacity: 1;
+  margin-left: auto;
+  font-size: 12px;
+  padding: 3px 10px;
+}
+
+.ended-tag {
+  height: 24px;
+  background: #585858 0% 0% no-repeat padding-box;
+  border-radius: 4px;
+  opacity: 1;
+  margin-left: auto;
+  font-size: 12px;
+  padding: 3px 10px;
+}
+
+.upcoming-tag {
+  height: 24px;
+  background: #0D6EDD 0% 0% no-repeat padding-box;
   border-radius: 4px;
   opacity: 1;
   margin-left: auto;

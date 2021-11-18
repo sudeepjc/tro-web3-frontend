@@ -8,7 +8,7 @@ import IDOComponent from '../ido/idoComponent';
 import MetaMaskWallet from '../wallet/metamask';
 import config from 'react-global-configuration';
 import getWeb3 from '../../utils/web3/getWeb3';
-import { getTokenContract, getStakeContract } from '../../utils/web3/getContracts';
+import { getTokenContract, getStakeContract, getIdoContract } from '../../utils/web3/getContracts';
 import Staking from '../staking/Staking';
 import ErrorModal from '../modals/errorModal';
 import { Store } from '../../redux/store';
@@ -30,6 +30,7 @@ export class LaunchPad extends Component {
             web3: undefined,
             trodlToken: undefined,
             trodlStake: undefined,
+            trodlIdo: undefined,
             show: false,
             error: null,
             chainRender: false,
@@ -52,11 +53,13 @@ export class LaunchPad extends Component {
             const web3 = await getWeb3();
             const tokenContract = await getTokenContract(web3, chainId);
             const stakeContract = await getStakeContract(web3, chainId);
-            this.setState({ chainId: chainId, web3: web3, trodlToken: tokenContract, trodlStake: stakeContract });
+            const idoContract = await getIdoContract(web3, chainId);
+            this.setState({ chainId: chainId, web3: web3, trodlToken: tokenContract, trodlStake: stakeContract, trodlIdo: idoContract });
             console.log("On Connection:");
             console.log(web3);
             console.log(tokenContract);
             console.log(stakeContract);
+            console.log(idoContract);
             console.log(chainId);
         } catch (err) {
             console.log(`Connection failed. ${err.message}`);
@@ -138,7 +141,7 @@ export class LaunchPad extends Component {
                         <TransactionModal></TransactionModal>
                         {/* {this.state.storeData != null ? <ErrorModal showErrorModal={this.showErrorModal} show={this.state.storeData.showErrorModal} type={this.state.storeData.errorType}>{this.state.storeData.errorMessage}</ErrorModal> : null} */}
                         {this.state.currentTab == 'staking' ? <Staking trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} trodlToken={this.state.trodlToken} onTransaction={this.onTransaction} type={this.state.type} error={this.state.error ? this.state.error : ''} showErrorModal={this.showErrorModal} show={this.state.show} type={this.state.type}></Staking> : null}
-                        {this.state.currentTab == 'ido' ? <IDOComponent></IDOComponent> : null}
+                        {this.state.currentTab == 'ido' ? <IDOComponent  trodlIdo={this.state.trodlIdo} accounts={this.state.accounts} web3={this.state.web3} ></IDOComponent> : null}
 
                     </div>
                 </div>

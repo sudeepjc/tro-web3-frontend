@@ -1,111 +1,98 @@
 
-import React, { Component, useEffect, useState } from 'react';
-import dummylOGO from "../../assets/images/bsc-icon-logo-1-1@2x.png";
+import React, { useEffect, useState } from 'react';
 import IdoDetails from '../ido/idoDetails'
-const IdoComponent = () => {
+import IdoCard from '../ido/idoCard'
+import { poolsStatic } from './poolsStatic';
+import DropDown from './dropDown';
 
-    const idoData = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-    const [dropBool, showDropdown] = useState(false);
+const IdoComponent = ({trodlIdo, accounts, web3}) => {
+
+    const [poolArray, setPoolArray] = useState([]);
     const [detailsBool, showDetails] = useState(false);
+    const [searchText, setSearchText ] = useState("");
+    const [dropdownSelect, setDropdownSelect ] = useState("All");
 
     useEffect(() => {
+        async function getPoolCount() {
+            if(isValidConnectionForCard()) {
+                try {
+                    let count = await trodlIdo.methods.poolsCount().call({from: accounts[0]});
+                    console.log(`Pool count: ${count}`);
+                    let arr = Array.from({length: count}, (_, index) => count - (index + 1));
+                    setPoolArray(arr);
+                } catch(err) {
+                    console.log(`Failed to get Pool count: ${err.message}`);
+                }
+            }
+        }
+        getPoolCount();
+    },[trodlIdo, accounts, web3, searchText, dropdownSelect]);
 
-    });
+
+    const isValidConnectionForCard = () => {
+		if ((trodlIdo && (trodlIdo._address !== null))
+            && (accounts && accounts.length > 0 ) && web3) {
+			return true;
+		}
+		return false;
+	}
+
+    const showDetailedView = (bool) => {
+        showDetails(bool);
+    }
+
+    const onSearchChange = (event) => {
+        setSearchText(event.target.value);
+    }
+
+    const onDropdownSelect = (selecttion) => {
+        setDropdownSelect(selecttion);
+    }
+
+    const getFilteredPools = () => {
+
+        let tempArray = poolArray.filter( poolId => {
+            let result = poolsStatic.filter(pool => pool.poolId === poolId);
+            return result[0].tokenName.toLowerCase().includes(searchText.toLowerCase());
+        });
+
+        return tempArray.map((item, index) => (
+            < IdoCard key={index} poolId={item} trodlIdo={trodlIdo} accounts={accounts} web3={web3} selection={dropdownSelect} onDetailView={showDetailedView} />
+        ));
+    }
+
     return (
         <div className="mt-44">
             {detailsBool ?
-                <IdoDetails></IdoDetails> :
+                <IdoDetails trodlIdo={trodlIdo} accounts={accounts} web3={web3} ></IdoDetails> :
                 <div>
                     <div className="ido_head bold">
                         Trodl IDO launchpad
-            </div>
+                    </div>
                     <div className="ido_sub">
                         Build and Grow Your Portfolio by Accessing High-Potential, Vetted Projects!
-            </div>
+                    </div>
                     <div className="flex-d mt-32">
                         <div className="banner-ido">
                             banner1
-                </div>
+                        </div>
                         <div className="banner-ido">
                             banner2
-                </div>
+                        </div>
                         <div className="banner-ido">
                             banner3
-                </div>
-
+                        </div>
                     </div>
                     <div className="flex-d mt-35 ml-12">
                         <i className="fa fa-search search-icn" aria-hidden="true"></i>
-                        <input className="ido-search" placeholder="Search by pool name here... " />
+                        <input className="ido-search" placeholder="Search by pool name here... " onChange={onSearchChange}/>
                         <div className="ido-rigth">
-                            <div className="stat">
-                                Status
-                </div>
-                            <div className={dropBool ? 'dropdown show' : 'dropdown'} >
-                                <button class="btn btn-secondary dropdown-toggle status-dd" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onClick={() => {
-                                    dropBool ? showDropdown(false) : showDropdown(true)
-                                }}>
-                                    Ongoing <i class="fas fa-circle dd-circle"></i>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <a class="dropdown-item" onClick={() => { showDropdown(false) }}>Action</a>
-                                    <a class="dropdown-item" onClick={() => { showDropdown(false) }} >Another action</a>
-                                    <a class="dropdown-item" onClick={() => { showDropdown(false) }} >Something else here</a>
-                                </div>
-                            </div>
+                            <DropDown onSelection={onDropdownSelect}/>
                         </div>
                     </div>
                     <hr className="mr-20"></hr>
-
                     <div className="row ml-3">
-                        {idoData.map((item, index) => (
-                            <div key={index} onClick={() => showDetails(true)} className=" col-ido ido_card">
-                                <div className="mlr-20">
-                                    <div className="flex-d mb-24">
-                                        <div className="img_ido_div">
-                                            <img src={dummylOGO} className="idoimg" alt='trodl-logo'></img>
-
-                                        </div>
-                                        <div className="groupd">
-                                            <div className="coinname">PolkaPets</div>
-                                            <div className="coinsymb">$PETS</div>
-
-                                        </div>
-                                        <div className="live-tag">Live</div>
-
-
-                                    </div>
-                                    <div className="flex-d">
-                                        <div className="width50">
-                                            <div className="sub-head-ido">Access</div>
-                                            <div className="intext-1">SHERPAS</div>
-                                        </div>
-
-                                        <div>
-                                            <div className="sub-head-ido">Network</div>
-                                            <div className="intext-1">Binance</div>
-                                        </div>
-
-                                    </div>
-                                    <div className="flex-d">
-                                        <div className="width50">
-                                            <div className="sub-head-ido">Ends in</div>
-                                            <div className="intext-2">2 days</div>
-                                        </div>
-                                        <div>
-                                            <div className="sub-head-ido">Progess</div>
-                                            <div className="intext-1">93.2% applied</div>
-                                        </div>
-
-
-                                    </div>
-
-
-                                </div>
-
-                            </div>))
-
-                        }
+                        {getFilteredPools()}
                     </div>
                 </div>
             }

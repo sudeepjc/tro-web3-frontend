@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { formatValue } from '../../utils/wrappers';
 import useRecursiveTimeout from '../../utils/useRecursiveTimeout';
 
-import secTwo from '../../assets/images/spinner-solid.svg';
-
 const TotalMintedxTROCard = ({ trodlStake, accounts, web3 }) => {
 	const [totalxTROMinted, setTotalxTROMinted] = useState('--');
 	const [uError, setUError] = useState(null);
