@@ -14,6 +14,7 @@ import ErrorModal from '../modals/errorModal';
 import { Store } from '../../redux/store';
 import TransactionSubmitModal from '../modals/transactionSubmitModal';
 import TransactionModal from '../modals/transactionModal';
+import IdoDetails from '../ido/idoDetails';
 
 
 export class LaunchPad extends Component {
@@ -43,10 +44,13 @@ export class LaunchPad extends Component {
         this.setState({
             show: !this.state.show
         });
-        const state = Store.getState();
-        this.setState({ storeData: state })
-        console.log(state, 'statecalles')
+
     };
+    selectTab = (tab) => {
+        this.setState({
+            currentTab: tab
+        })
+    }
     onConnect = async (chainId) => {
         try {
             console.log(`Connected to chain : ${config.get('link')}`);
@@ -81,6 +85,8 @@ export class LaunchPad extends Component {
 
     // }
     render() {
+        const state = Store.getState();
+        console.log(state, 'statecalles')
         // const state = Store.getState();
         // // this.setState({ storeData: state })
         // console.log(state, 'state')
@@ -117,17 +123,15 @@ export class LaunchPad extends Component {
             <div>
                 <div class="launpad-route fle">
                     <div className="mtb-auto">
-                        <div className="menu-icon" onClick={() => {
-                            this.setState({
-                                currentTab: 'staking'
-                            });
+                        <div className="menu-icon cursor-p" style={{ backgroundColor: this.state.currentTab == 'staking' ? '#06111E' : '' }} onClick={() => {
+                            this.selectTab('staking')
+
                         }}>  <img src={icon1} className="icon-lp" alt='trodl-logo'></img></div>
-                        <div className="menu-icon" onClick={() => {
-                            this.setState({
-                                currentTab: 'ido'
-                            })
+                        <div className="menu-icon cursor-p" style={{ backgroundColor: this.state.currentTab == 'ido' ? '#06111E' : '' }} onClick={() => {
+                            this.selectTab('ido')
+
                         }}> <img src={icon2} className="icon-lp" alt='trodl-logo'></img></div>
-                        <div className="menu-icon">  <img src={icon3} className="icon-lp" alt='trodl-logo'></img></div>
+                        <div className="menu-icon cursor-p">  <img src={icon3} className="icon-lp" alt='trodl-logo'></img></div>
                     </div>
 
 
@@ -135,14 +139,14 @@ export class LaunchPad extends Component {
                 </div>
                 <div>
                     {header()}
-                    <div className={this.state.currentTab == 'staking' ? 'lp-mrgs-stage' : "lp-mgrs"}>
+                    <div className={this.state.currentTab == 'staking' ? 'lp-mrgs-stage p-100' : "lp-mgrs p-100"}>
                         <ErrorModal ></ErrorModal>
                         < TransactionSubmitModal></TransactionSubmitModal>
                         <TransactionModal></TransactionModal>
                         {/* {this.state.storeData != null ? <ErrorModal showErrorModal={this.showErrorModal} show={this.state.storeData.showErrorModal} type={this.state.storeData.errorType}>{this.state.storeData.errorMessage}</ErrorModal> : null} */}
                         {this.state.currentTab == 'staking' ? <Staking trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} trodlToken={this.state.trodlToken} onTransaction={this.onTransaction} type={this.state.type} error={this.state.error ? this.state.error : ''} showErrorModal={this.showErrorModal} show={this.state.show} type={this.state.type}></Staking> : null}
-                        {this.state.currentTab == 'ido' ? <IDOComponent  trodlIdo={this.state.trodlIdo} accounts={this.state.accounts} web3={this.state.web3} ></IDOComponent> : null}
-
+                        {this.state.currentTab == 'ido' ? <IDOComponent trodlIdo={this.state.trodlIdo} accounts={this.state.accounts} web3={this.state.web3}  ></IDOComponent> : null}
+                        {/* <IdoDetails ></IdoDetails> */}
                     </div>
                 </div>
             </div>

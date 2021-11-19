@@ -1,8 +1,11 @@
 import dummylOGO from "../../assets/images/bsc-icon-logo-1-1@2x.png";
 
+const scheduleArr = [{ width: '40%', date: '2 days' }, { width: '20%', date: '12hrs' }, { width: '30%', date: '1 day' }, { width: '10%', date: '10hrs' }]
+const IdoDetails = (props) => {
 
-const IdoDetails = () => {
+
     return (
+
 
         <div className="flex-d">
             <div className="detail-box-1">
@@ -18,8 +21,8 @@ const IdoDetails = () => {
 
                     </div>
                     <div className="live-tag ml-24">Live</div>
-                    <div className="pa-btn flex-right">Pre-Approve</div>
-                    <div className="swap-btn " >Swap</div>
+                    <div className="pa-btn cursor-p  flex-right">Pre-Approve</div>
+                    <div className="swap-btn cursor-p  " >Swap</div>
 
 
                 </div>
@@ -38,8 +41,60 @@ const IdoDetails = () => {
                     </div>
 
                 </div>
+                <div className="flex-d">
+
+                    <div className=" offering-box mt-10 txt-left off-w  mtb-12 mr-8">
+                        <div className="sub-head-ido mar-10 font-14"> Total offering amt.</div>       <div className="intext-1 font-14">1,142,857.143 FACTR </div>
+
+                    </div >
+                    <div className=" offering-box mt-10 txt-left off-w  mtb-12 mr-8">
+                        <div className="sub-head-ido mar-10"> Rate</div>       <div className="intext-1 font-14">14.28571 FACTR = 1 BUSD</div>
+
+                    </div >
+                    <div className=" offering-box mt-10 off-w txt-left  mr-8">
+                        <div className="sub-head-ido mar-10  font-14"> Invested</div>       <div className="intext-1 font-14">1,142,857.143 FACTR </div>
+
+                    </div>
+                </div>
+
+
+                <div className="vesting-sch mt-10 txt-left font-14  ">
+                    <div className="intext-1 align-c semi-bold font-14 mt-14">Vesting Schedule</div>
+
+                    <div className="mtb-12">
+
+                    </div>
+                    <div className="mt-20">
+                        <div className="flex-d">
+                            {scheduleArr.map((item, index) => (
+                                <div className="align-c font-12 " style={{ width: item.width }}>
+                                    {item.date}
+                                </div>
+                            ))}
+                        </div>
+                        <div className="container mt-5p">
+
+                            <div className="progress h-26">
+
+                                {scheduleArr.map((item, index) => (
+                                    <div className="progress-bar progress-bar-success" role="progressbar" style={{ width: item.width }}>
+                                        {item.width}
+                                    </div>
+                                ))}
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div className="mtb-12">
+                        <div className="claim-btn cursor-p " >Claim</div>
+
+                    </div>
+                </div>
+                {/* <div className="pi-btn ">Project Info</div> */}
                 <hr></hr>
-                <div className="pi-btn ">Project Info</div>
+
                 <div className="font-16 txt-left mt-30 semi-bold">
                     About project
             </div>
@@ -47,38 +102,12 @@ const IdoDetails = () => {
                     PolkaPets is a unique NFT concept that encourages participation in the Polkadot ecosystem through partnerships with some of the biggest projects around. Each partner has their very own PolkaPet which they can use to educate and engage owners through special utilities and perks.
             </div>
                 <div className="flex-d mt-20">
-                    <div className="ido-sub-btns"> <i class="fas fa-globe fa-ido-icn"></i>Visit website</div>
-                    <div className="ido-sub-btns"> <i class="far fa-file-alt fa-ido-icn" ></i>whitepapere</div>
-                    <div className="ido-sub-btns"><i class="fas fa-file-signature fa-ido-icn"></i>Token contract</div>
-                    <div className="ido-sub-btns"> <i class="fab fa-twitter fa-ido-icn"></i>Twitter</div>
-                    <div className="ido-sub-btns"> <i class="fas fa-paper-plane fa-ido-icn"></i>Telegram</div>
+                    <div className="ido-sub-btns cursor-p "> <i class="fas fa-globe fa-ido-icn"></i>Visit website</div>
+                    <div className="ido-sub-btns cursor-p "> <i class="far fa-file-alt fa-ido-icn" ></i>whitepapere</div>
+                    <div className="ido-sub-btns cursor-p "><i class="fas fa-file-signature fa-ido-icn"></i>Token contract</div>
+                    <div className="ido-sub-btns cursor-p "> <i class="fab fa-twitter fa-ido-icn"></i>Twitter</div>
+                    <div className="ido-sub-btns cursor-p "> <i class="fas fa-paper-plane fa-ido-icn"></i>Telegram</div>
                 </div>
-                <div className="font-16 txt-left mt-30 semi-bold">
-                    Token information
-            </div>
-                <div className="token-info mt-10 txt-left font-14">
-                    <div className="mtb-12">
-                        <span className="sub-head-ido mar-10 "> Ticker</span>   <span className="intext-1 font-14">zenditFACTR </span>
-
-                    </div>
-                    <div className="mtb-12">
-                        <span className="sub-head-ido mar-10">  Blockchain</span>       <span className="intext-1 font-14">Binance smart chain </span>
-
-                    </div >
-                    <div className="mtb-12">
-                        <span className="sub-head-ido mar-10">        Address</span>      <span className="intext-1 font-14">0xa8c9d927a23d105755aaf9aefbfb11e8cc4352a1 </span>
-
-                    </div>
-                    <div className="mtb-12">
-                        <span className="sub-head-ido mar-10 "> Total supply</span>   <span className="intext-1 font-14">1,428,571.43 zenditFACTR </span>
-
-                    </div>
-                    <div className="mtb-12">
-                        <span className="sub-head-ido mar-10 "> Type</span>   <span className="intext-1 font-14">BEP-20 </span>
-
-                    </div>
-                </div>
-
             </div>
 
             <div className="box-2">
@@ -135,21 +164,28 @@ const IdoDetails = () => {
             </div>
 
                     <hr className="widebr1"></hr>
-                    <div className="p-16-lr marg-a-off font-14 mt-10">
-                        <div className="txt-left  mtb-12">
-                            <span className="sub-head-ido mar-10 font-14"> Total offering amt.</span>       <span className="intext-1 font-14">1,142,857.143 FACTR </span>
+                    <div className="p-16-lr marg-a-off font-14 mt-10 txt-left">
+                        <div className="mtb-12">
+                            <span className="sub-head-ido mar-10 "> Ticker</span>   <span className="intext-1 font-14">zenditFACTR </span>
 
-                        </div >
-                        <div className="txt-left h-30 mtb-12">
-                            <span className="sub-head-ido mar-10  font-14"> Invested</span>       <span className="intext-1 font-14">- </span>
-
-                        </div >
-                        <div className="offering-box mt-10 p-16-lr">
-                            <div className="txt-left pad-13">
-                                <span className="sub-head-ido mar-10"> Rate</span>       <span className="intext-1 font-14">14.28571 zenditFACTR = 1 BUSD</span>
-
-                            </div >
                         </div>
+                        <div className="mtb-12">
+                            <span className="sub-head-ido mar-10">  Blockchain</span>       <span className="intext-1 font-14">Binance smart chain </span>
+
+                        </div >
+                        <div className="mtb-12">
+                            <span className="sub-head-ido mar-10"> Address</span>      <span className="intext-1 font-14">0xa8c9d927a23d1057..  <i class="far fa-copy"></i> </span>
+
+                        </div>
+                        <div className="mtb-12">
+                            <span className="sub-head-ido mar-10 "> Total supply</span>   <span className="intext-1 font-14">1,428,571.43 zenditFACTR </span>
+
+                        </div>
+                        <div className="mtb-12">
+                            <span className="sub-head-ido mar-10 "> Type</span>   <span className="intext-1 font-14">BEP-20 </span>
+
+                        </div>
+
                     </div>
 
 
@@ -157,6 +193,7 @@ const IdoDetails = () => {
 
             </div>
         </div >
+
     )
 
 

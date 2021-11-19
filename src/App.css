@@ -15,6 +15,15 @@
   }
 }
 
+.cursor-p {
+  cursor: pointer;
+}
+
+.p-100 {
+  padding-bottom: 100px;
+
+}
+
 .App-header {
   background-color: #06111E;
   min-height: 100vh;
@@ -116,6 +125,7 @@
 .lp-mrgs-stage {
   margin-left: 157px;
   margin-right: 84px;
+  margin-top: 50px;
 }
 
 .mlr-50 {
@@ -695,7 +705,7 @@ input::-webkit-inner-spin-button {
 }
 
 .align-c {
-  text-align: center;
+  text-align: center !important;
 }
 
 .f-20 {
@@ -874,6 +884,10 @@ px
   margin-top: 10px !important;
 }
 
+.mt-14 {
+  margin-top: 14px;
+}
+
 .btn-tro-2 {
   padding: 7px 22px;
   background: #2B3542 0% 0% no-repeat padding-box;
@@ -913,10 +927,14 @@ px
   width: 45px;
   height: 43px;
   padding: 0px 0px;
-  background: #06111E 0% 0% no-repeat padding-box;
   border-radius: 12px;
   opacity: 1;
   margin-bottom: 15px;
+}
+
+.menu-icon:hover {
+  background: #06111E 0% 0% no-repeat padding-box;
+
 }
 
 .launc-flex {
@@ -935,9 +953,9 @@ px
 }
 
 .lp-mgrs {
-  margin-left: 206px;
-  margin-right: 149px;
-
+  margin-left: 179px;
+  margin-right: 142px;
+  margin-top: 50px;
 }
 
 /* -------------------- */
@@ -1152,7 +1170,7 @@ px
 
 .sub-head-ido {
   color: #A8A8A8;
-  font-size: 12px;
+  font-size: 14px;
   text-align: left;
 }
 
@@ -1185,16 +1203,15 @@ px
 
 .detail-box-1 {
   width: 66.3%;
-  height: 639px;
+  height: 660px;
   background-color: #142130;
   margin-right: 25px;
   border-radius: 16px;
-  padding: 24px;
-  padding: 16px;
+  padding: 16px 24px;
 }
 
 .detail-box-2 {
-  height: 408px;
+  height: 402px;
   background-color: #142130;
   border-radius: 16px;
   padding: 16px 0px;
@@ -1203,10 +1220,10 @@ px
 
 .detail-box-3 {
 
-  height: 207px;
+  height: 241px;
   background-color: #142130;
   border-radius: 16px;
-  margin-top: 25px;
+  margin-top: 17px;
   padding: 16px 0px;
 
 }
@@ -1240,6 +1257,11 @@ px
   padding: 5px 12px;
   margin-left: 5px;
   color: #5F3FEE;
+}
+
+.swap-btn:hover {
+  background-color: #5F3FEE;
+  color: white;
 }
 
 .pad-4 {
@@ -1292,8 +1314,12 @@ px
   margin-top: 20px;
 }
 
-.token-info {
-  height: 180px;
+.h-26 {
+  height: 26px !important;
+}
+
+.vesting-sch {
+  height: 176px;
   background: #0F1B29 0% 0% no-repeat padding-box;
   border-radius: 8px;
   padding: 1px 20px;
@@ -1326,7 +1352,7 @@ px
 }
 
 .p-16-lr {
-  padding: 0px 16px;
+  padding: 0px 20px;
 }
 
 .widebr1 {
@@ -1334,8 +1360,42 @@ px
   opacity: 1;
 }
 
+.off-w {
+  flex-basis: 100%;
+  padding: 9px 14px;
+}
+
+.mr-8 {
+  margin-right: 8px;
+}
+
+.mt-5p {
+  margin-top: 5px !important;
+
+}
+
+.claim-btn {
+  width: 65px;
+  height: 33px;
+  border: 1px solid #5F3FEE;
+  border-radius: 6px;
+  opacity: 1;
+  font-size: 14px;
+  padding: 5px 12px;
+  margin-left: 5px;
+  color: #5F3FEE;
+  align-items: center;
+  margin: 20px auto 0 auto;
+}
+
+.claim-btn:hover {
+  background-color: #5F3FEE;
+  color: white;
+
+}
+
 .offering-box {
-  height: 52px;
+  height: 64px;
   background: #0F1B29 0% 0% no-repeat padding-box;
   border-radius: 12px;
   opacity: 1;
@@ -1348,6 +1408,14 @@ px
 .h-30 {
   height: 30px !important;
 
+}
+
+.back-btn {
+  font-size: 16px;
+  /* margin-bottom: 21px; */
+  text-align: left;
+  margin: 0px 0px 21px 5px;
+  width: 70px;
 }
 
 .pad-13 {

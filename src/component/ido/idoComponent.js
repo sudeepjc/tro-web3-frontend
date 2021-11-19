@@ -5,37 +5,36 @@ import IdoCard from '../ido/idoCard'
 import { poolsStatic } from './poolsStatic';
 import DropDown from './dropDown';
 
-const IdoComponent = ({trodlIdo, accounts, web3}) => {
+const IdoComponent = ({ trodlIdo, accounts, web3 }) => {
 
     const [poolArray, setPoolArray] = useState([]);
-    const [detailsBool, showDetails] = useState(false);
-    const [searchText, setSearchText ] = useState("");
-    const [dropdownSelect, setDropdownSelect ] = useState("All");
+    const [detailsBool, showDetails] = useState(true);
+    const [searchText, setSearchText] = useState("");
+    const [dropdownSelect, setDropdownSelect] = useState("All");
 
     useEffect(() => {
         async function getPoolCount() {
-            if(isValidConnectionForCard()) {
+            if (isValidConnectionForCard()) {
                 try {
-                    let count = await trodlIdo.methods.poolsCount().call({from: accounts[0]});
+                    let count = await trodlIdo.methods.poolsCount().call({ from: accounts[0] });
                     console.log(`Pool count: ${count}`);
-                    let arr = Array.from({length: count}, (_, index) => count - (index + 1));
+                    let arr = Array.from({ length: count }, (_, index) => count - (index + 1));
                     setPoolArray(arr);
-                } catch(err) {
+                } catch (err) {
                     console.log(`Failed to get Pool count: ${err.message}`);
                 }
             }
         }
         getPoolCount();
-    },[trodlIdo, accounts, web3, searchText, dropdownSelect]);
-
+    }, [trodlIdo, accounts, web3, searchText, dropdownSelect]);
 
     const isValidConnectionForCard = () => {
-		if ((trodlIdo && (trodlIdo._address !== null))
-            && (accounts && accounts.length > 0 ) && web3) {
-			return true;
-		}
-		return false;
-	}
+        if ((trodlIdo && (trodlIdo._address !== null))
+            && (accounts && accounts.length > 0) && web3) {
+            return true;
+        }
+        return false;
+    }
 
     const showDetailedView = (bool) => {
         showDetails(bool);
@@ -51,7 +50,7 @@ const IdoComponent = ({trodlIdo, accounts, web3}) => {
 
     const getFilteredPools = () => {
 
-        let tempArray = poolArray.filter( poolId => {
+        let tempArray = poolArray.filter(poolId => {
             let result = poolsStatic.filter(pool => pool.poolId === poolId);
             return result[0].tokenName.toLowerCase().includes(searchText.toLowerCase());
         });
@@ -62,9 +61,15 @@ const IdoComponent = ({trodlIdo, accounts, web3}) => {
     }
 
     return (
-        <div className="mt-44">
+        <div className="mt-44  ">
             {detailsBool ?
-                <IdoDetails trodlIdo={trodlIdo} accounts={accounts} web3={web3} ></IdoDetails> :
+                <div>
+                    < div className="back-btn cursor-p flex-d" onClick={() => { showDetailedView(false) }}>
+                        <div><i class="fas fa-arrow-left"></i>  </div>  <div className="ml-10">
+                            Back </div>
+                    </div >
+                    <IdoDetails trodlIdo={trodlIdo} accounts={accounts} web3={web3} ></IdoDetails>
+                </div> :
                 <div>
                     <div className="ido_head bold">
                         Trodl IDO launchpad
@@ -85,9 +90,9 @@ const IdoComponent = ({trodlIdo, accounts, web3}) => {
                     </div>
                     <div className="flex-d mt-35 ml-12">
                         <i className="fa fa-search search-icn" aria-hidden="true"></i>
-                        <input className="ido-search" placeholder="Search by pool name here... " onChange={onSearchChange}/>
+                        <input className="ido-search" placeholder="Search by pool name here... " onChange={onSearchChange} />
                         <div className="ido-rigth">
-                            <DropDown onSelection={onDropdownSelect}/>
+                            <DropDown onSelection={onDropdownSelect} />
                         </div>
                     </div>
                     <hr className="mr-20"></hr>
