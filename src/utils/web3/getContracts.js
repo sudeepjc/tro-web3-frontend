@@ -1,15 +1,14 @@
 import tokenContractABI from '../abi/contracts/Trodl.json';
 import stakeContractABI from '../abi/contracts/TrodlStake.json';
 import idoContractABI from '../abi/contracts/TrodlIDO.json';
+import iERC20ContractABI from '../abi/contracts/IERC20.json';
+import config from 'react-global-configuration';
 // import stakeContractABI from '../abi/contracts/TrodlStakeMainNet.json';
 // import tokenContractABI from '../abi/contracts/AnyswapV5ERC20.json';
 
 const getTokenContract = async (web3) => {
-
     try {
-        // console.log(web3);
         const networkId = await web3.eth.net.getId();
-        // console.log(networkId);
         const deployedNetwork = tokenContractABI.networks[networkId];
         const tokenContract = new web3.eth.Contract(
             tokenContractABI.abi,
@@ -52,4 +51,18 @@ const getIdoContract = async (web3) => {
     }
 }
 
-export { getTokenContract, getStakeContract, getIdoContract };
+const getPaymentTokenContract = async (web3) => {
+    try {
+        const pTokenAddress = config.get('pToken');
+        const pTokenContract = new web3.eth.Contract(
+            iERC20ContractABI.abi,
+            pTokenAddress,
+        );
+        return pTokenContract;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+}
+
+export { getTokenContract, getStakeContract, getIdoContract, getPaymentTokenContract };

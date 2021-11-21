@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import config from 'react-global-configuration';
-import ErrorModal from '../modals/errorModal';
-import TransactionModal from '../modals/transactionModal';
-import TransactionSubmitModal from '../modals/transactionSubmitModal';
 import useRecursiveTimeout from '../../utils/useRecursiveTimeout';
 import { formatValue } from '../../utils/wrappers';
 import TROicon from "../../assets/images/TROicon.png";
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setErrorModal } from '../../redux/actions/errorModalActions';
 import { setTxSubmitModal } from '../../redux/actions/transactionSubmitActions';
 import { setTxStatusModal } from '../../redux/actions/transactionStatusActions'
@@ -18,40 +14,19 @@ const XTRORewardCard = ({ trodlStake, accounts, web3, onTransaction }) => {
     const [stakedTRO, setStakedTRO] = useState('--');
     const [xTROError, setxTROError] = useState(null);
     const [sTROError, setsTROError] = useState(null);
-    // Error Modal
-    // const [show, setShow] = useState(false)
-    // const [error, setError] = useState(null)
-    // const [type, setType] = useState(null);
-
-    //TX Submit Modal
-    const [txSubmitShow, setTXSubmitShow] = useState(false);
-    const [txHash, setTXHash] = useState('');
-
-    //TX Status Modal
-    const [txStatusShow, setTXStatusShow] = useState(false);
-    const [txStatus, setTXStatus] = useState('');
-    const [txMessage, setTXMessage] = useState('');
 
     const showErrorModal = (show, type, error) => {
-        // setShow(true);
-        // console.log(show, type, error, 'onsh')
         dispatch(setErrorModal(show, type, error))
-
     };
 
     const showTransactionSubmitModal = (show, txn) => {
         dispatch(setTxSubmitModal(show, txn))
-
         setTimeout(() => { dispatch(setTxSubmitModal(false, null)) }, 5000);
-
-
     };
 
     const showTransactionStatusModal = (show, status, msg, hash) => {
-
         dispatch(setTxStatusModal(show, status, msg, hash))
         setTimeout(() => { dispatch(setTxStatusModal(false, null, null, null)) }, 5000);
-
     };
     const isValidConnectionForCard = () => {
         if ((trodlStake && (trodlStake._address !== null)) && (accounts && accounts.length > 0) && (web3 !== undefined)) {
@@ -108,54 +83,40 @@ const XTRORewardCard = ({ trodlStake, accounts, web3, onTransaction }) => {
         console.log(receipt);
         console.log(eventName);
         if (receipt) {
-            setTXStatus('Failure');
-            setTXMessage(`${eventName} Failed`);
-            setTXHash(receipt.transactionHash);
             showTransactionStatusModal(true, 'Failure', `${eventName} Failed`, receipt.transactionHash);
         } else {
             if (err.code === 4001) {
                 //Ignore User Tx Reject
             } else {
                 let message = `${err.code} : ${err.message}`;
-                // setError(new Error(message));
-                // setType('other errror')
-
-                showErrorModal(true, 'other errror', new Error(message));
+                showErrorModal(true, 'other error', new Error(message));
             }
         }
     }
 
     const unstakeAll = async () => {
-        // try {
-        if (isValidConnectionForCard()) {
-            let tx = await trodlStake.methods.unstakeAll().send({ from: accounts[0] })
-                .on('transactionHash', function (hash) {
-                    setTXHash(hash);
-                    showTransactionSubmitModal(true, hash);
-                })
-                .on('receipt', function (receipt) {
-                    setTXStatus('Success');
-                    let amount = web3.utils.fromWei(receipt.events.Unstaked.returnValues.amount, 'ether');
-                    setTXMessage(`${amount} TRO Unstaked Successfully`);
-                    showTransactionStatusModal(true, 'Success', `${amount} TRO Unstaked Successfully`, txHash);
-
-                    onTransaction();
-                })
-                .on('error', function (err, receipt) {
-                    handleError(err, receipt, 'Unstake');
-                });
-            console.log(tx);
-        } else {
-            console.log('Validation failed: Connect to Binance Smart Chain');
-            // setError('Connect to Binance Smart Chain');
-            // setType('connect wallet')
-            showErrorModal(true, 'connect wallet', 'Connect to Binance Smart Chain');
+        try {
+            if (isValidConnectionForCard()) {
+                let tx = await trodlStake.methods.unstakeAll().send({ from: accounts[0] })
+                    .on('transactionHash', function (hash) {
+                        showTransactionSubmitModal(true, hash);
+                    })
+                    .on('receipt', function (receipt) {
+                        let amount = web3.utils.fromWei(receipt.events.Unstaked.returnValues.amount, 'ether');
+                        showTransactionStatusModal(true, 'Success', `${amount} TRO Unstaked Successfully`, receipt.transactionHash);
+                        onTransaction();
+                    })
+                    .on('error', function (err, receipt) {
+                        handleError(err, receipt, 'Unstake');
+                    });
+                console.log(tx);
+            } else {
+                console.log('Validation failed: Connect to Binance Smart Chain');
+                showErrorModal(true, 'switch', 'Connect to Binance Smart Chain');
+            }
+        } catch (err) {
+            console.log(err.message);
         }
-        // }
-        // catch (err) {
-        //     console.log(err);
-
-        // }
     }
 
     const formatUserXTROBalance = () => {
@@ -166,52 +127,16 @@ const XTRORewardCard = ({ trodlStake, accounts, web3, onTransaction }) => {
         return formatValue(sTROError, stakedTRO, 2);
     }
 
-    // const processTransactionMessage = () => {
-    //     return (
-    //         <div>
-    //             <div>
-    //                 {/* <span> {`${txStatus}: `} </span> */}
-    //                 <span> {txMessage} </span>
-    //                 <a rel="noreferrer" href={`${config.get('link')}/tx/${txHash}`} target="_blank" ><i class="fas fa-external-link-alt  m-link"></i> </a>
-
-    //             </div>
-    //         </div >
-    //     );
-    // }
-
     return (
         <div className="stake-card-1  " >
-            {/* {error ?
-                <ErrorModal onClose={showErrorModal} show={show} type={type} >
-                    {`${error.message}`}
-                </ErrorModal> : null
-            } */}
-            {/* {txHash ?
-                <TransactionSubmitModal onClose={showTransactionSubmitModal} show={txSubmitShow}>
-                    <a rel="noreferrer" href={`${config.get('link')}/tx/${txHash}`} target="_blank" >
-                        <button class="bscScan-btn">
-                            View on bscscan.com <i class="fas fa-external-link-alt  m-link"></i>
-                        </button>
-                    </a> */}
-            {/* <a rel="noreferrer" href={`https://testnet.bscscan.com/tx/${txHash}`} target="_blank" >View Transaction on BSC</a> */}
-            {/* </TransactionSubmitModal > : null */}
-
-            {/* {
-                txStatus !== '' ?
-                    <TransactionModal onClose={showTransactionStatusModal} show={txStatusShow} type={txStatus}>
-                        {processTransactionMessage()}
-                    </TransactionModal> : null
-            } */}
-
             <div className="">
                 <div className="flex-d mb-24">
                     <div className="">
                         <img src={TROicon} className="idoimg" alt='trodl-logo'></img>
-
                     </div>
                     <div className="txt-left ml-10">
                         <div className="font-16 semi-bold">Staking rewards</div>
-                        <div className="font-14 color-a8">12 th Nov '21</div>
+                        {/* <div className="font-14 color-a8">12 th Nov '21</div> */}
                     </div>
                 </div>
             </div>
@@ -221,35 +146,15 @@ const XTRORewardCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                         <div className="font-14 color-cf"> Earned xTRO</div>
                         <div className="font-16 color-a8 ">   {formatUserXTROBalance()}</div>
                     </div>
-
                     <div className=" ml-25p">
                         <div className="font-14 color-cf">   Staked TRO</div>
                         <div className="font-16 color-a8 ">   {formatUserStakedTROBalance()}</div>
                     </div>
                 </div>
                 <div className="flex-d mt-30">
-                    <button className="  card-btns" onClick={unstakeAll}>
-                        Unstake</button>
+                    <button className="  card-btns" onClick={unstakeAll}> Unstake</button>
                 </div>
             </div>
-            {/* <div className="mtb18 mt-50">
-                Earned xTRO
-            </div>
-            <div className="col-theme">
-                {formatUserXTROBalance()}
-            </div>
-            <div className="borderDark"> </div>
-            <div className="mtb18 mt-30">
-                Staked TRO
-            </div>
-            <div className="col-theme">
-                {formatUserStakedTROBalance()}
-            </div>
-            <div className="mt-30">
-                <button className="  card-btns" onClick={unstakeAll}>
-                    Unstake
-                </button>
-            </div> */}
         </div >
     );
 }

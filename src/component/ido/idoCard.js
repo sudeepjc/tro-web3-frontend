@@ -2,9 +2,25 @@ import React, { useState, useEffect } from 'react';
 import BigNumber from 'bignumber.js';
 import { poolsStatic } from './poolsStatic';
 
-const IdoCard = ({poolId, trodlIdo, accounts, web3, selection, onDetailView}) => {
+const IdoCard = ({poolId, trodlIdo, accounts, selection, onDetailView}) => {
     const [ poolInfo, setPoolInfo ] = useState(null);
     const [ poolState, setPoolState ] = useState(null);
+
+    useEffect(() => {
+        async function getPoolState() {
+            if(isValidConnectionForCard()) {
+                try{
+                    let pState = await trodlIdo.methods.poolState(poolId).call({from: accounts[0]});
+                    setPoolState(pState);
+                    console.log(`PoolState for PoolID: ${poolId}`);
+                    console.log(pState);
+                } catch(err) {
+                    console.log(`Failed to get PoolState at index ${poolId} : ${err.message}`);
+                }
+            }
+        }
+        getPoolState();
+    }, [trodlIdo, accounts]);
 
     useEffect(() => {
         async function getPoolInfo() {
@@ -20,48 +36,34 @@ const IdoCard = ({poolId, trodlIdo, accounts, web3, selection, onDetailView}) =>
             }
         }
         getPoolInfo();
-    }, [poolId, trodlIdo, accounts, web3]);
+    }, [trodlIdo, accounts]);
 
-    useEffect(() => {
-        async function getPoolState() {
-            if(isValidConnectionForCard()) {
-                try{
-                    let poolState = await trodlIdo.methods.poolState(poolId).call({from: accounts[0]});
-                    setPoolState(poolState);
-                    console.log(`PoolState for PoolID: ${poolId}`);
-                    console.log(poolState);
-                } catch(err) {
-                    console.log(`Failed to get PoolState at index ${poolId} : ${err.message}`);
-                }
-            }
-        }
-        getPoolState();
-    }, [poolId, trodlIdo, accounts, web3]);
+
 
     const isValidConnectionForCard = () => {
 		if ((trodlIdo && (trodlIdo._address !== null))
-            && (accounts && accounts.length > 0 ) && web3 ) {
+            && (accounts && accounts.length > 0 ) ) {
 			return true;
 		}
 		return false;
 	}
 
-    const formatLogo = () => {
+    const getTokenLogo = () => {
         let result = poolsStatic.filter(pool => pool.poolId === poolId);
         return result[0].logo;
     }
 
-    const formatTokenName = () => {
+    const getTokenName = () => {
         let result = poolsStatic.filter(pool => pool.poolId === poolId);
         return result[0].tokenName;
     }
 
-    const formatTicker = () => {
+    const getTicker = () => {
         let result = poolsStatic.filter(pool => pool.poolId === poolId);
         return result[0].ticker;
     }
 
-    const formatAccess = () => {
+    const getAccess = () => {
         let result = poolsStatic.filter(pool => pool.poolId === poolId);
         return result[0].access;
     }
@@ -70,10 +72,6 @@ const IdoCard = ({poolId, trodlIdo, accounts, web3, selection, onDetailView}) =>
         if(poolState) {
             let available = new  BigNumber(poolState.available);
             let issuance = new BigNumber(poolState.issuance);
-            // console.log(available);
-            // console.log(typeof(available));
-            // console.log(issuance);
-            // console.log(typeof(issuance));
             if(issuance.isEqualTo(BigNumber(0))){
                 return '--'
             } else {
@@ -102,46 +100,69 @@ const IdoCard = ({poolId, trodlIdo, accounts, web3, selection, onDetailView}) =>
         if(currentTime < poolStartTime ) {
             let secondsLeft = poolStartTime - currentTime;
             if(secondsLeft > 86400){
-                return( parseInt(secondsLeft / 86400)  + " days ");
+                return( parseInt(secondsLeft / 86400)  + " days");
             } else if (secondsLeft > 3600) {
-                return( parseInt(secondsLeft /3600)  + " hours ");
+                return( parseInt(secondsLeft /3600)  + " hours");
             } else if (secondsLeft > 60 ) {
-                return( parseInt(secondsLeft / 60)  + " minutes ");
+                return( parseInt(secondsLeft / 60)  + " minutes");
             } else {
-                return( secondsLeft  + " seconds ");
+                return( secondsLeft  + " seconds");
             }
         } else if ( (currentTime > poolStartTime) && (currentTime < poolEndTime)) {
             let secondsLeft = poolEndTime - currentTime;
             if(secondsLeft > 86400){
-                return( parseInt(secondsLeft / 86400)  + " days ");
+                return( parseInt(secondsLeft / 86400)  + " days");
             } else if (secondsLeft > 3600) {
-                return( parseInt(secondsLeft /3600)  + " hours ");
+                return( parseInt(secondsLeft /3600)  + " hours");
             } else if (secondsLeft > 60 ) {
-                return( parseInt(secondsLeft / 60)  + " minutes ");
+                return( parseInt(secondsLeft / 60)  + " minutes");
             } else {
-                return( secondsLeft  + " seconds ");
+                return( secondsLeft  + " seconds");
             }
         } else {
             let secondsPast = currentTime - poolEndTime;
             if(secondsPast > 86400){
-                return( parseInt(secondsPast / 86400)  + " days ago ");
+                return( parseInt(secondsPast / 86400)  + " days ago");
             } else if (secondsPast > 3600) {
-                return( parseInt(secondsPast /3600)  + " hours ago ");
+                return( parseInt(secondsPast /3600)  + " hours ago");
             } else if (secondsPast > 60 ) {
-                return( parseInt(secondsPast / 60)  + " minutes ago ");
+                return( parseInt(secondsPast / 60)  + " minutes ago");
             } else {
                 return( secondsPast  + " seconds ago");
             }
         }
     }
     
-    const formatStatusDetailed = () => {
+    // const formatStatusDetailed = () => {
+    //     if(poolInfo) {
+    //         let readableTimeTitle = "";
+    //         let currentTime = Math.floor(Date.now() / 1000);
+    //         let poolStartTime = parseInt(poolInfo.props.startsAt);
+    //         let poolEndTime = parseInt(poolInfo.props.endsAt);
+    //         let readableTime = formatReadableTime(currentTime,poolStartTime, poolEndTime);
+            
+    //         if(currentTime < poolStartTime ) {
+    //             readableTimeTitle = "Starts In";
+    //         } else if ( (currentTime > poolStartTime) && (currentTime < poolEndTime)) {
+    //             readableTimeTitle = "Ends In";
+    //         } else {
+    //             readableTimeTitle = "Ended";
+    //         }
+    //         return (
+    //             <div>
+    //                 <div className="sub-head-ido">{readableTimeTitle}</div>
+    //                 <div className="intext-2">{readableTime}</div>
+    //             </div>
+    //         );
+    //     }
+    // }
+
+    const formatStatusTitle = () => {
         if(poolInfo) {
             let readableTimeTitle = "";
             let currentTime = Math.floor(Date.now() / 1000);
             let poolStartTime = parseInt(poolInfo.props.startsAt);
             let poolEndTime = parseInt(poolInfo.props.endsAt);
-            let readableTime = formatReadableTime(currentTime,poolStartTime, poolEndTime);
             
             if(currentTime < poolStartTime ) {
                 readableTimeTitle = "Starts In";
@@ -150,16 +171,21 @@ const IdoCard = ({poolId, trodlIdo, accounts, web3, selection, onDetailView}) =>
             } else {
                 readableTimeTitle = "Ended";
             }
-            return (
-                <div>
-                    <div className="sub-head-ido">{readableTimeTitle}</div>
-                    <div className="intext-2">{readableTime}</div>
-                </div>
-            );
+            return readableTimeTitle;
         }
     }
 
-    const getPoolStatus = () => {
+    const formatStatusTime = () => {
+        if(poolInfo) {
+            let currentTime = Math.floor(Date.now() / 1000);
+            let poolStartTime = parseInt(poolInfo.props.startsAt);
+            let poolEndTime = parseInt(poolInfo.props.endsAt);
+            return formatReadableTime(currentTime,poolStartTime, poolEndTime);
+        }
+    }
+    
+
+    const formatPoolStatus = () => {
         if(poolInfo) {
             let currentTime = Math.floor(Date.now() / 1000);
             let poolEndTime = parseInt(poolInfo.props.endsAt);
@@ -171,7 +197,7 @@ const IdoCard = ({poolId, trodlIdo, accounts, web3, selection, onDetailView}) =>
             } else {
                 return "Ended";
             }
-        }else {
+        } else {
             return "NA";
         }
     }
@@ -180,7 +206,7 @@ const IdoCard = ({poolId, trodlIdo, accounts, web3, selection, onDetailView}) =>
         let status;
         if(selection.toLowerCase() == 'all') {
             status = true;
-        } else if(selection.toLowerCase() == getPoolStatus().toLowerCase()) {
+        } else if(selection.toLowerCase() == formatPoolStatus().toLowerCase()) {
             status = true;
         } else {
             status = false;
@@ -190,15 +216,15 @@ const IdoCard = ({poolId, trodlIdo, accounts, web3, selection, onDetailView}) =>
     
     return (
         (shouldCardDisplay()) ?
-        <div onClick={() => onDetailView(true)} className=" col-ido ido_card">
+        <div onClick={() => onDetailView(true, poolId)} className=" col-ido ido_card">
             <div className="mlr-20">
                 <div className="flex-d mb-24">
                     <div className="img_ido_div">
-                        <img src={formatLogo()} className="idoimg" alt='trodl-logo'></img>
+                        <img src={getTokenLogo()} className="idoimg" alt='trodl-logo'></img>
                     </div>
                     <div className="groupd">
-                        <div className="coinname">{formatTokenName()}</div>
-                        <div className="coinsymb">{formatTicker()}</div>
+                        <div className="coinname">{getTokenName()}</div>
+                        <div className="coinsymb">{'$' + getTicker()}</div>
                     </div>
                     <div>
                         {formatStatus()}
@@ -207,7 +233,7 @@ const IdoCard = ({poolId, trodlIdo, accounts, web3, selection, onDetailView}) =>
                         <div className="flex-d">
                             <div className="width50">
                                 <div className="sub-head-ido">Access</div>
-                                <div className="intext-1">{formatAccess()}</div>
+                                <div className="intext-1">{getAccess()}</div>
                             </div>
                         </div>
                         {/* <div className="sub-head-ido">Network</div>
@@ -216,7 +242,9 @@ const IdoCard = ({poolId, trodlIdo, accounts, web3, selection, onDetailView}) =>
                 </div>
                 <div className="flex-d">
                     <div className="width50">
-                        {formatStatusDetailed()}
+                        {/* {formatStatusDetailed()} */}
+                        <div className="sub-head-ido">{formatStatusTitle()}</div>
+                        <div className="intext-2">{formatStatusTime()}</div>
                     </div>
                     <div>
                         <div className="sub-head-ido">Progess</div>

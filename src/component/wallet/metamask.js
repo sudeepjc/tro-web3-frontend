@@ -4,8 +4,6 @@ import MetaMaskOnboarding from '@metamask/onboarding';
 import { shortAddress } from '../../utils/web3/addressUtils';
 import ErrorModal from '../modals/errorModal';
 
-import walletImg from "../../assets/images/wallet-solid.svg";
-
 function MetaMaskWallet({ onConnection, onAccountChange }) {
     const [isInstalled, setIsInstalled] = useState(false);
     const [isInstalling, setIsInstalling] = useState(false);
@@ -61,9 +59,9 @@ function MetaMaskWallet({ onConnection, onAccountChange }) {
             if (err.code && err.code === 4001) {
                 //Ignore User Tx Reject
             }
+            console.log(`Error during Metamask installation: ${err.message}`);
             setError(err);
-            setType('other errror')
-            console.log(err, 'err2')
+            setType('other error');
             showErrorModal();
         }
     }
@@ -71,11 +69,6 @@ function MetaMaskWallet({ onConnection, onAccountChange }) {
     const connectToMetamask = async () => {
         try {
             const { ethereum } = window;
-            // if(!isMetaMaskConnected()){
-            //     ethereum.on('accountsChanged', handleNewAccounts);
-            //     ethereum.on('chainChanged', handleNewChain);
-            //     // ethereum.on('connect', handleOnConnection);
-            // }
 
             const newAccounts = await ethereum.request({
                 method: 'eth_requestAccounts',
@@ -88,15 +81,14 @@ function MetaMaskWallet({ onConnection, onAccountChange }) {
             handleNewChain(chainId);
             setIsConnected(true);
 
-
         } catch (err) {
             if (err.code && err.code === 4001) {
                 //Ignore User Tx Reject
             }
+            console.log(`Error during Metamask connection: ${err.message}`);
             setError(err);
-            setType('other errror')
+            setType('other error')
             showErrorModal();
-            console.log(err, 'err1');
         } finally {
             if (onboarding) {
                 console.log('onboarding stopped');
@@ -143,22 +135,23 @@ function MetaMaskWallet({ onConnection, onAccountChange }) {
 
     const setLinkConfiguration = (chainId) => {
         if (chainId === '0x38') {
-            config.set({ link: 'https://bscscan.com' }, { freeze: false });
+            config.set({ link: 'https://bscscan.com', pToken: '0xe9e7cea3dedca5984780bafc599bd69add087d56' }, { freeze: false });
         } else if (chainId === '0x61') {
-            config.set({ link: 'https://testnet.bscscan.com' }, { freeze: false });
+            config.set({ link: 'https://testnet.bscscan.com', pToken: '0x83fa07FF99bF0556A9e50498b695c6efB69bB212' }, { freeze: false });
         } else {
-            config.set({ link: '' }, { freeze: false });
+            config.set({ link: '', pToken: '' }, { freeze: false });
         }
     }
 
     function handleNewChain(chainId) {
+        console.log(`Connected to Chain : ${chainId}`);
         setLinkConfiguration(chainId);
         onConnection(chainId);
-        console.log(`Connected to Chain : ${chainId}`);
 
         if (!(chainId === '0x38' || chainId === '0x61')) {
+            console.log('Switch to BSC');
             setError(new Error(`Connect to the Binance Chain`));
-            setType('switch metamask')
+            setType('switch')
             showErrorModal();
         }
     }
@@ -171,11 +164,6 @@ function MetaMaskWallet({ onConnection, onAccountChange }) {
                 </ErrorModal> : null
             }
             <button className="meta-btn mr-17  mt-10" onClick={connectWallet} ><i className="fas fa-wallet mr-17" ></i>{getConnectButtonString()}</button>
-
-            {/* <button className="connect-btn" onClick={connectWallet}>
-                <img src={walletImg} className="wallet-img" alt='wallet-img'></img>
-                {getConnectButtonString()}
-            </button> */}
         </div>
     );
 }

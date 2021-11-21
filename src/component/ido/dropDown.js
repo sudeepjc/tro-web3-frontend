@@ -40,15 +40,15 @@ const DropDown = ({onSelection}) => {
                 Status
             </div>
             <div className={dropBool ? 'dropdown show' : 'dropdown'} >
-                <button class="btn btn-secondary dropdown-toggle status-dd" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onClick={() => {
+                <button className="btn btn-secondary dropdown-toggle status-dd" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onClick={() => {
                     dropBool ? showDropdown(false) : showDropdown(true)}}>
-                    {selectValue} <i class={cssClass}></i>
+                    {selectValue} <i className={cssClass}></i>
                 </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" onClick={onClickAll}>All</a>
-                    <a class="dropdown-item" onClick={onClickUpcoming}>UpComing</a>
-                    <a class="dropdown-item" onClick={onClickLive}>Live</a>
-                    <a class="dropdown-item" onClick={onClickEnded}>Ended</a>
+                <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a  className="dropdown-item" onClick={onClickAll}>All</a>
+                    <a  className="dropdown-item" onClick={onClickUpcoming}>UpComing</a>
+                    <a  className="dropdown-item" onClick={onClickLive}>Live</a>
+                    <a  className="dropdown-item" onClick={onClickEnded}>Ended</a>
                 </div>
             </div>
         </div>
