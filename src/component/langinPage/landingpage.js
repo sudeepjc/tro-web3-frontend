@@ -3,31 +3,53 @@ import React, { Component } from 'react';
 import trodlLogo from "../../assets/images/trodl_logo_2.png";
 import rightImg from '../../assets/images/banner.png';
 import { Redirect } from 'react-router-dom'
+import icon1 from '../../assets/images/icon_1.png';
+import icon2 from '../../assets/images/icon_2.png';
+import icon3 from '../../assets/images/icon_3.png';
 export class LandingPage extends Component {
     constructor(props) {
         super(props);
         this.myRef = React.createRef();
         this.state = {
-            toLaunchpad: false
+            toLaunchpad: false,
+
         }
+        this.focusHome = React.createRef()
+        this.focusFeature = React.createRef()
+
     }
 
     render() {
+        const handleOnClick = (event) => {
+            //.current is verification that your element has rendered
+            if (event) {
+                event.scrollIntoView({
+                    behavior: "smooth",
+                    block: "nearest"
+                })
+            }
+        }
         if (this.state.toLaunchpad) {
             return <Redirect to='/launchpad' />
         }
+
         // const scrollToMyRef = () => window.scrollTo(0, this.myRef.current.offsetTop);
         const heroSection = () => {
             return (
-                <div>
+                <div className="bg-col-land">
                     <div className="row mlr64">
                         <div className="mt-42">
                             <div className="flex-d left">
-                                <img src={trodlLogo} className="logo-img" alt='trodl-logo'></img>
-                                <div className="tabs-land ">
+                                <img src={trodlLogo} className="logo-img" alt='trodl-logo' ></img>
+                                <div className="tabs-land cursor-p" onClick={() => {
+                                    handleOnClick(this.focusHome.current)
+                                }}>
                                     Home
                             </div>
-                                <div className="tabs-land ">
+                                <div className="tabs-land cursor-p "
+                                    onClick={() => {
+                                        handleOnClick(this.focusFeature.current)
+                                    }}>
                                     Features
                             </div>
                                 <div className="flex-right">
@@ -38,7 +60,7 @@ export class LandingPage extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className=" mg-t-75">
+                    <div className=" mg-t-75" ref={this.focusHome}>
                         <div className="mg-t-75 ">
                             <div className="head1">
                                 Get access to an ocean of opportunities
@@ -47,7 +69,7 @@ export class LandingPage extends Component {
                                 Staking TRO earns you quarterly airdrops, assured IDO allocations and access to an ocean of opportunities within trodl ecosystem
                             </div>
                             <div className="mt-40">
-                                <button className="launch-btn mr-17" onClick={() => {this.setState(() => ({ toLaunchpad: true }))}}>
+                                <button className="launch-btn mr-17" onClick={() => { this.setState(() => ({ toLaunchpad: true })) }}>
                                     <i className="fas fa-rocket mr-17"  ></i>
                                     open launchpad
                                 </button>
@@ -64,27 +86,36 @@ export class LandingPage extends Component {
         }
         const features = () => {
             return (
-                <div>
+                <div ref={this.focusFeature}>
                     <div className="subhead-2">
                         Features
                     </div>
                     <div className="main-feat mb-55">
                         <div className="main-feat">
-                            <div className="icon-feat"></div>
+                            <div className="icon-feat">
+                                <img src={icon1} className="icon-lp" alt='trodl-logo'></img>
+
+                            </div>
                             <div className="card-feat">
                                 <div className="head-feat">Staking</div>
                                 <div className="sub-feat">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus malesuada velit interdum, sagittis nisl ut, mollis felis. In sit amet aliquet arcu.</div>
                             </div>
                         </div>
                         <div className="main-feat  ml-66">
-                            <div className="icon-feat"></div>
+                            <div className="icon-feat">
+                                <img src={icon2} className="icon-lp" alt='trodl-logo'></img>
+
+                            </div>
                             <div className="card-feat">
                                 <div className="head-feat">IDO Launchpad</div>
                                 <div className="sub-feat">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus malesuada velit interdum, sagittis nisl ut, mollis felis. In sit amet aliquet arcu.</div>
                             </div>
                         </div>
                         <div className="main-feat  ml-66">
-                            <div className="icon-feat"></div>
+                            <div className="icon-feat">
+                                <img src={icon3} className="icon-lp" alt='trodl-logo'></img>
+
+                            </div>
                             <div className="card-feat">
                                 <div className="main-feat">
                                     <div className="head-feat">Governance</div>
@@ -96,7 +127,7 @@ export class LandingPage extends Component {
                             </div>
                         </div>
                     </div>
-                    <button className="launch-btn mr-17 mb-240" onClick={() => {this.setState(() => ({ toLaunchpad: true }))}}><i className="fas fa-rocket mr-17" ></i>open launchpad</button>
+                    <button className="launch-btn mr-17 mb-240" onClick={() => { this.setState(() => ({ toLaunchpad: true })) }}><i className="fas fa-rocket mr-17" ></i>open launchpad</button>
                 </div>
             );
         }
@@ -105,10 +136,10 @@ export class LandingPage extends Component {
                 {heroSection()}
                 {features()}
                 <div className="t-and-c">
-                    © Trodl.com 2021-22. All rights reserved.
+                    ï¿½ Trodl.com 2021-22. All rights reserved.
                 </div>
             </div>
-            
+
         );
     }
 }

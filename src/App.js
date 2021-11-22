@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 import { Store } from './redux/store';
 
 function App() {
- 
+
   const Routing = () => {
     return (
       <Router>
@@ -29,6 +29,9 @@ function App() {
           <Routing></Routing>
         </Provider>
       </header>
+      <div className="t-and-c">
+        © Trodl.com 2021-22. All rights reserved.
+            </div>
     </div >
   );
 }

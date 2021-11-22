@@ -6,18 +6,18 @@ import { setErrorModal } from '../../redux/actions/errorModalActions';
 import { setTxSubmitModal } from '../../redux/actions/transactionSubmitActions';
 import { setTxStatusModal } from '../../redux/actions/transactionStatusActions';
 
-const IdoDetails = ({poolId, paymentToken, trodlIdo, accounts, web3}) => {
+const IdoDetails = ({ poolId, paymentToken, trodlIdo, accounts, web3 }) => {
     const dispatch = useDispatch();
 
-    const [ invested, setInvested ] = useState('');
-    const [ poolInfo, setPoolInfo ] = useState(null);
-    const [ poolState, setPoolState ] = useState(null);
-    const [ isIntervalPool, setIsIntervalPool ] = useState(false);
-    const [ isLinearPool, setIsLinearPool ] = useState(false);
-    const [ redraw, setRedraw ] = useState(false); 
+    const [invested, setInvested] = useState('');
+    const [poolInfo, setPoolInfo] = useState(null);
+    const [poolState, setPoolState] = useState(null);
+    const [isIntervalPool, setIsIntervalPool] = useState(false);
+    const [isLinearPool, setIsLinearPool] = useState(false);
+    const [redraw, setRedraw] = useState(false);
 
     const showErrorModal = (show, type, error) => {
-        dispatch(setErrorModal(show, type, error))
+        dispatch(setErrorModal(show, type, error.message))
     };
 
     const showTransactionSubmitModal = (show, hash) => {
@@ -31,23 +31,23 @@ const IdoDetails = ({poolId, paymentToken, trodlIdo, accounts, web3}) => {
     };
 
     const isValidConnectionForCard = () => {
-		if ((trodlIdo && (trodlIdo._address !== null))
+        if ((trodlIdo && (trodlIdo._address !== null))
             && (paymentToken && (paymentToken._address !== null))
-            && (accounts && accounts.length > 0 ) && web3 ) {
-			return true;
-		}
-		return false;
-	}
+            && (accounts && accounts.length > 0) && web3) {
+            return true;
+        }
+        return false;
+    }
 
     useEffect(() => {
         async function getPoolInfo() {
-            if(isValidConnectionForCard()) {
-                try{
-                    let poolInfo = await trodlIdo.methods.poolProps(poolId).call({from: accounts[0]});
+            if (isValidConnectionForCard()) {
+                try {
+                    let poolInfo = await trodlIdo.methods.poolProps(poolId).call({ from: accounts[0] });
                     setPoolInfo(poolInfo);
                     console.log(`PoolInfo for PoolID: ${poolId}`);
                     console.log(poolInfo);
-                }catch(err){
+                } catch (err) {
                     console.log(`Failed to get PoolInfo for PoolID: ${poolId} : ${err.message}`);
                 }
             }
@@ -57,13 +57,13 @@ const IdoDetails = ({poolId, paymentToken, trodlIdo, accounts, web3}) => {
 
     useEffect(() => {
         async function getPoolState() {
-            if(isValidConnectionForCard()) {
-                try{
-                    let poolState = await trodlIdo.methods.poolState(poolId).call({from: accounts[0]});
+            if (isValidConnectionForCard()) {
+                try {
+                    let poolState = await trodlIdo.methods.poolState(poolId).call({ from: accounts[0] });
                     setPoolState(poolState);
                     console.log(`PoolState for PoolID: ${poolId}`);
                     console.log(poolState);
-                } catch(err) {
+                } catch (err) {
                     console.log(`Failed to get PoolState for PoolID ${poolId} : ${err.message}`);
                 }
             }
@@ -72,37 +72,37 @@ const IdoDetails = ({poolId, paymentToken, trodlIdo, accounts, web3}) => {
     }, [trodlIdo, accounts, web3, redraw]);
 
     useEffect(() => {
-        const formatInvested = async() => {
-            if( isValidConnectionForCard() ) {
-                try{
-                    let poolInfo = await trodlIdo.methods.poolProps(poolId).call({from: accounts[0]});
+        const formatInvested = async () => {
+            if (isValidConnectionForCard()) {
+                try {
+                    let poolInfo = await trodlIdo.methods.poolProps(poolId).call({ from: accounts[0] });
                     let investedStr = '--';
                     let type = poolInfo['type_'];
-                    if (type === '0'){
-                        
-                        let accountState = await trodlIdo.methods.poolAccount(poolId, accounts[0]).call({from: accounts[0]});
+                    if (type === '0') {
+
+                        let accountState = await trodlIdo.methods.poolAccount(poolId, accounts[0]).call({ from: accounts[0] });
                         let invested = accountState["state"].paymentSum;
-                        invested = await web3.utils.fromWei(invested,'ether');
-                        investedStr =  invested + ' BUSD';
-                    } else if ( type === '1' ) {
+                        invested = await web3.utils.fromWei(invested, 'ether');
+                        investedStr = invested + ' BUSD';
+                    } else if (type === '1') {
                         setIsIntervalPool(true);
-                        let accIntervalData = await trodlIdo.methods.intervalPoolAccount(poolId, accounts[0]).call({from: accounts[0]});
+                        let accIntervalData = await trodlIdo.methods.intervalPoolAccount(poolId, accounts[0]).call({ from: accounts[0] });
                         let invested = accIntervalData['complex'].issuanceAmount;
-                        invested = await web3.utils.fromWei(invested,'ether');
-                        investedStr =  invested + ' ' + getTicker();
-                    } else if ( type === '2' ) {
+                        invested = await web3.utils.fromWei(invested, 'ether');
+                        investedStr = invested + ' ' + getTicker();
+                    } else if (type === '2') {
                         setIsLinearPool(true);
-                        let accLinearData = await trodlIdo.methods.linearPoolAccount(poolId, accounts[0]).call({from: accounts[0]});
+                        let accLinearData = await trodlIdo.methods.linearPoolAccount(poolId, accounts[0]).call({ from: accounts[0] });
                         let invested = accLinearData['complex'].issuanceAmount;
-                        invested = await web3.utils.fromWei(invested,'ether');
-                        investedStr =  invested + ' ' + getTicker();
+                        invested = await web3.utils.fromWei(invested, 'ether');
+                        investedStr = invested + ' ' + getTicker();
                     }
                     setInvested(investedStr);
-                } catch(err) {
+                } catch (err) {
                     console.log(`Failed to get Invested Amount for PoolID ${poolId} : ${err.message}`);
                 }
             } else {
-                setInvested ('--');
+                setInvested('--');
             }
         }
         formatInvested();
@@ -219,11 +219,11 @@ const IdoDetails = ({poolId, paymentToken, trodlIdo, accounts, web3}) => {
     }
 
     const formatProgress = () => {
-        if(poolState) {
-            let available = new  BigNumber(poolState.available);
+        if (poolState) {
+            let available = new BigNumber(poolState.available);
             let issuance = new BigNumber(poolState.issuance);
             let progress = 0;
-            if(issuance.isEqualTo(BigNumber(0))){
+            if (issuance.isEqualTo(BigNumber(0))) {
                 progress = 0;
             } else {
                 progress = issuance.minus(available).dividedBy(issuance).multipliedBy(100).toFixed(2);
@@ -235,68 +235,68 @@ const IdoDetails = ({poolId, paymentToken, trodlIdo, accounts, web3}) => {
     }
 
     const formatStatus = () => {
-        if(poolInfo) {
+        if (poolInfo) {
             let currentTime = Math.floor(Date.now() / 1000);
             let poolEndTime = parseInt(poolInfo.props.endsAt);
             let poolStartTime = parseInt(poolInfo.props.startsAt);
-            if(currentTime < poolStartTime ) {
+            if (currentTime < poolStartTime) {
                 return <div className="upcoming-tag">Upcoming</div>;
-            } else if ( (currentTime > poolStartTime) && (currentTime < poolEndTime)) {
-                return <div className="live-tag">Live</div>;
+            } else if ((currentTime > poolStartTime) && (currentTime < poolEndTime)) {
+                return <div className="live-tag ml-24">Live</div>;
             } else {
-                return <div className="ended-tag">Ended</div>;
+                return <div className="ended-tag ml-24">Ended</div>;
             }
         }
     }
-    
+
     const formatReadableTime = (currentTime, poolStartTime, poolEndTime) => {
-        if(currentTime < poolStartTime ) {
+        if (currentTime < poolStartTime) {
             let secondsLeft = poolStartTime - currentTime;
-            if(secondsLeft > 86400){
-                return( parseInt(secondsLeft / 86400)  + " days ");
+            if (secondsLeft > 86400) {
+                return (parseInt(secondsLeft / 86400) + " days ");
             } else if (secondsLeft > 3600) {
-                return( parseInt(secondsLeft /3600)  + " hours ");
-            } else if (secondsLeft > 60 ) {
-                return( parseInt(secondsLeft / 60)  + " minutes ");
+                return (parseInt(secondsLeft / 3600) + " hours ");
+            } else if (secondsLeft > 60) {
+                return (parseInt(secondsLeft / 60) + " minutes ");
             } else {
-                return( secondsLeft  + " seconds ");
+                return (secondsLeft + " seconds ");
             }
-        } else if ( (currentTime > poolStartTime) && (currentTime < poolEndTime)) {
+        } else if ((currentTime > poolStartTime) && (currentTime < poolEndTime)) {
             let secondsLeft = poolEndTime - currentTime;
-            if(secondsLeft > 86400){
-                return( parseInt(secondsLeft / 86400)  + " days ");
+            if (secondsLeft > 86400) {
+                return (parseInt(secondsLeft / 86400) + " days ");
             } else if (secondsLeft > 3600) {
-                return( parseInt(secondsLeft /3600)  + " hours ");
-            } else if (secondsLeft > 60 ) {
-                return( parseInt(secondsLeft / 60)  + " minutes ");
+                return (parseInt(secondsLeft / 3600) + " hours ");
+            } else if (secondsLeft > 60) {
+                return (parseInt(secondsLeft / 60) + " minutes ");
             } else {
-                return( secondsLeft  + " seconds ");
+                return (secondsLeft + " seconds ");
             }
         } else {
             let secondsPast = currentTime - poolEndTime;
-            if(secondsPast > 86400){
-                return( parseInt(secondsPast / 86400)  + " days ago ");
+            if (secondsPast > 86400) {
+                return (parseInt(secondsPast / 86400) + " days ago ");
             } else if (secondsPast > 3600) {
-                return( parseInt(secondsPast /3600)  + " hours ago ");
-            } else if (secondsPast > 60 ) {
-                return( parseInt(secondsPast / 60)  + " minutes ago ");
+                return (parseInt(secondsPast / 3600) + " hours ago ");
+            } else if (secondsPast > 60) {
+                return (parseInt(secondsPast / 60) + " minutes ago ");
             } else {
-                return( secondsPast  + " seconds ago");
+                return (secondsPast + " seconds ago");
             }
         }
     }
-    
+
     const formatStatusDetailed = () => {
-        if(poolInfo) {
+        if (poolInfo) {
             let readableTimeTitle = "";
             let currentTime = Math.floor(Date.now() / 1000);
             let poolStartTime = parseInt(poolInfo.props.startsAt);
             let poolEndTime = parseInt(poolInfo.props.endsAt);
-            let readableTime = formatReadableTime(currentTime,poolStartTime, poolEndTime);
-            
-            if(currentTime < poolStartTime ) {
+            let readableTime = formatReadableTime(currentTime, poolStartTime, poolEndTime);
+
+            if (currentTime < poolStartTime) {
                 readableTimeTitle = "Starts In";
-            } else if ( (currentTime > poolStartTime) && (currentTime < poolEndTime)) {
+            } else if ((currentTime > poolStartTime) && (currentTime < poolEndTime)) {
                 readableTimeTitle = "Ends In";
             } else {
                 readableTimeTitle = "Ended";
@@ -310,7 +310,7 @@ const IdoDetails = ({poolId, paymentToken, trodlIdo, accounts, web3}) => {
     }
 
     const formatTokenAddress = () => {
-        if(poolInfo) {
+        if (poolInfo) {
             return (
                 <div>
                     <span className="sub-head-ido mar-10"> Address</span> <span className="intext-1 font-14">{poolInfo.props.issuanceToken}</span>
@@ -320,28 +320,28 @@ const IdoDetails = ({poolId, paymentToken, trodlIdo, accounts, web3}) => {
     }
 
     const formatSold = () => {
-        if(poolState) {
-            let available = new  BigNumber(poolState.available);
+        if (poolState) {
+            let available = new BigNumber(poolState.available);
             let issuance = new BigNumber(poolState.issuance);
-            return web3.utils.fromWei(issuance.minus(available).toFixed(0),"ether");
+            return web3.utils.fromWei(issuance.minus(available).toFixed(0), "ether");
         } else {
             return "--";
         }
     }
 
     const formatIssuance = () => {
-        if(poolState) {
+        if (poolState) {
             let issuance = new BigNumber(poolState.issuance);
-            return web3.utils.fromWei(issuance.toFixed(0), "ether"); 
+            return web3.utils.fromWei(issuance.toFixed(0), "ether");
         } else {
             return "--";
         }
     }
 
     const formatRate = () => {
-        if(poolInfo) {
+        if (poolInfo) {
             let rate = new BigNumber(poolInfo.props.rate);
-            return web3.utils.fromWei(rate.toFixed(0), "ether"); 
+            return web3.utils.fromWei(rate.toFixed(0), "ether");
         } else {
             return "--";
         }
@@ -378,34 +378,41 @@ const IdoDetails = ({poolId, paymentToken, trodlIdo, accounts, web3}) => {
         let intervalSchedule = result[0].linearSchedule;
 
         return (
-            <div className="mt-20">
-                <div className="sub-head-ido mar-10"> Immediate Unlock</div> <div className="intext-1 font-14">{intervalSchedule.immPart}</div>
+            <div className="mt-20 flex-d">
+                <div className="">
+                    <div className="sub-head-ido mar-10"> Immediate Unlock</div> <div className="intext-1 font-14">{intervalSchedule.immPart}</div>
+
+
+                </div>
+                <div className="flex-right">
                     <div className="sub-head-ido mar-10  font-14"> Release proptionally during {intervalSchedule.unlockingEnds}</div> <div className="intext-1 font-14">{intervalSchedule.remainingPart} </div>
+
+                </div>
             </div>
         );
     }
 
-    const approveBUSD = async() => {
+    const approveBUSD = async () => {
         try {
             if (isValidConnectionForCard()) {
-                let balance = await paymentToken.methods.balanceOf(accounts[0]).call({from: accounts[0]});
-                
-                if(balance <= 0) {
+                let balance = await paymentToken.methods.balanceOf(accounts[0]).call({ from: accounts[0] });
+
+                if (balance <= 0) {
                     console.log('Insufficient BUSD balance');
                     showErrorModal(true, 'other error', new Error('BUSD required to pre-approve'));
                     return;
                 } else {
                     let tx = await paymentToken.methods.approve(trodlIdo._address, balance).send({ from: accounts[0] })
-                    .on('transactionHash', function (hash) {
-                        showTransactionSubmitModal(true, hash);
-                    })
-                    .on('receipt', function (receipt) {
-                        let amt = web3.utils.fromWei(receipt.events.Approval.returnValues.value, 'ether');
-                        showTransactionStatusModal(true, 'Success', `${amt} BUSD Approved Successfully`, receipt.transactionHash);
-                    })
-                    .on('error', function (err, receipt) {
-                        handleError(err, receipt, 'Approve');
-                    });
+                        .on('transactionHash', function (hash) {
+                            showTransactionSubmitModal(true, hash);
+                        })
+                        .on('receipt', function (receipt) {
+                            let amt = web3.utils.fromWei(receipt.events.Approval.returnValues.value, 'ether');
+                            showTransactionStatusModal(true, 'Success', `${amt} BUSD Approved Successfully`, receipt.transactionHash);
+                        })
+                        .on('error', function (err, receipt) {
+                            handleError(err, receipt, 'Approve');
+                        });
 
                     console.log(tx);
                 }
@@ -418,21 +425,21 @@ const IdoDetails = ({poolId, paymentToken, trodlIdo, accounts, web3}) => {
         }
     }
 
-    const swap = async() => {
+    const swap = async () => {
         try {
             if (isValidConnectionForCard()) {
-                let allowance = await paymentToken.methods.allowance(accounts[0], trodlIdo._address).call({from: accounts[0]});
-                if(allowance <= 0) {
+                let allowance = await paymentToken.methods.allowance(accounts[0], trodlIdo._address).call({ from: accounts[0] });
+                if (allowance <= 0) {
                     console.log('Zero BUSD allowance');
                     showErrorModal(true, 'other error', new Error('BUSD approval required for swap'));
                     return;
                 }
 
-                let accountState = await trodlIdo.methods.poolAccount(poolId, accounts[0]).call({from: accounts[0]});
+                let accountState = await trodlIdo.methods.poolAccount(poolId, accounts[0]).call({ from: accounts[0] });
                 let limitIndex = accountState["state"].limitIndex;
                 let userLimit = poolState["paymentLimits"][limitIndex];
 
-                if(userLimit <= 0) {
+                if (userLimit <= 0) {
                     console.log(`User ${accounts[0]} is not whitelisted for sale`);
                     showErrorModal(true, 'other error', new Error('User is not whitelisted'));
                     return;
@@ -462,36 +469,36 @@ const IdoDetails = ({poolId, paymentToken, trodlIdo, accounts, web3}) => {
         }
     }
 
-    const claim = async() => {
+    const claim = async () => {
         try {
             if (isValidConnectionForCard()) {
                 let poolType = poolInfo["type_"];
-                if(poolType == "1" ) {
-                    let intervalPoolData = await trodlIdo.methods.intervalPoolAccount(poolId, accounts[0]).call({from: accounts[0]});
+                if (poolType == "1") {
+                    let intervalPoolData = await trodlIdo.methods.intervalPoolAccount(poolId, accounts[0]).call({ from: accounts[0] });
                     let unlockedIndex = parseInt(intervalPoolData["unlockedIntervalsCount"]);
-                    
+
                     let tx = await trodlIdo.methods.unlockInterval(poolId, (unlockedIndex)).send({ from: accounts[0] })
-                    .on('transactionHash', function (hash) {
-                        showTransactionSubmitModal(true, hash);
-                    })
-                    .on('receipt', function (receipt) {
-                        setRedraw(!redraw);
-                        let amt = web3.utils.fromWei(receipt.events.IntervalPoolUnlocking.returnValues.amount, 'ether');
-                        showTransactionStatusModal(true, 'Success', `${amt} ${getTicker()} Claimed Successfully`, receipt.transactionHash);
-                    })
-                    .on('error', function (err, receipt) {
-                        handleError(err, receipt, 'Claim');
-                    });
+                        .on('transactionHash', function (hash) {
+                            showTransactionSubmitModal(true, hash);
+                        })
+                        .on('receipt', function (receipt) {
+                            setRedraw(!redraw);
+                            let amt = web3.utils.fromWei(receipt.events.IntervalPoolUnlocking.returnValues.amount, 'ether');
+                            showTransactionStatusModal(true, 'Success', `${amt} ${getTicker()} Claimed Successfully`, receipt.transactionHash);
+                        })
+                        .on('error', function (err, receipt) {
+                            handleError(err, receipt, 'Claim');
+                        });
                     console.log(tx);
 
                 } else if (poolType == "2") {
-                    
-                    let linearPoolData = await trodlIdo.methods.linearPoolAccount(poolId, accounts[0]).call({from: accounts[0]});
+
+                    let linearPoolData = await trodlIdo.methods.linearPoolAccount(poolId, accounts[0]).call({ from: accounts[0] });
                     let issuanceAmount = new BigNumber(linearPoolData["complex"].issuanceAmount);
                     let withdrawnIssuanceAmount = new BigNumber(linearPoolData["complex"].withdrawnIssuanceAmount);
-                    
-                    if(! issuanceAmount.isEqualTo(0)){
-                        if(withdrawnIssuanceAmount.isEqualTo(issuanceAmount)) {
+
+                    if (!issuanceAmount.isEqualTo(0)) {
+                        if (withdrawnIssuanceAmount.isEqualTo(issuanceAmount)) {
                             console.log(`User ${accounts[0]} has withdrawn all tokens`);
                             showErrorModal(true, 'other error', new Error('All Withdrwals complete'));
                             return;
@@ -501,18 +508,18 @@ const IdoDetails = ({poolId, paymentToken, trodlIdo, accounts, web3}) => {
                         showErrorModal(true, 'other error', new Error('User does not have issued tokens'));
                         return;
                     }
-                    
+
                     let tx = await trodlIdo.methods.unlockLinear(poolId).send({ from: accounts[0] })
-                    .on('transactionHash', function (hash) {
-                        showTransactionSubmitModal(true, hash);
-                    })
-                    .on('receipt', function (receipt) {
-                        let amt = web3.utils.fromWei(receipt.events.LinearPoolUnlocking.returnValues.amount, 'ether');
-                        showTransactionStatusModal(true, 'Success', `${amt} ${getTicker()} Claimed Successfully`, receipt.transactionHash);
-                    })
-                    .on('error', function (err, receipt) {
-                        handleError(err, receipt, 'Claim');
-                    });
+                        .on('transactionHash', function (hash) {
+                            showTransactionSubmitModal(true, hash);
+                        })
+                        .on('receipt', function (receipt) {
+                            let amt = web3.utils.fromWei(receipt.events.LinearPoolUnlocking.returnValues.amount, 'ether');
+                            showTransactionStatusModal(true, 'Success', `${amt} ${getTicker()} Claimed Successfully`, receipt.transactionHash);
+                        })
+                        .on('error', function (err, receipt) {
+                            handleError(err, receipt, 'Claim');
+                        });
                     console.log(tx);
                 } else {
                     console.log("Invalid PoolType !");
@@ -533,13 +540,13 @@ const IdoDetails = ({poolId, paymentToken, trodlIdo, accounts, web3}) => {
                     <div className="img_ido_div">
                         <img src={getTokenLogo()} className="idoimg" alt='trodl-logo'></img>
                     </div>
-                    <div className="groupd">
-                        <div className="coinname">{getTokenName()}</div>
-                        <div className="coinsymb ">{'$'+ getTicker()}</div>
+                    <div className="groupd ml-10">
+                        <div className=" intext-1">{getTokenName()}</div>
+                        <div className="  coinname">{'$' + getTicker()}</div>
                     </div>
                     {formatStatus()}
                     <div className="pa-btn cursor-p  flex-right" onClick={approveBUSD}>Pre-Approve</div>
-                    <div className="swap-btn cursor-p"  onClick={swap} >Swap</div>
+                    <div className="swap-btn cursor-p" onClick={swap} >Swap</div>
                 </div>
                 <div className="flex-d font-14">
                     <div className="mr-52">
@@ -564,7 +571,7 @@ const IdoDetails = ({poolId, paymentToken, trodlIdo, accounts, web3}) => {
                     </div>
                 </div>
 
-                { (isIntervalPool) ?
+                {(isIntervalPool) ?
                     <div className="vesting-sch mt-10 txt-left font-14  ">
                         <div className="intext-1 align-c semi-bold font-14 mt-14">Vesting Schedule</div>
                         <div className="mtb-12">
@@ -573,9 +580,9 @@ const IdoDetails = ({poolId, paymentToken, trodlIdo, accounts, web3}) => {
                         <div className="mtb-12">
                             <div className="claim-btn cursor-p" onClick={claim} >Claim</div>
                         </div>
-                    </div> : <div></div> 
+                    </div> : <div></div>
                 }
-                { (isLinearPool) ?
+                {(isLinearPool) ?
                     <div className="vesting-sch mt-10 txt-left font-14  ">
                         <div className="intext-1 align-c semi-bold font-14 mt-14">Vesting Schedule</div>
                         <div className="mtb-12">
@@ -584,7 +591,7 @@ const IdoDetails = ({poolId, paymentToken, trodlIdo, accounts, web3}) => {
                         <div className="mtb-12">
                             <div className="claim-btn cursor-p" onClick={claim} >Claim</div>
                         </div>
-                    </div> : <div></div> 
+                    </div> : <div></div>
                 }
                 <hr></hr>
 
@@ -592,7 +599,7 @@ const IdoDetails = ({poolId, paymentToken, trodlIdo, accounts, web3}) => {
                     About project
                 </div>
                 <div className="font-14 txt-left mt-10">
-                {getAboutProject()}
+                    {getAboutProject()}
                 </div>
                 <div className="flex-d mt-20">
                     <a rel="noreferrer" href={getProjectWebsite()} target="_blank" >

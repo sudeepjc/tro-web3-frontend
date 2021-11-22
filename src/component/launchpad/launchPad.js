@@ -13,6 +13,7 @@ import ErrorModal from '../modals/errorModal';
 import { Store } from '../../redux/store';
 import TransactionSubmitModal from '../modals/transactionSubmitModal';
 import TransactionModal from '../modals/transactionModal';
+import { Redirect } from 'react-router-dom'
 
 export class LaunchPad extends Component {
 
@@ -34,6 +35,7 @@ export class LaunchPad extends Component {
             chainRender: false,
             type: null,
             storeData: null,
+            toHomePage: false
         }
     }
 
@@ -76,8 +78,11 @@ export class LaunchPad extends Component {
     onAccountChange = (newAccounts) => {
         this.setState({ accounts: newAccounts });
     }
-    
+
     render() {
+        if (this.state.toHomePage) {
+            return <Redirect to='/' />
+        }
         const state = Store.getState();
         console.log(state, 'statecalles');
 
@@ -87,7 +92,7 @@ export class LaunchPad extends Component {
                     <div className="row mlr64 ">
                         <div className="mt-10">
                             <div className="flex-d left">
-                                <img src={trodlLogo} className="logo-img" alt='trodl-logo'></img>
+                                <img src={trodlLogo} className="logo-img cursor-p" alt='trodl-logo' onClick={() => { this.setState(() => ({ toHomePage: true })) }}></img>
 
                                 <div className="flex-right mt-10">
                                     <a href="https://trodl.com" target="_blank" rel="noreferrer" className="deco-none"> <div className="btn-tro-2"
@@ -102,15 +107,17 @@ export class LaunchPad extends Component {
         }
 
         return (
-            <div>
+            <div className="bg-launch">
                 <div className="launpad-route fle">
                     <div className="mtb-auto">
                         <div className="menu-icon cursor-p" style={{ backgroundColor: this.state.currentTab == 'staking' ? '#06111E' : '' }} onClick={() => {
-                            this.selectTab('staking'); }}>
+                            this.selectTab('staking');
+                        }}>
                             <img src={icon1} className="icon-lp" alt='trodl-logo'></img>
                         </div>
                         <div className="menu-icon cursor-p" style={{ backgroundColor: this.state.currentTab == 'ido' ? '#06111E' : '' }} onClick={() => {
-                            this.selectTab('ido') }}> 
+                            this.selectTab('ido')
+                        }}>
                             <img src={icon2} className="icon-lp" alt='trodl-logo'></img>
                         </div>
                         <div className="menu-icon cursor-p">  <img src={icon3} className="icon-lp" alt='trodl-logo'></img></div>

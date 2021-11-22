@@ -19,9 +19,22 @@
   cursor: pointer;
 }
 
+a {
+  text-decoration: none !important;
+}
+
 .p-100 {
   padding-bottom: 100px;
 
+}
+
+.bg-col-land {
+  background-color: #1C2636
+}
+
+.bg-launch {
+
+  background-color: #06111E;
 }
 
 .App-header {
@@ -119,6 +132,7 @@
   height: auto;
   border-radius: 16px;
   padding: 15px;
+  position: relative;
 
 }
 
@@ -378,8 +392,11 @@ input::-webkit-inner-spin-button {
   color: #F9F9F9;
   opacity: 1;
   font-size: 12px;
-  margin-top: 50px;
-  margin-bottom: -30px;
+  position: fixed;
+  left: 0;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
 }
 
 .secDivider {
@@ -719,7 +736,9 @@ input::-webkit-inner-spin-button {
 
 .exc-fa-2 {
   font-size: 12px;
+  float: right;
   margin-left: 5px;
+  margin-top: 6px;
 }
 
 .locked-msg {
@@ -730,8 +749,8 @@ input::-webkit-inner-spin-button {
   border-radius: 16px 16px 16px 0px;
   opacity: 1;
   position: absolute;
-  top: 35%;
-  right: 15%;
+  top: 7%;
+  right: 32%;
   font-size: 8px;
   padding: 7px;
 }
@@ -741,13 +760,13 @@ input::-webkit-inner-spin-button {
   height: 70px;
   background: #202E44 0% 0% no-repeat padding-box;
   box-shadow: 0px 10px 10px #00000029;
-  border-radius: 16px 16px 16px 0px;
+  border-radius: 16px 16px 0px 16px;
   opacity: 1;
   position: absolute;
   font-size: 8px;
   padding: 7px;
-  left: 76%;
-  top: 37%;
+  left: 60%;
+  top: 7%;
 
 }
 
@@ -798,6 +817,7 @@ input::-webkit-inner-spin-button {
   background: #3E4A59 0% 0% no-repeat padding-box;
   opacity: 1;
   border-radius: 90px;
+  position: relative;
 }
 
 .card-feat {
@@ -930,6 +950,7 @@ px
   border-radius: 12px;
   opacity: 1;
   margin-bottom: 15px;
+  position: relative;
 }
 
 .menu-icon:hover {
@@ -942,9 +963,12 @@ px
 }
 
 .icon-lp {
-
   width: 16px;
   height: 19px;
+  position: absolute;
+  left: 35%;
+  top: 29%;
+
 }
 
 .mtb-auto {
@@ -1003,6 +1027,38 @@ px
 .show>.dropdown-menu {
   display: block;
   position: absolute;
+  background: #142130;
+  border-radius: 4px;
+}
+
+.btn-secondary:focus {
+
+  box-shadow: none !important;
+}
+
+.dropdown-item:active {
+
+  background-color: none !important;
+}
+
+.dropdown-item:hover {
+  color: #5F3FEE !important;
+  background-color: transparent !important;
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 0.25rem 1rem;
+  clear: both;
+  font-weight: 400;
+  color: white !important;
+  text-align: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
 }
 
 .ido-search {
@@ -1113,19 +1169,25 @@ px
 }
 
 .idoimg {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
+  float: left;
+  margin-top: -2px;
 }
 
 .coinname {
-  font-size: 18px;
   color: white;
-  font-weight: 600;
+
+  text-align: left;
+  font-size: 14px;
+  color: #A8A8A8;
+
 }
 
 .coinsymb {
-  font-size: 14px;
-  color: #A8A8A8;
+  font-size: 18px;
+
+  font-weight: 600;
   text-align: left;
 }
 
@@ -1134,7 +1196,6 @@ px
   background: #32B071 0% 0% no-repeat padding-box;
   border-radius: 4px;
   opacity: 1;
-  margin-left: auto;
   font-size: 12px;
   padding: 3px 10px;
 }
@@ -1144,7 +1205,6 @@ px
   background: #585858 0% 0% no-repeat padding-box;
   border-radius: 4px;
   opacity: 1;
-  margin-left: auto;
   font-size: 12px;
   padding: 3px 10px;
 }
@@ -1165,7 +1225,8 @@ px
 
 .groupd {
   margin-left: 12px;
-  margin-top: -4px;
+  margin-top: -7px;
+  text-align: left;
 }
 
 .sub-head-ido {

@@ -10,7 +10,7 @@ import { setErrorModal } from '../../redux/actions/errorModalActions';
 const IdoComponent = (props) => {
     const dispatch = useDispatch();
 
-    let {paymentToken, trodlIdo, accounts, web3, type, error, show} = props;
+    let { paymentToken, trodlIdo, accounts, web3, type, error, show } = props;
 
     if (error) {
         dispatch(setErrorModal(show, type, error.message))
@@ -18,33 +18,33 @@ const IdoComponent = (props) => {
 
     const [poolArray, setPoolArray] = useState([]);
     const [detailsBool, showDetails] = useState(false);
-    const [searchText, setSearchText ] = useState("");
-    const [dropdownSelect, setDropdownSelect ] = useState("All");
+    const [searchText, setSearchText] = useState("");
+    const [dropdownSelect, setDropdownSelect] = useState("All");
     const [detailPoolId, setDetailPoolId] = useState(0);
 
     useEffect(() => {
         async function getPoolCount() {
-            if(isValidConnectionForCard()) {
+            if (isValidConnectionForCard()) {
                 try {
-                    let count = await trodlIdo.methods.poolsCount().call({from: accounts[0]});
+                    let count = await trodlIdo.methods.poolsCount().call({ from: accounts[0] });
                     console.log(`Pool count: ${count}`);
-                    let arr = Array.from({length: count}, (_, index) => count - (index + 1));
+                    let arr = Array.from({ length: count }, (_, index) => count - (index + 1));
                     setPoolArray(arr);
-                } catch(err) {
+                } catch (err) {
                     console.log(`Failed to get Pool count: ${err.message}`);
                 }
             }
         }
         getPoolCount();
-    },[trodlIdo, accounts, web3, searchText, dropdownSelect]);
+    }, [trodlIdo, accounts, web3, searchText, dropdownSelect]);
 
     const isValidConnectionForCard = () => {
-		if ((trodlIdo && (trodlIdo._address !== null))
-            && (accounts && accounts.length > 0 ) && web3) {
-			return true;
-		}
-		return false;
-	}
+        if ((trodlIdo && (trodlIdo._address !== null))
+            && (accounts && accounts.length > 0) && web3) {
+            return true;
+        }
+        return false;
+    }
 
     const showDetailedView = (bool, poolId) => {
         showDetails(bool);
@@ -61,14 +61,17 @@ const IdoComponent = (props) => {
 
     const getFilteredPools = () => {
 
-        let tempArray = poolArray.filter( poolId => {
+        let tempArray = poolArray.filter(poolId => {
             let result = poolsStatic.filter(pool => pool.poolId === poolId);
             return result[0].tokenName.toLowerCase().includes(searchText.toLowerCase());
         });
 
         return tempArray.map((item, index) => (
             < IdoCard key={index} poolId={item} trodlIdo={trodlIdo} accounts={accounts} web3={web3} selection={dropdownSelect} onDetailView={showDetailedView} />
+
+
         ));
+
     }
 
     return (
@@ -76,7 +79,7 @@ const IdoComponent = (props) => {
             {detailsBool ?
                 <div>
                     <div className="back-btn cursor-p flex-d" onClick={() => { showDetailedView(false) }}>
-                        <div><i className="fas fa-arrow-left"></i></div> 
+                        <div><i className="fas fa-arrow-left"></i></div>
                         <div className="ml-10"> Back </div>
                     </div >
                     <IdoDetails poolId={detailPoolId} paymentToken={paymentToken} trodlIdo={trodlIdo} accounts={accounts} web3={web3} ></IdoDetails>
@@ -101,9 +104,9 @@ const IdoComponent = (props) => {
                     </div>
                     <div className="flex-d mt-35 ml-12">
                         <i className="fa fa-search search-icn" aria-hidden="true"></i>
-                        <input className="ido-search" placeholder="Search by pool name here... " onChange={onSearchChange}/>
+                        <input className="ido-search" placeholder="Search by pool name here... " onChange={onSearchChange} />
                         <div className="ido-rigth">
-                            <DropDown onSelection={onDropdownSelect}/>
+                            <DropDown onSelection={onDropdownSelect} />
                         </div>
                     </div>
                     <hr className="mr-20"></hr>
