@@ -36,7 +36,7 @@ export class LandingPage extends Component {
         // const scrollToMyRef = () => window.scrollTo(0, this.myRef.current.offsetTop);
         const heroSection = () => {
             return (
-                <div className="bg-col-land">
+                <div >
                     <div className="row mlr64">
                         <div className="mt-42">
                             <div className="flex-d left">
@@ -132,7 +132,7 @@ export class LandingPage extends Component {
             );
         }
         return (
-            <div>
+            <div className="bg-col-land">
                 {heroSection()}
                 {features()}
                 <div className="t-and-c">
