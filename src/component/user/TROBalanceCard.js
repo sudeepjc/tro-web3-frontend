@@ -96,7 +96,7 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction 
             if (isValidConnectionForCard()) {
                 if (inputamount <= 0) {
                     console.log('Input Validation failed: Value should be greater than ZERO');
-                    showErrorModal(true, 'other error', new Error('Value should be greater than ZERO') );
+                    showErrorModal(true, 'other error', new Error('Value should be greater than ZERO'));
                 } else {
                     let amount = web3.utils.toWei(inputamount, 'ether');
                     let tx = await trodlToken.methods.approve(trodlStake._address, amount).send({ from: accounts[0] })
@@ -115,8 +115,8 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction 
                     console.log(tx);
                 }
             } else {
-                console.log('Validation failed: Connect to Binance Smart Chain');
-                showErrorModal(true, 'switch', new Error('Connect to Binance Smart Chain'));
+                // console.log('Validation failed: Connect to Binance Smart Chain');
+                showErrorModal(true, 'connect wallet', new Error(''));
             }
         } catch (err) {
             console.log(err.message);
@@ -148,7 +148,7 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction 
                 }
             } else {
                 console.log('Validation failed: Connect to Binance Smart Chain');
-                showErrorModal(true, 'switch', new Error('Connect to Binance Smart Chain'));
+                showErrorModal(true, 'connect wallet', new Error(''));
             }
         } catch (err) {
             console.log(err.message);

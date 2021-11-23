@@ -112,7 +112,7 @@ const XTRORewardCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                 console.log(tx);
             } else {
                 console.log('Validation failed: Connect to Binance Smart Chain');
-                showErrorModal(true, 'switch', 'Connect to Binance Smart Chain');
+                showErrorModal(true, 'connect wallet', new Error(''));
             }
         } catch (err) {
             console.log(err.message);

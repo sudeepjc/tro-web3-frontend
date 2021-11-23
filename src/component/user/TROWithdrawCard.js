@@ -108,7 +108,7 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                 console.log(tx);
             } else {
                 console.log('Validation failed: Connect to Binance Smart Chain');
-                showErrorModal(true, 'switch', new Error('Connect to Binance Smart Chain'));
+                showErrorModal(true, 'connect wallet', new Error(''));
             }
         } catch (err) {
             console.log(err.message);
@@ -133,7 +133,7 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                 console.log(tx);
             } else {
                 console.log('Validation failed: Connect to Binance Smart Chain');
-                showErrorModal(true, 'switch', new Error('Connect to Binance Smart Chain'));
+                showErrorModal(true, 'connect wallet', new Error(''));
             }
         } catch (err) {
             console.log(err.message);
@@ -177,7 +177,7 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                             onMouseLeave={e => {
                                 setStyle({ display: 'none' })
                             }}></i></div>
-                        </div>
+                    </div>
                     <div className=" ml-25p">
                         <div className="font-14 color-cf">
                             Unlocked TRO balance
@@ -192,8 +192,8 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                             onMouseLeave={e => {
                                 setStyle2({ display: 'none' })
                             }}></i></div>
-                        </div>
                     </div>
+                </div>
                 <div className="flex-d mt-30">
                     <div>
                         <button className="  card-btns" onClick={restakeAll}>
