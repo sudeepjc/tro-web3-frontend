@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { setErrorModal } from '../../redux/actions/errorModalActions';
 import { setTxSubmitModal } from '../../redux/actions/transactionSubmitActions';
 import { setTxStatusModal } from '../../redux/actions/transactionStatusActions';
+import { shortAddress } from '../../utils/web3/addressUtils';
 
 const IdoDetails = ({ poolId, paymentToken, trodlIdo, accounts, web3 }) => {
     const dispatch = useDispatch();
@@ -313,7 +314,8 @@ const IdoDetails = ({ poolId, paymentToken, trodlIdo, accounts, web3 }) => {
         if (poolInfo) {
             return (
                 <div>
-                    <span className="sub-head-ido mar-10"> Address</span> <span className="intext-1 font-14">{poolInfo.props.issuanceToken}</span>
+                    <span className="sub-head-ido mar-10"> Address</span> <span className="intext-1 font-14">{shortAddress(poolInfo.props.issuanceToken)}
+                        <spam onClick={() => navigator.clipboard.writeText(poolInfo.props.issuanceToken)}><i class="far fa-copy copy-l"></i></spam></span>
                 </div>
             );
         }

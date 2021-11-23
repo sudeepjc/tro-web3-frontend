@@ -133,6 +133,7 @@ a {
   border-radius: 16px;
   padding: 15px;
   position: relative;
+  z-index: 1;
 
 }
 
@@ -471,6 +472,7 @@ input::-webkit-inner-spin-button {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.6);
+  z-index: 2;
 
 }
 
@@ -628,7 +630,8 @@ input::-webkit-inner-spin-button {
   border-radius: 8px;
   border: none !important;
   border: 1px solid #212e44 !important;
-  box-shadow: 0 0 0 100000px rgb(24 23 33 / 90%)
+  box-shadow: 0 0 0 100000px rgb(24 23 33 / 90%);
+  z-index: 2;
 }
 
 .glasshr {
@@ -991,6 +994,12 @@ px
   color: #FFFFFF;
   opacity: 1;
   font-size: 25px;
+}
+
+.copy-l {
+  margin-left: 8px;
+  font-size: 12px;
+  cursor: pointer;
 }
 
 .ido_sub {

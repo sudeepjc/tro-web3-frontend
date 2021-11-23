@@ -63,6 +63,7 @@ export class LaunchPad extends Component {
             console.log(idoContract);
             console.log(paymentTokenContract);
             console.log(chainId);
+
         } catch (err) {
             console.log(`Connection failed. ${err.message}`);
             this.setState({ error: err });

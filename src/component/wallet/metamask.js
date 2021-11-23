@@ -3,8 +3,11 @@ import config from 'react-global-configuration';
 import MetaMaskOnboarding from '@metamask/onboarding';
 import { shortAddress } from '../../utils/web3/addressUtils';
 import ErrorModal from '../modals/errorModal';
+import { useDispatch } from 'react-redux';
+import { setErrorModal } from '../../redux/actions/errorModalActions';
 
 function MetaMaskWallet({ onConnection, onAccountChange }) {
+    const dispatch = useDispatch();
     const [isInstalled, setIsInstalled] = useState(false);
     const [isInstalling, setIsInstalling] = useState(false);
     const [isConnected, setIsConnected] = useState(false);
@@ -32,8 +35,9 @@ function MetaMaskWallet({ onConnection, onAccountChange }) {
         }
     }, []);
 
-    const showErrorModal = () => {
-        setShow(!show);
+    const showErrorModal = (show, type, error) => {
+        dispatch(setErrorModal(show, type, error.message));
+        // setShow(!show);
     };
 
     const isMetaMaskInstalled = () => {
@@ -60,9 +64,9 @@ function MetaMaskWallet({ onConnection, onAccountChange }) {
                 //Ignore User Tx Reject
             }
             console.log(`Error during Metamask installation: ${err.message}`);
-            setError(err);
-            setType('other error');
-            showErrorModal();
+            // setError(err);
+            // setType('other error');
+            showErrorModal(true, 'other error', err);
         }
     }
 
@@ -86,9 +90,9 @@ function MetaMaskWallet({ onConnection, onAccountChange }) {
                 //Ignore User Tx Reject
             }
             console.log(`Error during Metamask connection: ${err.message}`);
-            setError(err);
-            setType('other error')
-            showErrorModal();
+            // setError(err);
+            // setType('other error')
+            showErrorModal(true, 'other error', err);
         } finally {
             if (onboarding) {
                 console.log('onboarding stopped');
@@ -150,9 +154,9 @@ function MetaMaskWallet({ onConnection, onAccountChange }) {
 
         if (!(chainId === '0x38' || chainId === '0x61')) {
             console.log('Switch to BSC');
-            setError(new Error(`Connect to the Binance Chain`));
-            setType('switch')
-            showErrorModal();
+            // setError(new Error(`Connect to the Binance Chain`));
+            // setType('switch')
+            showErrorModal(true, 'switch', new Error(`Connect to the Binance Chain`));
         }
     }
 
