@@ -29,9 +29,9 @@ function App() {
           <Routing></Routing>
         </Provider>
       </header>
-      <div className="t-and-c">
+      {/* <div className="t-and-c">
         © Trodl.com 2021-22. All rights reserved.
-            </div>
+            </div> */}
     </div >
   );
 }

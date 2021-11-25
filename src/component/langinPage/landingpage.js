@@ -136,7 +136,7 @@ export class LandingPage extends Component {
                 {heroSection()}
                 {features()}
                 <div className="t-and-c">
-                    � Trodl.com 2021-22. All rights reserved.
+                    © Trodl.com 2021-22. All rights reserved.
                 </div>
             </div>
 
