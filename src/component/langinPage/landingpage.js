@@ -20,6 +20,11 @@ export class LandingPage extends Component {
     }
 
     render() {
+        if (window.innerWidth < 1000) {
+            console.log('window.innerwidth');
+            window.location.href = "https://trodl.com/";
+
+        }
         const handleOnClick = (event) => {
             //.current is verification that your element has rendered
             if (event) {
@@ -131,14 +136,17 @@ export class LandingPage extends Component {
             );
         }
         return (
-            <div className="bg-col-land">
-                {heroSection()}
-                {features()}
-                <div className="t-and-c">
-                    © Trodl.com 2021-22. All rights reserved.
+            <div> 
+            { window.innerWidth < 1000 ? <div>Redirecting ...</div> :
+                <div className="bg-col-land">
+                    {heroSection()}
+                    {features()}
+                    <div className="t-and-c">
+                        © Trodl.com 2021-22. All rights reserved.
+                    </div>
                 </div>
+            }
             </div>
-
         );
     }
 }
