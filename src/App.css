@@ -395,9 +395,9 @@ input::-webkit-inner-spin-button {
   color: #f9f9f9;
   opacity: 1;
   font-size: 12px;
-  position: fixed;
+  position: relative;
   left: 0;
-  bottom: 10px;
+  bottom: 20px;
   width: 100%;
   text-align: center;
 }
