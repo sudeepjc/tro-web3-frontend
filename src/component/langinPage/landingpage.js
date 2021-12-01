@@ -54,7 +54,7 @@ export class LandingPage extends Component {
                             </div>
                                 <div className="flex-right">
                                     <a href="https://trodl.com" target="_blank" rel="noreferrer" className="deco-none">
-                                        <div className="btn-tro">visit trodl.com</div>
+                                        <div className="btn-tro">Visit trodl.com</div>
                                     </a>
                                 </div>
                             </div>
@@ -71,9 +71,9 @@ export class LandingPage extends Component {
                             <div className="mt-40">
                                 <button className="launch-btn mr-17" onClick={() => { this.setState(() => ({ toLaunchpad: true })) }}>
                                     <i className="fas fa-rocket mr-17"  ></i>
-                                    open launchpad
+                                    Open Launchpad
                                 </button>
-                                <a href="https://forms.gle/kLYhRVPyyj64M7jE7" target="_blank" rel="noreferrer"><button className="ido-btn" > <i className="fas fa-wallet mr-17"></i>apply for IDO</button></a>
+                                <a href="https://forms.gle/kLYhRVPyyj64M7jE7" target="_blank" rel="noreferrer"><button className="ido-btn" > <i className="fas fa-wallet mr-17"></i>Apply for IDO</button></a>
                             </div>
                         </div>
                         <div className=" ">
@@ -94,11 +94,10 @@ export class LandingPage extends Component {
                         <div className="main-feat">
                             <div className="icon-feat">
                                 <img src={icon1} className="icon-lp" alt='trodl-logo'></img>
-
                             </div>
                             <div className="card-feat">
                                 <div className="head-feat">Staking</div>
-                                <div className="sub-feat">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus malesuada velit interdum, sagittis nisl ut, mollis felis. In sit amet aliquet arcu.</div>
+                                <div className="sub-feat">Staking TRO allows you to earn xTRO. Amount of xTRO enables you to partipate in airdrops, tiered IDO allocations and alot more..  </div>
                             </div>
                         </div>
                         <div className="main-feat  ml-66">
@@ -127,7 +126,7 @@ export class LandingPage extends Component {
                             </div>
                         </div>
                     </div>
-                    <button className="launch-btn mr-17 mb-240" onClick={() => { this.setState(() => ({ toLaunchpad: true })) }}><i className="fas fa-rocket mr-17" ></i>open launchpad</button>
+                    <button className="launch-btn mr-17 mb-240" onClick={() => { this.setState(() => ({ toLaunchpad: true })) }}><i className="fas fa-rocket mr-17" ></i>Open Launchpad</button>
                 </div>
             );
         }

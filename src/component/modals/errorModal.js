@@ -36,7 +36,6 @@ const ErrorModal = (props) => {
                 method: 'wallet_switchEthereumChain',
                 params: [{chainId: MAINNET_PARAMS.chainId}],
             });
-            onClose();
         } catch (switchError) {
             // This error code indicates that the chain has not been added to MetaMask.
             if (switchError.code === 4902) {
@@ -53,6 +52,8 @@ const ErrorModal = (props) => {
                 console.log(switchError);
                 throw switchError;
             }
+        } finally {
+            onClose();
         }
     }
 
@@ -64,7 +65,7 @@ const ErrorModal = (props) => {
     return (
         <div className="modal2" id="modal">
             <div className="content">
-                { state1.errorType == 'connect wallet' ?
+                { state1.errorType === 'connect wallet' ?
                     <div>
                         <div className="mg-t-107 ">
                             <i className="fas fa-wallet wallet-fa "></i>
@@ -78,7 +79,7 @@ const ErrorModal = (props) => {
                             </button>
                         </div>
                     </div>
-                    : state1.errorType == 'switch' ? <div>
+                    : state1.errorType === 'switch' ? <div>
                         <div className="align-c">
                             <div className="mg-t-107 ">
                                 <img src={bscImg} className="bsc-img" alt='bsc-img'>
@@ -94,7 +95,7 @@ const ErrorModal = (props) => {
                                 </button>
                             </div>
                         </div>
-                    </div> : state1.errorType == 'other error' ?
+                    </div> : state1.errorType === 'other error' ?
                         <div className="align-c">
                             <div className="mg-t-107 ">
                                 <i className="fas fa-exclamation-circle exc-fa"></i>

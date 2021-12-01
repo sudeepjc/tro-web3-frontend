@@ -34,7 +34,7 @@ const TROPriceCard = () => {
 
     return (
 
-        <div className="font-14 mlr-50">
+        <div className="font-14 ml-135-r-50">
             <span className="color-a8">    $TRO Price </span> <span className="semi-bold color-prim  ml-10">       {formatTROPrice()}</span>
 
         </div>

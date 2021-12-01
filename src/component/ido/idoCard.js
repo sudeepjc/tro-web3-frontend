@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import BigNumber from 'bignumber.js';
-import { poolsStatic } from './poolsStatic';
+import { poolsStatic } from './poolsStaticMainnet';
 
 const IdoCard = ({ poolId, trodlIdo, accounts, selection, onDetailView }) => {
     const [poolInfo, setPoolInfo] = useState(null);

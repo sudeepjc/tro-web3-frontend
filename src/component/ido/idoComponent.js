@@ -2,15 +2,18 @@
 import React, { useEffect, useState } from 'react';
 import IdoDetails from '../ido/idoDetails'
 import IdoCard from '../ido/idoCard'
-import { poolsStatic } from './poolsStatic';
+import { poolsStatic } from './poolsStaticMainnet';
 import DropDown from './dropDown';
 import { useDispatch } from 'react-redux';
 import { setErrorModal } from '../../redux/actions/errorModalActions';
+import banner1 from '../../assets/images/banner1.png';
+import banner2 from '../../assets/images/banner2.png';
+import banner3 from '../../assets/images/banner3.png';
 
 const IdoComponent = (props) => {
     const dispatch = useDispatch();
 
-    let { paymentToken, trodlIdo, accounts, web3, type, error, show } = props;
+    let { paymentToken, trodlIdo, accounts, web3, type, error, show, clickBanner } = props;
 
     if (error) {
         dispatch(setErrorModal(show, type, error.message))
@@ -68,10 +71,7 @@ const IdoComponent = (props) => {
 
         return tempArray.map((item, index) => (
             < IdoCard key={index} poolId={item} trodlIdo={trodlIdo} accounts={accounts} web3={web3} selection={dropdownSelect} onDetailView={showDetailedView} />
-
-
         ));
-
     }
 
     return (
@@ -92,14 +92,14 @@ const IdoComponent = (props) => {
                         Build and Grow Your Portfolio by Accessing High-Potential, Vetted Projects!
                     </div>
                     <div className="flex-d mt-32">
-                        <div className="banner-ido">
-                            banner1
+                        <div className="banner-ido" onClick={()=> {clickBanner('staking')}}>
+                            <img src={banner1} className="banner-ido-image" alt='right-img'></img>
                         </div>
-                        <div className="banner-ido">
-                            banner2
+                        <div className="banner-ido" onClick={()=> {clickBanner('staking')}}>
+                            <img src={banner2} className="banner-ido-image" alt='right-img'></img>
                         </div>
-                        <div className="banner-ido">
-                            banner3
+                        <div className="banner-ido" onClick={()=> {clickBanner('staking')}}>
+                        <img src={banner3} className="banner-ido-image" alt='right-img'></img>
                         </div>
                     </div>
                     <div className="flex-d mt-35 ml-12">

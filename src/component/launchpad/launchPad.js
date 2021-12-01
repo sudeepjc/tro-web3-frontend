@@ -97,7 +97,7 @@ export class LaunchPad extends Component {
 
                                 <div className="flex-right mt-10">
                                     <a href="https://trodl.com" target="_blank" rel="noreferrer" className="deco-none"> <div className="btn-tro-2"
-                                    >visit trodl.com</div></a>
+                                    >Visit trodl.com</div></a>
                                 </div>
                                 <MetaMaskWallet onConnection={this.onConnect} onAccountChange={this.onAccountChange} />
                             </div>
@@ -131,7 +131,7 @@ export class LaunchPad extends Component {
                         <TransactionSubmitModal></TransactionSubmitModal>
                         <TransactionModal></TransactionModal>
                         {this.state.currentTab == 'staking' ? <Staking trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} trodlToken={this.state.trodlToken} onTransaction={this.onTransaction} type={this.state.type} error={this.state.error ? this.state.error : ''} show={this.state.show} ></Staking> : null}
-                        {this.state.currentTab == 'ido' ? <IDOComponent paymentToken={this.state.paymentToken} trodlIdo={this.state.trodlIdo} accounts={this.state.accounts} web3={this.state.web3} type={this.state.type} error={this.state.error ? this.state.error : ''} show={this.state.show} ></IDOComponent> : null}
+                        {this.state.currentTab == 'ido' ? <IDOComponent paymentToken={this.state.paymentToken} trodlIdo={this.state.trodlIdo} accounts={this.state.accounts} web3={this.state.web3} type={this.state.type} error={this.state.error ? this.state.error : ''} show={this.state.show} clickBanner={this.selectTab}></IDOComponent> : null}
                     </div>
                 </div>
             </div>

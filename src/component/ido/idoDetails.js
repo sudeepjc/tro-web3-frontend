@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import BigNumber from 'bignumber.js';
-import { poolsStatic } from './poolsStatic';
+import { poolsStatic } from './poolsStaticMainnet';
 import { useDispatch } from 'react-redux';
 import { setErrorModal } from '../../redux/actions/errorModalActions';
 import { setTxSubmitModal } from '../../redux/actions/transactionSubmitActions';
@@ -315,7 +315,7 @@ const IdoDetails = ({ poolId, paymentToken, trodlIdo, accounts, web3 }) => {
             return (
                 <div>
                     <span className="sub-head-ido mar-10"> Address</span> <span className="intext-1 font-14">{shortAddress(poolInfo.props.issuanceToken)}
-                        <spam onClick={() => navigator.clipboard.writeText(poolInfo.props.issuanceToken)}><i class="far fa-copy copy-l"></i></spam></span>
+                        <span onClick={() => navigator.clipboard.writeText(poolInfo.props.issuanceToken)}><i className="far fa-copy copy-l"></i></span></span>
                 </div>
             );
         }

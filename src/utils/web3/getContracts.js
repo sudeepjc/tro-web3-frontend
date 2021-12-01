@@ -1,10 +1,11 @@
-import tokenContractABI from '../abi/contracts/Trodl.json';
-import stakeContractABI from '../abi/contracts/TrodlStake.json';
-import idoContractABI from '../abi/contracts/TrodlIDO.json';
+// import tokenContractABI from '../abi/contracts/Trodl.json';
+// import stakeContractABI from '../abi/contracts/TrodlStake.json';
+// import idoContractABI from '../abi/contracts/TrodlIDO.json';
 import iERC20ContractABI from '../abi/contracts/IERC20.json';
 import config from 'react-global-configuration';
-// import stakeContractABI from '../abi/contracts/TrodlStakeMainNet.json';
-// import tokenContractABI from '../abi/contracts/AnyswapV5ERC20.json';
+import tokenContractABI from '../abi/contracts/AnyswapV5ERC20.json';
+import stakeContractABI from '../abi/contracts/TrodlStakeMainNet.json';
+import idoContractABI from '../abi/contracts/TrodlIDOMainNet.json';
 
 const getTokenContract = async (web3) => {
     try {
