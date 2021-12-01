@@ -81,6 +81,11 @@ export class LaunchPad extends Component {
     }
 
     render() {
+        if (window.innerWidth < 1000) {
+            console.log('window.innerwidth');
+            window.location.href = "https://trodl.com/";
+
+        }
         if (this.state.toHomePage) {
             return <Redirect to='/' />
         }
@@ -108,32 +113,36 @@ export class LaunchPad extends Component {
         }
 
         return (
-            <div className="bg-launch">
-                <div className="launpad-route fle">
-                    <div className="mtb-auto">
-                        <div className="menu-icon cursor-p" style={{ backgroundColor: this.state.currentTab == 'staking' ? '#06111E' : '' }} onClick={() => {
-                            this.selectTab('staking');
-                        }}>
-                            <img src={icon1} className="icon-lp" alt='trodl-logo'></img>
+            <div>
+                { window.innerWidth < 1000 ? <div>Redirecting ...</div> :
+                    <div className="bg-launch">
+                        <div className="launpad-route fle">
+                            <div className="mtb-auto">
+                                <div className="menu-icon cursor-p" style={{ backgroundColor: this.state.currentTab == 'staking' ? '#06111E' : '' }} onClick={() => {
+                                    this.selectTab('staking');
+                                }}>
+                                    <img src={icon1} className="icon-lp" alt='trodl-logo'></img>
+                                </div>
+                                <div className="menu-icon cursor-p" style={{ backgroundColor: this.state.currentTab == 'ido' ? '#06111E' : '' }} onClick={() => {
+                                    this.selectTab('ido')
+                                }}>
+                                    <img src={icon2} className="icon-lp" alt='trodl-logo'></img>
+                                </div>
+                                <div className="menu-icon cursor-p">  <img src={icon3} className="icon-lp" alt='trodl-logo'></img></div>
+                            </div>
                         </div>
-                        <div className="menu-icon cursor-p" style={{ backgroundColor: this.state.currentTab == 'ido' ? '#06111E' : '' }} onClick={() => {
-                            this.selectTab('ido')
-                        }}>
-                            <img src={icon2} className="icon-lp" alt='trodl-logo'></img>
+                        <div>
+                            {header()}
+                            <div className={this.state.currentTab == 'staking' ? 'lp-mrgs-stage p-100' : "lp-mgrs p-100"}>
+                                <ErrorModal ></ErrorModal>
+                                <TransactionSubmitModal></TransactionSubmitModal>
+                                <TransactionModal></TransactionModal>
+                                {this.state.currentTab == 'staking' ? <Staking trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} trodlToken={this.state.trodlToken} onTransaction={this.onTransaction} type={this.state.type} error={this.state.error ? this.state.error : ''} show={this.state.show} ></Staking> : null}
+                                {this.state.currentTab == 'ido' ? <IDOComponent paymentToken={this.state.paymentToken} trodlIdo={this.state.trodlIdo} accounts={this.state.accounts} web3={this.state.web3} type={this.state.type} error={this.state.error ? this.state.error : ''} show={this.state.show} clickBanner={this.selectTab}></IDOComponent> : null}
+                            </div>
                         </div>
-                        <div className="menu-icon cursor-p">  <img src={icon3} className="icon-lp" alt='trodl-logo'></img></div>
                     </div>
-                </div>
-                <div>
-                    {header()}
-                    <div className={this.state.currentTab == 'staking' ? 'lp-mrgs-stage p-100' : "lp-mgrs p-100"}>
-                        <ErrorModal ></ErrorModal>
-                        <TransactionSubmitModal></TransactionSubmitModal>
-                        <TransactionModal></TransactionModal>
-                        {this.state.currentTab == 'staking' ? <Staking trodlStake={this.state.trodlStake} accounts={this.state.accounts} web3={this.state.web3} trodlToken={this.state.trodlToken} onTransaction={this.onTransaction} type={this.state.type} error={this.state.error ? this.state.error : ''} show={this.state.show} ></Staking> : null}
-                        {this.state.currentTab == 'ido' ? <IDOComponent paymentToken={this.state.paymentToken} trodlIdo={this.state.trodlIdo} accounts={this.state.accounts} web3={this.state.web3} type={this.state.type} error={this.state.error ? this.state.error : ''} show={this.state.show} clickBanner={this.selectTab}></IDOComponent> : null}
-                    </div>
-                </div>
+                }
             </div>
         )
     }
