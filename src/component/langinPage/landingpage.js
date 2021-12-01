@@ -97,7 +97,7 @@ export class LandingPage extends Component {
                             </div>
                             <div className="card-feat">
                                 <div className="head-feat">Staking</div>
-                                <div className="sub-feat">Staking TRO allows you to earn xTRO. Amount of xTRO enables you to partipate in airdrops, tiered IDO allocations and alot more..  </div>
+                                <div className="sub-feat">Staking is not just about APY anymore!! Stake TRO to earn xTRO. Higher the xTRO, higher the airdrops and IDO allocation. Stake more to earn more.</div>
                             </div>
                         </div>
                         <div className="main-feat  ml-66">
@@ -107,7 +107,7 @@ export class LandingPage extends Component {
                             </div>
                             <div className="card-feat">
                                 <div className="head-feat">IDO Launchpad</div>
-                                <div className="sub-feat">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus malesuada velit interdum, sagittis nisl ut, mollis felis. In sit amet aliquet arcu.</div>
+                                <div className="sub-feat">Trodl IDO launchapad is your ticket to ocean of opportunities to invest in diversified portfolios and have early access to the best of Crypto Gems</div>
                             </div>
                         </div>
                         <div className="main-feat  ml-66">
@@ -122,7 +122,7 @@ export class LandingPage extends Component {
                                         coming soon
                                     </div>
                                 </div>
-                                <div className="sub-feat">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus malesuada velit interdum, sagittis nisl ut, mollis felis. In sit amet aliquet arcu.</div>
+                                <div className="sub-feat">The Next Big Thing. Shall be unveiled soon.</div>
                             </div>
                         </div>
                     </div>
