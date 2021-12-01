@@ -139,8 +139,8 @@ function MetaMaskWallet({ onConnection, onAccountChange }) {
 
     const setLinkConfiguration = (chainId) => {
         if (chainId === '0x38') {
-            // config.set({ link: 'https://bscscan.com', pToken: '0xe9e7cea3dedca5984780bafc599bd69add087d56' }, { freeze: false });
-            config.set({ link: 'https://bscscan.com', pToken: '0xa1e1B2b468220E2dd82c84977FE464834f088f8c' }, { freeze: false });
+            config.set({ link: 'https://bscscan.com', pToken: '0xe9e7cea3dedca5984780bafc599bd69add087d56' }, { freeze: false });
+            // config.set({ link: 'https://bscscan.com', pToken: '0xa1e1B2b468220E2dd82c84977FE464834f088f8c' }, { freeze: false });
         } else if (chainId === '0x61') {
             config.set({ link: 'https://testnet.bscscan.com', pToken: '0x83fa07FF99bF0556A9e50498b695c6efB69bB212' }, { freeze: false });
         } else {
