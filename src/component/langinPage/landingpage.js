@@ -76,7 +76,11 @@ export class LandingPage extends Component {
                                 Staking TRO earns you quarterly airdrops, assured IDO allocations and access to an ocean of opportunities within trodl ecosystem
                             </div>
                             <div className="mt-40">
-                                <button className="launch-btn mr-17" onClick={() => { this.setState(() => ({ toLaunchpad: true })) }}>
+                                <button className="launch-btn mr-17" onClick={() => {
+                                    setTimeout(() => this.setState(() => ({ toLaunchpad: true })), 5000)
+
+
+                                }}>
                                     <i className="fas fa-rocket mr-17"  ></i>
                                     Open Launchpad
                                 </button>
@@ -138,16 +142,16 @@ export class LandingPage extends Component {
             );
         }
         return (
-            <div> 
-            { window.innerWidth < 1000 ? <div>Redirecting ...</div> :
-                <div className="bg-col-land">
-                    {heroSection()}
-                    {features()}
-                    <div className="t-and-c">
-                        © Trodl.com 2021-22. All rights reserved.
+            <div>
+                { window.innerWidth < 1000 ? <div className="pad-160">Staking and Launchpad is accessible from Desktop or Laptop screens only. Not available on mobile devices</div> :
+                    <div className="bg-col-land">
+                        {heroSection()}
+                        {features()}
+                        <div className="t-and-c">
+                            © Trodl.com 2021-22. All rights reserved.
                     </div>
-                </div>
-            }
+                    </div>
+                }
             </div>
         );
     }

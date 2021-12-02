@@ -146,7 +146,7 @@ const XTRORewardCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                         <div className="font-14 color-cf"> Earned xTRO</div>
                         <div className="font-16 color-a8 ">   {formatUserXTROBalance()}</div>
                     </div>
-                    <div className=" ml-25p">
+                    <div className="flex-right">
                         <div className="font-14 color-cf">   Staked TRO</div>
                         <div className="font-16 color-a8 ">   {formatUserStakedTROBalance()}</div>
                     </div>

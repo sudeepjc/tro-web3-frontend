@@ -245,7 +245,7 @@ const IdoDetails = ({ poolId, paymentToken, trodlIdo, accounts, web3 }) => {
             } else if ((currentTime > poolStartTime) && (currentTime < poolEndTime)) {
                 return <div className="live-tag ml-24">Live</div>;
             } else {
-                return <div className="ended-tag ml-24">Ended</div>;
+                return <div className="ended-tag ml-24">Closed</div>;
             }
         }
     }
@@ -303,8 +303,8 @@ const IdoDetails = ({ poolId, paymentToken, trodlIdo, accounts, web3 }) => {
                 readableTimeTitle = "Ended";
             }
             return (
-                <div>
-                    <span className="sub-head-ido mar-10">{readableTimeTitle}</span> <span className="intext-2 font-14" >{readableTime} </span>
+                <div className="flex-d">
+                    <div className="sub-head-ido mar-10">{readableTimeTitle}</div> <div className="intext-2 font-14" >{readableTime} </div>
                 </div>
             );
         }
@@ -313,9 +313,9 @@ const IdoDetails = ({ poolId, paymentToken, trodlIdo, accounts, web3 }) => {
     const formatTokenAddress = () => {
         if (poolInfo) {
             return (
-                <div>
-                    <span className="sub-head-ido mar-10"> Address</span> <span className="intext-1 font-14">{shortAddress(poolInfo.props.issuanceToken)}
-                        <span onClick={() => navigator.clipboard.writeText(poolInfo.props.issuanceToken)}><i className="far fa-copy copy-l"></i></span></span>
+                <div className="mtb-12 flex-d">
+                    <div className="sub-head-ido mar-10 w-50"> Address</div> <div className="intext-1 font-14 w-50">{shortAddress(poolInfo.props.issuanceToken)}
+                        <span onClick={() => navigator.clipboard.writeText(poolInfo.props.issuanceToken)}><i className="far fa-copy copy-l"></i></span></div>
                 </div>
             );
         }
@@ -387,7 +387,7 @@ const IdoDetails = ({ poolId, paymentToken, trodlIdo, accounts, web3 }) => {
 
                 </div>
                 <div className="flex-right">
-                    <div className="sub-head-ido mar-10  font-14"> Release proptionally during {intervalSchedule.unlockingEnds}</div> <div className="intext-1 font-14">{intervalSchedule.remainingPart} </div>
+                    <div className="sub-head-ido mar-10 w-50 font-14"> Release proptionally during {intervalSchedule.unlockingEnds}</div> <div className="intext-1 font-14">{intervalSchedule.remainingPart} </div>
 
                 </div>
             </div>
@@ -552,7 +552,7 @@ const IdoDetails = ({ poolId, paymentToken, trodlIdo, accounts, web3 }) => {
                 </div>
                 <div className="flex-d font-14">
                     <div className="mr-52">
-                        <span className="sub-head-ido mar-10 "> Access</span>   <span className="intext-1 font-14">{getAccess()} </span>
+                        <span className="sub-head-ido mar-10"> Access</span>   <span className="intext-1 font-14">{getAccess()} </span>
                     </div>
                     <div className="mr-52">
                         <span className="sub-head-ido mar-10"> Launch date</span> <span className="intext-1 font-14">{getLaunchDate()} </span>
@@ -561,11 +561,11 @@ const IdoDetails = ({ poolId, paymentToken, trodlIdo, accounts, web3 }) => {
                         {formatStatusDetailed()}
                     </div>
                 </div>
-                <div className="flex-d">
-                    <div className=" offering-box mt-10 txt-left off-w  mtb-12 mr-8">
+                <div className="flex-d mt-14">
+                    <div className=" offering-box mt-10 txt-left off-w  mtb-12  mr-8">
                         <div className="sub-head-ido mar-10 font-14"> Total offering </div> <div className="intext-1 font-14">{formatIssuance()} {getTicker()} </div>
                     </div >
-                    <div className=" offering-box mt-10 txt-left off-w  mtb-12 mr-8">
+                    <div className=" offering-box mt-10 txt-left off-w  mtb-12  mr-8">
                         <div className="sub-head-ido mar-10"> Rate</div> <div className="intext-1 font-14">{formatRate()} {getTicker()} = 1 BUSD</div>
                     </div >
                     <div className=" offering-box mt-10 off-w txt-left  mr-8">
@@ -629,25 +629,25 @@ const IdoDetails = ({ poolId, paymentToken, trodlIdo, accounts, web3 }) => {
                     </div>
                     <hr className="widebr1"></hr>
                     <div className="mt-10 txt-left font-14 p-16-lr">
-                        <div className="mtb-12">
-                            <span className="sub-head-ido mar-10 "> Total Raise</span> <span className="intext-1 font-14">{getTotalRaise()} </span>
+                        <div className="mtb-12 flex-d">
+                            <div className="sub-head-ido mar-10 w-50"> Total Raise</div> <div className="intext-1 font-14 w-50">{getTotalRaise()} </div>
                         </div>
-                        <div className="mtb-12">
-                            <span className="sub-head-ido mar-10"> Hard cap</span> <span className="intext-1 font-14">{getHardCap()} </span>
+                        <div className="mtb-12 flex-d">
+                            <div className="sub-head-ido mar-10 w-50"> Hard cap</div> <div className="intext-1 font-14 w-50">{getHardCap()} </div>
                         </div >
                     </div>
                     <hr></hr>
                     <div className="p-16-lr">
                         <div className="intext-2 semi-bold font-14">ICO Price</div>
                         <div className="mt-10 txt-left font-14">
-                            <div className="mtb-12">
-                                <span className="sub-head-ido mar-10 ">Seed Rounde</span> <span className="intext-1 font-14">{getSeedPrice()}</span>
+                            <div className="mtb-12 flex-d">
+                                <span className="sub-head-ido mar-10 w-50">Seed Rounde</span> <span className="intext-1 font-14 w-50">{getSeedPrice()}</span>
                             </div>
-                            <div className="mtb-12">
-                                <span className="sub-head-ido mar-10"> Private round price</span> <span className="intext-1 font-14">{getPrivateRoundPrice()} </span>
+                            <div className="mtb-12 flex-d">
+                                <div className="sub-head-ido mar-10 w-50"> Private round price</div> <div className="intext-1 font-14 w-50">{getPrivateRoundPrice()} </div>
                             </div >
-                            <div className="mtb-12">
-                                <span className="sub-head-ido mar-10"> IDO round</span> <span className="intext-1 font-14">{getIDORoundPrice()} </span>
+                            <div className="mtb-12 flex-d">
+                                <div className="sub-head-ido mar-10 w-50"> IDO round</div> <div className="intext-1 font-14 w-50">{getIDORoundPrice()} </div>
                             </div >
                         </div>
                     </div>
@@ -666,20 +666,20 @@ const IdoDetails = ({ poolId, paymentToken, trodlIdo, accounts, web3 }) => {
                     </div>
                     <hr className="widebr1"></hr>
                     <div className="p-16-lr marg-a-off font-14 mt-10 txt-left">
-                        <div className="mtb-12">
-                            <span className="sub-head-ido mar-10 "> Ticker</span> <span className="intext-1 font-14">{getTicker()} </span>
+                        <div className="mtb-12 flex-d">
+                            <div className="sub-head-ido mar-10 w-50"> Ticker</div> <div className="intext-1 font-14 w-50">{getTicker()} </div>
                         </div>
-                        <div className="mtb-12">
-                            <span className="sub-head-ido mar-10">  Blockchain</span> <span className="intext-1 font-14">{getChain()} </span>
+                        <div className="mtb-12 flex-d">
+                            <div className="sub-head-ido mar-10 w-50">  Blockchain</div> <div className="intext-1 font-14 w-50">{getChain()} </div>
                         </div >
-                        <div className="mtb-12">
-                            {formatTokenAddress()}
+
+                        {formatTokenAddress()}
+
+                        <div className="mtb-12 flex-d">
+                            <div className="sub-head-ido mar-10 w-50"> Total supply</div> <div className="intext-1 font-14 w-50">{getTotalSupply()} </div>
                         </div>
-                        <div className="mtb-12">
-                            <span className="sub-head-ido mar-10 "> Total supply</span> <span className="intext-1 font-14">{getTotalSupply()} </span>
-                        </div>
-                        <div className="mtb-12">
-                            <span className="sub-head-ido mar-10 "> Type</span> <span className="intext-1 font-14">{getTokenType()} </span>
+                        <div className="mtb-12 flex-d">
+                            <div className="sub-head-ido mar-10 w-50"> Type</div> <div className="intext-1 font-14 w-50">{getTokenType()} </div>
                         </div>
                     </div>
                 </div>

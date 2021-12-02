@@ -180,7 +180,7 @@ const TROBalanceCard = ({ trodlToken, trodlStake, accounts, web3, onTransaction 
                     </div>
                     <div className="txt-left ml-10">
                         <div className="font-16 semi-bold">Metamask details</div>
-                        {/* <div className="font-14 color-a8">12 th Nov '21</div> */}
+                        <div className="font-14 color-a8">12 th Nov '21</div>
                     </div>
                 </div>
             </div>

@@ -177,8 +177,14 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                             onMouseLeave={e => {
                                 setStyle({ display: 'none' })
                             }}></i></div>
+
+                        <div className="mt-30">
+                            <button className="  card-btns" onClick={restakeAll}>
+                                Re-Stake</button>
+                        </div>
                     </div>
-                    <div className=" ml-25p">
+                    <div className="border-divide"></div>
+                    <div className=" flex-right">
                         <div className="font-14 color-cf">
                             Unlocked TRO balance
                         </div>
@@ -192,18 +198,15 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                             onMouseLeave={e => {
                                 setStyle2({ display: 'none' })
                             }}></i></div>
+
+                        <div className="flex-right mt-30">
+                            <button className="  card-btns" onClick={withdrawAll}>
+                                Withdraw</button>
+                        </div>
                     </div>
+
                 </div>
-                <div className="flex-d mt-30">
-                    <div>
-                        <button className="  card-btns" onClick={restakeAll}>
-                            Re-Stake</button>
-                    </div>
-                    <div className="flex-right">
-                        <button className="  card-btns" onClick={withdrawAll}>
-                            Withdraw</button>
-                    </div>
-                </div>
+
             </div>
         </div >
     );

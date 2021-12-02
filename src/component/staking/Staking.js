@@ -37,9 +37,13 @@ const Staking = (props) => {
                 <div className="  font16 mt-25 flex-d">
                     <TotalStakedTROCard trodlStake={props.trodlStake} accounts={props.accounts} web3={props.web3} />
                     <TotalMintedxTROCard trodlStake={props.trodlStake} accounts={props.accounts} web3={props.web3} />
+                    <div className="font-14 ml-165-r-50">
+                        <span className="color-a8"> Circulating Supply  </span> <span className="semi-bold color-prim  ml-10"> 900 million</span>
+                    </div>
+                    <div></div>
                     <TROPriceCard />
                 </div>
-                <hr className="stake-hr"></hr>
+                <hr className="stake-hr op-2"></hr>
                 <div className="flex-d  mt-50 font16">
                     <TROBalanceCard trodlToken={props.trodlToken} trodlStake={props.trodlStake} accounts={props.accounts} web3={props.web3} onTransaction={props.onTransaction} />
                     <XTRORewardCard trodlStake={props.trodlStake} accounts={props.accounts} web3={props.web3} onTransaction={props.onTransaction} />

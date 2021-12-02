@@ -97,7 +97,7 @@ const IdoCard = ({ poolId, trodlIdo, accounts, selection, onDetailView }) => {
             } else if ((currentTime > poolStartTime) && (currentTime < poolEndTime)) {
                 return <div className="live-tag">Live</div>;
             } else {
-                return <div className="ended-tag">Ended</div>;
+                return <div className="ended-tag">Closed</div>;
             }
         }
     }

@@ -92,14 +92,14 @@ const IdoComponent = (props) => {
                         Build and Grow Your Portfolio by Accessing High-Potential, Vetted Projects!
                     </div>
                     <div className="flex-d mt-32">
-                        <div className="banner-ido" onClick={()=> {clickBanner('staking')}}>
+                        <div className="banner-ido" onClick={() => { clickBanner('staking') }}>
                             <img src={banner1} className="banner-ido-image" alt='right-img'></img>
                         </div>
-                        <div className="banner-ido" onClick={()=> {clickBanner('staking')}}>
+                        <div className="banner-ido" onClick={() => { clickBanner('staking') }}>
                             <img src={banner2} className="banner-ido-image" alt='right-img'></img>
                         </div>
-                        <div className="banner-ido" onClick={()=> {clickBanner('staking')}}>
-                        <img src={banner3} className="banner-ido-image" alt='right-img'></img>
+                        <div className="banner-ido" onClick={() => { clickBanner('staking') }}>
+                            <img src={banner3} className="banner-ido-image" alt='right-img'></img>
                         </div>
                     </div>
                     <div className="flex-d mt-35 ml-12">
@@ -109,7 +109,7 @@ const IdoComponent = (props) => {
                             <DropDown onSelection={onDropdownSelect} />
                         </div>
                     </div>
-                    <hr className="mr-20"></hr>
+                    <hr className="mr-20 stake-hr op-2"></hr>
                     <div className="row ml-3">
                         {getFilteredPools()}
                     </div>
