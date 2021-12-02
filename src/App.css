@@ -697,8 +697,7 @@ input::-webkit-inner-spin-button {
   float: left;
 }
 
-.two {
-}
+.two {}
 
 .wallet-fa {
   font-size: 50px;
@@ -827,6 +826,7 @@ input::-webkit-inner-spin-button {
 .sub-feat {
   color: #a8a8a8;
   font-size: 14px;
+  text-align: left;
 }
 
 .coming-soon {
@@ -871,14 +871,24 @@ px
   margin-left: auto;
 }
 
+.troimg-1 {
+  width: 21px;
+  height: 21px;
+  float: left;
+  margin-top: 1px;
+  margin-left: 4px;
+}
+
 .btn-tro {
-  padding: 7px 26px;
-  background: #5f3fee 0% 0% no-repeat padding-box;
+  width: 120px;
+  height: 36px;
+  background: #2B3542 0% 0% no-repeat padding-box;
   border-radius: 6px;
   opacity: 1;
-  background-color: #5f3fee;
-  color: white;
   font-size: 14px;
+  text-align: center;
+  color: #FFFFFF;
+  padding: 6px;
 }
 
 .deco-none {
@@ -901,12 +911,15 @@ px
 }
 
 .btn-tro-2 {
-  padding: 7px 22px;
-  background: #2b3542 0% 0% no-repeat padding-box;
+  width: 120px;
+  height: 36px;
+  background: #2B3542 0% 0% no-repeat padding-box;
   border-radius: 6px;
-  opacity: 0.8;
+  opacity: 1;
   font-size: 14px;
-  color: #ffffff;
+  text-align: center;
+  color: #FFFFFF;
+  padding: 6px;
 }
 
 .meta-btn {
@@ -1026,7 +1039,7 @@ px
   margin-right: 22px;
 }
 
-.show > .dropdown-menu {
+.show>.dropdown-menu {
   display: block;
   position: absolute;
   background: #142130;
@@ -1387,8 +1400,7 @@ px
 }
 
 .progress-bar {
-  background: transparent linear-gradient(290deg, #4d37c2 0%, #3f55ee 100%) 0%
-    0% no-repeat padding-box;
+  background: transparent linear-gradient(290deg, #4d37c2 0%, #3f55ee 100%) 0% 0% no-repeat padding-box;
 }
 
 .progress-ido {
