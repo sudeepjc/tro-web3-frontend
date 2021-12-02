@@ -1,101 +1,124 @@
 import React from "react";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { dataService } from "../../services/DataService";
-import MetaMaskWallet from "../wallet/metamask";
 import bscImg from '../../assets/images/bsc-icon-logo-1-1@2x.png';
+import { useSelector, useDispatch } from 'react-redux';
+import { ResetErrorModal } from "../../redux/actions/errorModalActions";
+import { MAINNET_PARAMS } from '../../utils/web3/networkParams';
 
-export default class ErrorModal extends React.Component {
+const ErrorModal = (props) => {
+    const state1 = useSelector(state1 => state1.errorModalReducers);
+    console.log(state1, 'state redux1')
+    const dispatch = useDispatch()
 
-
-    onClose = e => {
-        this.props.onClose && this.props.onClose(e);
+    const onClose = () => {
+        dispatch(ResetErrorModal())
     };
 
-
-    render() {
-        console.log(this.props, 'Prop')
-        dataService.setModalData(true)
-        if (!this.props.show) {
-            return null;
+    const tryConnectWallet = async () => {
+        try {
+                await window.ethereum.request({
+                method: 'eth_requestAccounts',
+            });
+        } catch (error) {
+            console.log(error);
+            throw error;
         }
-        return (
-            <div className="modal2" id="modal">
-                {/* <div className="modal-top">
-                    <div className="toggle-button" onClick={this.onClose}>
-                        x
+    }
+
+    const switchToBSC = async() => {
+
+        await tryConnectWallet();
+        
+        const { ethereum } = window
+        try {
+            await ethereum.request({
+                method: 'wallet_switchEthereumChain',
+                params: [{chainId: MAINNET_PARAMS.chainId}],
+            });
+        } catch (switchError) {
+            // This error code indicates that the chain has not been added to MetaMask.
+            if (switchError.code === 4902) {
+                try {
+                    await ethereum.request({
+                        method: 'wallet_addEthereumChain',
+                        params: [MAINNET_PARAMS],
+                    });
+                } catch (addError) {
+                    console.log(addError);
+                    throw addError;
+                }
+            } else {
+                console.log(switchError);
+                throw switchError;
+            }
+        } finally {
+            onClose();
+        }
+    }
+
+    console.log(props, 'Prop')
+    dataService.setModalData(true)
+    if (!state1.showErrorModal) {
+        return null;
+    }
+    return (
+        <div className="modal2" id="modal">
+            <div className="content">
+                { state1.errorType === 'connect wallet' ?
+                    <div>
+                        <div className="mg-t-107 ">
+                            <i className="fas fa-wallet wallet-fa "></i>
+                        </div>
+                        <div className="mt-30 f-20">
+                            Wallet not connected. Please connect your wallet.
+                        </div>
+                        <div className="mt-50">
+                            <button className="bscScan-btn" onClick={() => { onClose() }}>
+                                Okay
+                            </button>
+                        </div>
                     </div>
-                </div> */}
-
-                <div className="content">
-
-                    {/* {this.props.children} */}
-                    {this.props.type == 'connect wallet' ?
-                        <div>
+                    : state1.errorType === 'switch' ? <div>
+                        <div className="align-c">
                             <div className="mg-t-107 ">
-
-                                <i class="fas fa-wallet wallet-fa "></i>
+                                <img src={bscImg} className="bsc-img" alt='bsc-img'>
+                                </img>
                             </div>
-                            <div className="mt-30 f-20">
-                                Wallet not connected. Please connect your wallet.
-
+                            <div className="mt-30 f-20 ">
+                                Please switch to Binance Smart Chain (BSC)
                             </div>
                             <div className="mt-50">
-                                <button class="bscScan-btn" onClick={this.onClose}>
-                                    Okay
-                    </button>
+                                <button className="bscScan-btn"
+                                    onClick={() => { switchToBSC() }}>
+                                    Switch to BSC
+                                </button>
                             </div>
                         </div>
-
-
-                        : this.props.type == 'switch metamask' ? <div>
-                            <div className="align-c">
-                                <div className="mg-t-107 ">
-
-                                    <img src={bscImg} className="bsc-img" alt='bsc-img'>
-                                    </img>
-                                </div>
-                                <div className="mt-30 f-20 ">
-                                    Please switch metamask to Binance Smart Chain (BSC)
-
+                    </div> : state1.errorType === 'other error' ?
+                        <div className="align-c">
+                            <div className="mg-t-107 ">
+                                <i className="fas fa-exclamation-circle exc-fa"></i>
                             </div>
-                                <div className="mt-50">
-                                    <button class="bscScan-btn" onClick={this.onClose}>
-                                        Okay
-                    </button>
-                                </div>
+                            <div className="mt-30 f-20">
+                                {state1.errorMessage}
                             </div>
-
-                        </div> : this.props.type == 'other errror' ?
-                            <div className="align-c">
-                                <div className="mg-t-107 ">
-                                    <i class="fas fa-exclamation-circle exc-fa"></i>
-                                    {/* <i class="fas fa-wallet wallet-fa "></i> */}
-                                </div>
-                                <div className="mt-30 f-20">
-                                    {this.props.children}
-
-                                </div>
-                                <div className="mt-50">
-                                    <button class="bscScan-btn" onClick={this.onClose}>
-                                        Okay
-               </button>
-                                </div>
+                            <div className="mt-50">
+                                <button className="bscScan-btn" onClick={() => { onClose() }}>
+                                    Okay
+                                </button>
                             </div>
-
-                            : null
-
-                    }
-
-
-                </div>
-                <div className="actions">
-                </div>
+                        </div>
+                        : null
+                }
             </div>
-        );
-    }
+            <div className="actions"></div>
+        </div>
+    );
 }
 
-ErrorModal.propTypes = {
-    onClose: PropTypes.func.isRequired,
-    show: PropTypes.bool.isRequired
-};
+// ErrorModal.propTypes = {
+//     onClose: PropTypes.func.isRequired,
+//     show: PropTypes.bool.isRequired
+// };
+export default ErrorModal
