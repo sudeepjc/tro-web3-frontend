@@ -6,6 +6,8 @@ import { Redirect } from 'react-router-dom'
 import icon1 from '../../assets/images/icon_1.png';
 import icon2 from '../../assets/images/icon_2.png';
 import icon3 from '../../assets/images/icon_3.png';
+import TROicon from "../../assets/images/TROicon.png";
+
 export class LandingPage extends Component {
     constructor(props) {
         super(props);
@@ -54,7 +56,7 @@ export class LandingPage extends Component {
                             </div>
                                 <div className="flex-right">
                                     <a href="https://trodl.com" target="_blank" rel="noreferrer" className="deco-none">
-                                        <div className="btn-tro">Visit trodl.com</div>
+                                        <div className="btn-tro"><img src={TROicon} className="troimg-1" alt='trodl-logo'></img> Trodl.com</div>
                                     </a>
                                 </div>
                             </div>

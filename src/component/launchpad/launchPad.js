@@ -14,6 +14,7 @@ import { Store } from '../../redux/store';
 import TransactionSubmitModal from '../modals/transactionSubmitModal';
 import TransactionModal from '../modals/transactionModal';
 import { Redirect } from 'react-router-dom'
+import TROicon from "../../assets/images/TROicon.png";
 
 export class LaunchPad extends Component {
 
@@ -96,8 +97,9 @@ export class LaunchPad extends Component {
                                 <img src={trodlLogo} className="logo-img cursor-p" alt='trodl-logo' onClick={() => { this.setState(() => ({ toHomePage: true })) }}></img>
 
                                 <div className="flex-right mt-10">
-                                    <a href="https://trodl.com" target="_blank" rel="noreferrer" className="deco-none"> <div className="btn-tro-2"
-                                    >Visit trodl.com</div></a>
+                                    <a href="https://trodl.com" target="_blank" rel="noreferrer" className="deco-none">
+                                        <div className="btn-tro"><img src={TROicon} className="troimg-1" alt='trodl-logo'></img> Trodl.com</div>
+                                    </a>
                                 </div>
                                 <MetaMaskWallet onConnection={this.onConnect} onAccountChange={this.onAccountChange} />
                             </div>
