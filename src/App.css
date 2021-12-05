@@ -24,7 +24,7 @@ a {
 }
 
 ::placeholder {
-  color: #ffffff73 !important
+  color: #ffffff73 !important;
 }
 
 .p-100 {
@@ -144,8 +144,7 @@ a {
   margin-top: 50px;
 }
 
-.ml-165-r-50 {
-  margin-left: 5px;
+.mr-40 {
   margin-right: 40px;
 }
 
@@ -154,14 +153,14 @@ a {
 }
 
 .red-crate {
-  color: #CA3F3F
+  color: #ca3f3f;
 }
 
 .green-crate {
-  color: #32B071
+  color: #32b071;
 }
 
-.ml-135-r-50 {
+.ml-32 {
   margin-left: 32px;
 }
 
@@ -530,10 +529,6 @@ input::-webkit-inner-spin-button {
   transform: translate(-50%, -50%);
 }
 
-.content2 {
-  /* margin-top: 80px !important; */
-}
-
 .txt-left {
   text-align: left;
 }
@@ -711,8 +706,6 @@ input::-webkit-inner-spin-button {
 .one {
   float: left;
 }
-
-.two {}
 
 .wallet-fa {
   font-size: 50px;
@@ -897,12 +890,12 @@ px
 .btn-tro {
   width: 120px;
   height: 36px;
-  background: #2B3542 0% 0% no-repeat padding-box;
+  background: #2b3542 0% 0% no-repeat padding-box;
   border-radius: 6px;
   opacity: 1;
   font-size: 14px;
   text-align: center;
-  color: #FFFFFF;
+  color: #ffffff;
   padding: 6px;
 }
 
@@ -928,12 +921,12 @@ px
 .btn-tro-2 {
   width: 120px;
   height: 36px;
-  background: #2B3542 0% 0% no-repeat padding-box;
+  background: #2b3542 0% 0% no-repeat padding-box;
   border-radius: 6px;
   opacity: 1;
   font-size: 14px;
   text-align: center;
-  color: #FFFFFF;
+  color: #ffffff;
   padding: 6px;
 }
 
@@ -948,9 +941,8 @@ px
   margin-left: 20px;
 }
 
-
 .border-divide {
-  border-right: 1px solid #FFFFFF;
+  border-right: 1px solid #ffffff;
   opacity: 0.1;
   margin-left: auto;
 }
@@ -958,7 +950,7 @@ px
 .icon-lp-svg-1 {
   /* background-color: white; */
 
-  background-image: url('./assets/images/icon_1.svg');
+  background-image: url("./assets/images/icon_1.svg");
   background-repeat: no-repeat;
 }
 
@@ -968,15 +960,12 @@ px
 
 .icon-lp-svg-2 {
   /* background-color: white; */
-  background-image: url('./assets/images/icon_2.svg');
+  background-image: url("./assets/images/icon_2.svg");
   background-repeat: no-repeat;
-
-
 }
 
 .op-2 {
   opacity: 0.2;
-  ;
 }
 
 .launpad-route {
@@ -1060,6 +1049,10 @@ px
   margin-top: 44px;
 }
 
+.mt-20 {
+  margin-top: 20px;
+}
+
 .banner-ido {
   width: 31.3%;
   height: 170px;
@@ -1085,7 +1078,7 @@ px
   margin-right: 22px;
 }
 
-.show>.dropdown-menu {
+.show > .dropdown-menu {
   display: block;
   position: absolute;
   background: #142130;
@@ -1188,7 +1181,7 @@ px
   font-size: 9px;
   margin-left: 5px;
   margin-right: 30px;
-  color: #585858;
+  color: #ca3f3f;
 }
 
 .ido_card {
@@ -1234,6 +1227,14 @@ px
   margin-top: -2px;
 }
 
+.networkimg {
+  width: 16px;
+  height: 16px;
+  float: left;
+  margin-top: 5px;
+  margin-right: 5px;
+}
+
 .coinname {
   color: white;
 
@@ -1264,7 +1265,7 @@ px
 
 .ended-tag {
   height: 24px;
-  background: #CA3F3F 0% 0% no-repeat padding-box;
+  background: #ca3f3f 0% 0% no-repeat padding-box;
   border-radius: 4px;
   opacity: 1;
   font-size: 12px;
@@ -1450,7 +1451,8 @@ px
 }
 
 .progress-bar {
-  background: transparent linear-gradient(290deg, #4d37c2 0%, #3f55ee 100%) 0% 0% no-repeat padding-box;
+  background: transparent linear-gradient(290deg, #4d37c2 0%, #3f55ee 100%) 0%
+    0% no-repeat padding-box;
 }
 
 .progress-ido {

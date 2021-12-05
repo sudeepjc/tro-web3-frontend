@@ -1,5 +1,4 @@
 import React from "react";
-// import PropTypes from "prop-types";
 import { dataService } from "../../services/DataService";
 import bscImg from '../../assets/images/bsc-icon-logo-1-1@2x.png';
 import { useSelector, useDispatch } from 'react-redux';
@@ -117,8 +116,4 @@ const ErrorModal = (props) => {
     );
 }
 
-// ErrorModal.propTypes = {
-//     onClose: PropTypes.func.isRequired,
-//     show: PropTypes.bool.isRequired
-// };
 export default ErrorModal

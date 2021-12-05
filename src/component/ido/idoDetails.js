@@ -229,9 +229,7 @@ const IdoDetails = ({ poolId, paymentToken, trodlIdo, accounts, web3 }) => {
             } else {
                 progress = issuance.minus(available).dividedBy(issuance).multipliedBy(100).toFixed(2);
             }
-            let pCssClass = `progress-bar w-${progress}`;
-
-            return (<div className={pCssClass} role="progressbar" aria-valuenow={progress} aria-valuemin="0" aria-valuemax="100" >{progress}%</div>);
+            return (<div className='progress-bar' role="progressbar" aria-valuemin="0" aria-valuemax="100" style={{ width: `${progress}%` }}>{progress}%</div>);
         }
     }
 

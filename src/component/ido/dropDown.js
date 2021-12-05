@@ -27,8 +27,8 @@ const DropDown = ({ onSelection }) => {
     }
 
     const onClickEnded = () => {
-        setSelectValue("Ended");
-        onSelection("Ended");
+        setSelectValue("Closed");
+        onSelection("Closed");
         setCssClass("fas fa-circle dd-circle-ended");
         showDropdown(false);
     }
@@ -49,7 +49,7 @@ const DropDown = ({ onSelection }) => {
                     <a className="dropdown-item" onClick={onClickAll}>All</a>
                     <a className="dropdown-item" onClick={onClickUpcoming}>UpComing</a>
                     <a className="dropdown-item" onClick={onClickLive}>Live</a>
-                    <a className="dropdown-item" onClick={onClickEnded}>Ended</a>
+                    <a className="dropdown-item" onClick={onClickEnded}>Closed</a>
                 </div>
             </div>
         </div>

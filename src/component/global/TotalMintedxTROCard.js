@@ -42,7 +42,7 @@ const TotalMintedxTROCard = ({ trodlStake, accounts, web3 }) => {
 	}
 
 	return (
-		<div className="font-14 ml-165-r-50">
+		<div className="font-14 mr-50 ml-5">
 			<span className="color-a8">  Total Minted xTRO </span> <span className="semi-bold color-prim  ml-10"> {formatTotalxTROMinted()}</span>
 		</div>
 

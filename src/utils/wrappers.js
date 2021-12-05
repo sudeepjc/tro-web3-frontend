@@ -4,7 +4,6 @@ export const convertThousands = (number, decimals) => {
     if (number === 0) return null;
     // let abs = Math.abs(number);
     // const rounder = Math.pow(10, 1);
-    const isNegative = number < 0; // will also work for Negetive numbers
     let key = '';
     const powers = [
         { key: ' Q', value: Math.pow(10, 15) },
@@ -39,7 +38,7 @@ export const convertThousands = (number, decimals) => {
 
     // ins = ins.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-    return (isNegative ? '-' : '') + ins + key;
+    return ins + key;
 };
 
 export const twoFractions = (input, decimals) => {

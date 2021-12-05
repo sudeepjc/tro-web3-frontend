@@ -127,6 +127,10 @@ const XTRORewardCard = ({ trodlStake, accounts, web3, onTransaction }) => {
         return formatValue(sTROError, stakedTRO, 2);
     }
 
+    const formatCurrentTime = () => {
+        return new Date(Date.now()).toDateString();
+    }
+
     return (
         <div className="stake-card-1  " >
             <div className="">
@@ -136,7 +140,7 @@ const XTRORewardCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                     </div>
                     <div className="txt-left ml-10">
                         <div className="font-16 semi-bold">Staking rewards</div>
-                        {/* <div className="font-14 color-a8">12 th Nov '21</div> */}
+                        <div className="font-14 color-a8">{formatCurrentTime()}</div>
                     </div>
                 </div>
             </div>

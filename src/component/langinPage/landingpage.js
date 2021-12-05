@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import trodlLogo from "../../assets/images/trodl_logo_2.png";
 import rightImg from '../../assets/images/banner.png';
 import { Redirect } from 'react-router-dom'
-import icon1 from '../../assets/images/icon_1.png';
-import icon2 from '../../assets/images/icon_2.png';
-import icon3 from '../../assets/images/icon_3.png';
+import StakeIcon from '../svgIcons/StakeIcon';
+import SwapIcon from '../svgIcons/SwapIcon';
+import GovernanceIcon from '../svgIcons/GovernanceIcon';
 import TROicon from "../../assets/images/TROicon.png";
 
 export class LandingPage extends Component {
@@ -14,18 +14,14 @@ export class LandingPage extends Component {
         this.myRef = React.createRef();
         this.state = {
             toLaunchpad: false,
-
         }
         this.focusHome = React.createRef()
         this.focusFeature = React.createRef()
-
     }
 
     render() {
         if (window.innerWidth < 1000) {
-            console.log('window.innerwidth');
-            window.location.href = "https://trodl.com/";
-
+            setTimeout(() => (window.location.href = "https://trodl.com/" ), 5000);
         }
         const handleOnClick = (event) => {
             //.current is verification that your element has rendered
@@ -40,7 +36,6 @@ export class LandingPage extends Component {
             return <Redirect to='/launchpad' />
         }
 
-        // const scrollToMyRef = () => window.scrollTo(0, this.myRef.current.offsetTop);
         const heroSection = () => {
             return (
                 <div >
@@ -76,11 +71,7 @@ export class LandingPage extends Component {
                                 Staking TRO earns you quarterly airdrops, assured IDO allocations and access to an ocean of opportunities within trodl ecosystem
                             </div>
                             <div className="mt-40">
-                                <button className="launch-btn mr-17" onClick={() => {
-                                    setTimeout(() => this.setState(() => ({ toLaunchpad: true })), 5000)
-
-
-                                }}>
+                                <button className="launch-btn mr-17" onClick={() => { this.setState(() => ({ toLaunchpad: true })) }}>
                                     <i className="fas fa-rocket mr-17"  ></i>
                                     Open Launchpad
                                 </button>
@@ -104,7 +95,7 @@ export class LandingPage extends Component {
                     <div className="main-feat mb-55">
                         <div className="main-feat">
                             <div className="icon-feat">
-                                <img src={icon1} className="icon-lp" alt='trodl-logo'></img>
+                                <StakeIcon fill='#ffffff' className="icon-lp"></StakeIcon>
                             </div>
                             <div className="card-feat">
                                 <div className="head-feat">Staking</div>
@@ -113,8 +104,7 @@ export class LandingPage extends Component {
                         </div>
                         <div className="main-feat  ml-66">
                             <div className="icon-feat">
-                                <img src={icon2} className="icon-lp" alt='trodl-logo'></img>
-
+                                <SwapIcon fill='#ffffff' className="icon-lp"></SwapIcon>
                             </div>
                             <div className="card-feat">
                                 <div className="head-feat">IDO Launchpad</div>
@@ -123,8 +113,7 @@ export class LandingPage extends Component {
                         </div>
                         <div className="main-feat  ml-66">
                             <div className="icon-feat">
-                                <img src={icon3} className="icon-lp" alt='trodl-logo'></img>
-
+                                <GovernanceIcon fill={'#a8adb2'} className="icon-lp"></GovernanceIcon>
                             </div>
                             <div className="card-feat">
                                 <div className="main-feat">
@@ -143,13 +132,17 @@ export class LandingPage extends Component {
         }
         return (
             <div>
-                { window.innerWidth < 1000 ? <div className="pad-160">Staking and Launchpad is accessible from Desktop or Laptop screens only. Not available on mobile devices</div> :
+                { window.innerWidth < 1000 ? 
+                    <div className="pad-160"> 
+                        <div>Staking and Launchpad is accessible from Desktop or Laptop screens only </div>
+                        <div> Not available on mobile devices </div>
+                    </div> :
                     <div className="bg-col-land">
                         {heroSection()}
                         {features()}
                         <div className="t-and-c">
                             © Trodl.com 2021-22. All rights reserved.
-                    </div>
+                        </div>
                     </div>
                 }
             </div>

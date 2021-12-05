@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import config from 'react-global-configuration';
 import MetaMaskOnboarding from '@metamask/onboarding';
 import { shortAddress } from '../../utils/web3/addressUtils';
-import ErrorModal from '../modals/errorModal';
 import { useDispatch } from 'react-redux';
 import { setErrorModal } from '../../redux/actions/errorModalActions';
 
@@ -12,9 +11,6 @@ function MetaMaskWallet({ onConnection, onAccountChange }) {
     const [isInstalling, setIsInstalling] = useState(false);
     const [isConnected, setIsConnected] = useState(false);
     const [accounts, setAccounts] = useState([]);
-    const [show, setShow] = useState(false);
-    const [error, setError] = useState(null);
-    const [type, setType] = useState(null);
 
     let onboarding;
 
@@ -37,17 +33,12 @@ function MetaMaskWallet({ onConnection, onAccountChange }) {
 
     const showErrorModal = (show, type, error) => {
         dispatch(setErrorModal(show, type, error.message));
-        // setShow(!show);
     };
 
     const isMetaMaskInstalled = () => {
         const { ethereum } = window
         return Boolean(ethereum && ethereum.isMetaMask)
     }
-
-    // const isMetaMaskConnected = () => {
-    //     return accounts && (accounts.length > 0);
-    // }
 
     const installMetamask = () => {
         const currentUrl = new URL(window.location.href);
@@ -64,8 +55,6 @@ function MetaMaskWallet({ onConnection, onAccountChange }) {
                 //Ignore User Tx Reject
             }
             console.log(`Error during Metamask installation: ${err.message}`);
-            // setError(err);
-            // setType('other error');
             showErrorModal(true, 'other error', err);
         }
     }
@@ -90,8 +79,6 @@ function MetaMaskWallet({ onConnection, onAccountChange }) {
                 //Ignore User Tx Reject
             }
             console.log(`Error during Metamask connection: ${err.message}`);
-            // setError(err);
-            // setType('other error')
             showErrorModal(true, 'other error', err);
         } finally {
             if (onboarding) {
@@ -130,7 +117,6 @@ function MetaMaskWallet({ onConnection, onAccountChange }) {
 
     const handleOnConnection = (connectionInfo) => {
         console.log(`ConnectionInfo: ${connectionInfo.chainId}`);
-        // setIsConnected(true);
         if (onboarding) {
             console.log('onboarding stopped');
             onboarding.stopOnboarding();
@@ -155,19 +141,12 @@ function MetaMaskWallet({ onConnection, onAccountChange }) {
 
         if (!(chainId === '0x38' || chainId === '0x61')) {
             console.log('Switch to BSC');
-            // setError(new Error(`Connect to the Binance Chain`));
-            // setType('switch')
             showErrorModal(true, 'switch', new Error(`Connect to the Binance Chain`));
         }
     }
 
     return (
         <div>
-            {error ?
-                <ErrorModal onClose={showErrorModal} show={show} type={type}>
-                    {`${error.message}`}
-                </ErrorModal> : null
-            }
             <button className="meta-btn mr-17  mt-10" onClick={connectWallet} ><i className="fas fa-wallet mr-17" ></i>{getConnectButtonString()}</button>
         </div>
     );

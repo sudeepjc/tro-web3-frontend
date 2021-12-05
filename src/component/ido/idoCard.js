@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import BigNumber from 'bignumber.js';
 import { poolsStatic } from './poolsStaticMainnet';
+import binanceLogo from '../../assets/images/bsc_logo_2x.png';
 
 const IdoCard = ({ poolId, trodlIdo, accounts, selection, onDetailView }) => {
     const [poolInfo, setPoolInfo] = useState(null);
@@ -201,7 +202,7 @@ const IdoCard = ({ poolId, trodlIdo, accounts, selection, onDetailView }) => {
             } else if ((currentTime > poolStartTime) && (currentTime < poolEndTime)) {
                 return "Live";
             } else {
-                return "Ended";
+                return "Closed";
             }
         } else {
             return "NA";
@@ -210,9 +211,9 @@ const IdoCard = ({ poolId, trodlIdo, accounts, selection, onDetailView }) => {
 
     const shouldCardDisplay = () => {
         let status;
-        if (selection.toLowerCase() == 'all') {
+        if (selection.toLowerCase() === 'all') {
             status = true;
-        } else if (selection.toLowerCase() == formatPoolStatus().toLowerCase()) {
+        } else if (selection.toLowerCase() === formatPoolStatus().toLowerCase()) {
             status = true;
         } else {
             status = false;
@@ -243,14 +244,17 @@ const IdoCard = ({ poolId, trodlIdo, accounts, selection, onDetailView }) => {
                     </div>
                     <div className="flex-d mt-20">
 
-                        <div className="">
+                        <div className="width50">
                             <div className="sub-head-ido">Access</div>
                             <div className="intext-1">{getAccess()}</div>
+                        </div>
+                        <div>
+                            <div className="sub-head-ido">Network</div>
+                            <div className="intext-1"><img src={binanceLogo} className="networkimg" alt='trodl-logo'></img>Binance</div>
                         </div>
                     </div>
                     <div className="flex-d mt-20">
                         <div className="width50">
-                            {/* {formatStatusDetailed()} */}
                             <div className="sub-head-ido">{formatStatusTitle()}</div>
                             <div className="intext-2">{formatStatusTime()}</div>
                         </div>
