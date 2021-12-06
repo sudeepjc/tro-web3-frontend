@@ -163,14 +163,14 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
             </div>
             <div className="txt-left ">
                 <div className="flex-d">
-                    <div>
+                    <div className="w-50">
                         <div className="font-14 color-cf">
                             Locked TRO balance
                         </div>
                         <div className="locked-msg" style={style}>
                             Unstaked TRO balances are locked for 14 days. During lock in period you can only re-invest the amount and can’t withdraw.
                         </div>
-                        <div className="font-16 color-a8 ">   {formatUserLockedTROBalance()} <i className="fas fa-exclamation-circle exc-fa-2"
+                        <div className="font-16 color-a8  w-90">   {formatUserLockedTROBalance()} <i className="fas fa-exclamation-circle exc-fa-2"
                             onMouseEnter={e => {
                                 setStyle({ display: 'block' });
                             }}
@@ -178,20 +178,18 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                                 setStyle({ display: 'none' })
                             }}></i></div>
 
-                        <div className="mt-30">
-                            <button className="  card-btns" onClick={restakeAll}>
-                                Re-Stake</button>
-                        </div>
+
                     </div>
+
                     <div className="border-divide"></div>
-                    <div className=" flex-right">
+                    <div className=" ml-8p">
                         <div className="font-14 color-cf">
                             Unlocked TRO balance
                         </div>
                         <div className="unlocked-msg" style={style2}>
                             Unlocked TRO balances have completed 14 days of lock in period and are available for withdrawal.
                         </div>
-                        <div className="font-16 color-a8 ">   {formatUserUnlockedTROBalance()} <i className="fas fa-exclamation-circle exc-fa-2"
+                        <div className="font-16 color-a8 w-90">   {formatUserUnlockedTROBalance()} <i className="fas fa-exclamation-circle exc-fa-2"
                             onMouseEnter={e => {
                                 setStyle2({ display: 'block' });
                             }}
@@ -199,12 +197,23 @@ const TROWithdrawCard = ({ trodlStake, accounts, web3, onTransaction }) => {
                                 setStyle2({ display: 'none' })
                             }}></i></div>
 
-                        <div className="flex-right mt-30">
-                            <button className="  card-btns" onClick={withdrawAll}>
-                                Withdraw</button>
-                        </div>
+
                     </div>
 
+
+
+                </div>
+
+                <div className="flex-d  mt-63">
+                    <div className="mt-30 marg-c" >
+                        <button className="  card-btns" onClick={restakeAll}>
+                            Re-Stake</button>
+                    </div>
+
+                    <div className="flex-right mt-30 marg-c flex-d">
+                        <button className="  card-btns" onClick={withdrawAll}>
+                            Withdraw</button>
+                    </div>
                 </div>
 
             </div>

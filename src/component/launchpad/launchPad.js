@@ -36,7 +36,9 @@ export class LaunchPad extends Component {
             chainRender: false,
             type: null,
             storeData: null,
-            toHomePage: false
+            toHomePage: false,
+            style: { display: 'none' }
+
         }
     }
 
@@ -130,9 +132,17 @@ export class LaunchPad extends Component {
                                 }}>
                                     <SwapIcon fill={this.state.currentTab === 'ido' ? '#ffffff' : '#a8adb2'} className="icon-lp"></SwapIcon>
                                 </div>
-                                <div className="menu-icon cursor-p">  
+                                <div className="menu-icon cursor-p" onMouseEnter={e => {
+                                    this.setState({ style: { display: 'block' } });
+                                }}
+                                    onMouseLeave={e => {
+                                        this.setState({ style: { display: 'none' } });
+                                    }}
+
+                                >
                                     <GovernanceIcon fill={'#a8adb2'} className="icon-lp"></GovernanceIcon>
                                 </div>
+                                <div className="com-ss" style={this.state.style}> Coming Soon</div>
                             </div>
                         </div>
                         <div>

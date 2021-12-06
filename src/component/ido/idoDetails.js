@@ -16,7 +16,7 @@ const IdoDetails = ({ poolId, paymentToken, trodlIdo, accounts, web3 }) => {
     const [isIntervalPool, setIsIntervalPool] = useState(false);
     const [isLinearPool, setIsLinearPool] = useState(false);
     const [redraw, setRedraw] = useState(false);
-
+    const [style, setStyle] = useState({ display: 'none' })
     const showErrorModal = (show, type, error) => {
         dispatch(setErrorModal(show, type, error.message))
     };
@@ -229,7 +229,11 @@ const IdoDetails = ({ poolId, paymentToken, trodlIdo, accounts, web3 }) => {
             } else {
                 progress = issuance.minus(available).dividedBy(issuance).multipliedBy(100).toFixed(2);
             }
-            return (<div className='progress-bar' role="progressbar" aria-valuemin="0" aria-valuemax="100" style={{ width: `${progress}%` }}>{progress}%</div>);
+            return (
+                <div className="progress-ido progress mt-10">
+                    <div className='progress-bar' role="progressbar" aria-valuemin="0" aria-valuemax="100" style={{ width: `${progress}%` }}></div>
+                    <span className={progress >= 55 ? 'col-wh' : 'col-p'}>{progress}%</span>
+                </div>);
         }
     }
 
@@ -307,13 +311,27 @@ const IdoDetails = ({ poolId, paymentToken, trodlIdo, accounts, web3 }) => {
             );
         }
     }
+    const copyFunc = () => {
+        navigator.clipboard.writeText(poolInfo.props.issuanceToken)
+        setStyle({ display: 'block' });
 
+        setTimeout(() => {
+            setStyle({ display: 'none' });
+
+        }, 1000);
+
+    }
     const formatTokenAddress = () => {
         if (poolInfo) {
             return (
                 <div className="mtb-12 flex-d">
-                    <div className="sub-head-ido mar-10 w-50"> Address</div> <div className="intext-1 font-14 w-50">{shortAddress(poolInfo.props.issuanceToken)}
-                        <span onClick={() => navigator.clipboard.writeText(poolInfo.props.issuanceToken)}><i className="far fa-copy copy-l"></i></span></div>
+                    <div className="sub-head-ido mar-10 w-50"> Address</div> <div className="intext-1 font-14 w-50 p-rl">{shortAddress(poolInfo.props.issuanceToken)}
+                        <span onClick={() =>
+                            copyFunc()
+
+                        }><i className="far fa-copy copy-l"></i> </span>
+                        <div className="copied-ss" style={style}> Copied</div>
+                    </div>
                 </div>
             );
         }
@@ -652,9 +670,9 @@ const IdoDetails = ({ poolId, paymentToken, trodlIdo, accounts, web3 }) => {
                     <hr></hr>
                     <div className="p-16-lr">
                         <div className="intext-1 semi-bold font-14">Swap Progress</div>
-                        <div className="progress-ido progress mt-10">
-                            {formatProgress()}
-                        </div>
+
+                        {formatProgress()}
+
                         <div className="intext-1 font-12 txt-left mt-8"> {formatSold()} / {formatIssuance()} </div>
                     </div>
                 </div>

@@ -152,6 +152,10 @@ a {
   margin-left: 5px;
 }
 
+.ml-8p {
+  margin-left: 8%;
+}
+
 .red-crate {
   color: #ca3f3f;
 }
@@ -170,6 +174,11 @@ a {
 
 .ml-25p {
   margin-left: 25%;
+}
+
+.ml-2-14 {
+  margin-left: 2px !important;
+  margin-right: 14px !important;
 }
 
 /* //col edit */
@@ -452,6 +461,16 @@ input::-webkit-inner-spin-button {
     margin-left: 19px;
     margin-right: 19px;
   }
+}
+
+@media(max-width:1350px) {
+  .coinsymb {
+    width: 90%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
 }
 
 /* *modal */
@@ -742,31 +761,78 @@ input::-webkit-inner-spin-button {
 }
 
 .locked-msg {
-  width: 140px;
-  height: 70px;
-  background: #202e44 0% 0% no-repeat padding-box;
-  box-shadow: 0px 10px 10px #00000029;
+  width: 205px;
+  height: 88px;
+  background: #2B3546 0% 0% no-repeat padding-box;
+  box-shadow: -12px -12px 20px #00000026;
+  opacity: 1;
   border-radius: 16px 16px 16px 0px;
   opacity: 1;
   position: absolute;
   top: 7%;
   right: 32%;
-  font-size: 8px;
-  padding: 7px;
+  font-size: 12px;
+  padding: 10px;
 }
 
 .unlocked-msg {
-  width: 140px;
-  height: 70px;
-  background: #202e44 0% 0% no-repeat padding-box;
-  box-shadow: 0px 10px 10px #00000029;
+  width: 181px;
+  height: 88px;
+  background: #2B3546 0% 0% no-repeat padding-box;
+  box-shadow: -12px -12px 20px #00000026;
+  opacity: 1;
   border-radius: 16px 16px 0px 16px;
   opacity: 1;
   position: absolute;
-  font-size: 8px;
-  padding: 7px;
+  font-size: 12px;
+  padding: 10px;
   left: 60%;
   top: 7%;
+}
+
+.com-ss {
+  width: 111px;
+  height: 40px;
+  background: #2B3546 0% 0% no-repeat padding-box;
+  box-shadow: -12px -12px 20px #00000026;
+  border-radius: 5px;
+  opacity: 1;
+  color: white;
+  font-size: 12px;
+  padding: 2px;
+  margin-left: 80px;
+  border-radius: 16px 16px 16px 0px;
+  opacity: 1;
+  position: absolute;
+  font-size: 12px;
+  padding: 10px;
+  left: -42%;
+  top: 57%;
+
+}
+
+.copied-ss {
+  width: 65px;
+  height: 34px;
+  background: #2B3546 0% 0% no-repeat padding-box;
+  box-shadow: -12px -12px 20px #00000026;
+  border-radius: 5px;
+  opacity: 1;
+  color: white;
+  font-size: 12px;
+  padding: 2px;
+  margin-left: 80px;
+  border-radius: 16px 16px 16px 0px;
+  opacity: 1;
+  position: absolute;
+  font-size: 12px;
+  padding: 8px 10px;
+  right: -12%;
+  bottom: 75%;
+}
+
+.p-rl {
+  position: relative;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -944,7 +1010,15 @@ px
 .border-divide {
   border-right: 1px solid #ffffff;
   opacity: 0.1;
-  margin-left: auto;
+  height: 110px;
+}
+
+.mt-63 {
+  margin-top: -63px;
+}
+
+.w-90 {
+  width: 90%;
 }
 
 .icon-lp-svg-1 {
@@ -981,6 +1055,8 @@ px
   box-shadow: 12px 0px 12px #00000029;
   opacity: 1;
   border-radius: 0px 12px 12px 0px;
+  display: flex;
+  padding: 9px
 }
 
 .menu-icon {
@@ -989,7 +1065,8 @@ px
   padding: 0px 0px;
   border-radius: 12px;
   opacity: 1;
-  margin-bottom: 15px;
+  margin-bottom: 13px;
+  margin-top: 13px;
   position: relative;
 }
 
@@ -1010,8 +1087,8 @@ px
 }
 
 .mtb-auto {
-  margin-top: 60px;
-  margin-left: 5px;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .lp-mgrs {
@@ -1078,7 +1155,7 @@ px
   margin-right: 22px;
 }
 
-.show > .dropdown-menu {
+.show>.dropdown-menu {
   display: block;
   position: absolute;
   background: #142130;
@@ -1197,7 +1274,7 @@ px
 
 .col-ido {
   flex: 0 0 auto;
-  width: 31.1% !important;
+  width: 31.8% !important;
 }
 
 .ml-12 {
@@ -1205,7 +1282,7 @@ px
 }
 
 .ml-3 {
-  margin-left: 3px;
+  margin-left: 3px !important;
 }
 
 .mr-20 {
@@ -1261,6 +1338,16 @@ px
 
 .w-50 {
   width: 50%;
+}
+
+.flex-center {
+  align-items: center;
+  justify-content: center;
+}
+
+.marg-c {
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .ended-tag {
@@ -1451,12 +1538,30 @@ px
 }
 
 .progress-bar {
-  background: transparent linear-gradient(290deg, #4d37c2 0%, #3f55ee 100%) 0%
-    0% no-repeat padding-box;
+  background: transparent linear-gradient(290deg, #4d37c2 0%, #3f55ee 100%) 0% 0% no-repeat padding-box;
 }
+
 
 .progress-ido {
   height: 30px !important;
+  position: relative;
+}
+
+.progress-ido span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  text-align: center;
+
+  margin-top: 5px;
+}
+
+.col-p {
+  color: #142130;
+}
+
+.col-w {
+  color: white;
 }
 
 .font-12 {
