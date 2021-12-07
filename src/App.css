@@ -152,6 +152,12 @@ a {
   margin-left: 5px;
 }
 
+.flex-d-column {
+  display: flex;
+  flex-direction: column;
+  width: 42%;
+}
+
 .ml-8p {
   margin-left: 8%;
 }
@@ -463,14 +469,13 @@ input::-webkit-inner-spin-button {
   }
 }
 
-@media(max-width:1350px) {
+@media (max-width: 1350px) {
   .coinsymb {
     width: 90%;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
   }
-
 }
 
 /* *modal */
@@ -763,7 +768,7 @@ input::-webkit-inner-spin-button {
 .locked-msg {
   width: 205px;
   height: 88px;
-  background: #2B3546 0% 0% no-repeat padding-box;
+  background: #2b3546 0% 0% no-repeat padding-box;
   box-shadow: -12px -12px 20px #00000026;
   opacity: 1;
   border-radius: 16px 16px 16px 0px;
@@ -778,7 +783,7 @@ input::-webkit-inner-spin-button {
 .unlocked-msg {
   width: 181px;
   height: 88px;
-  background: #2B3546 0% 0% no-repeat padding-box;
+  background: #2b3546 0% 0% no-repeat padding-box;
   box-shadow: -12px -12px 20px #00000026;
   opacity: 1;
   border-radius: 16px 16px 0px 16px;
@@ -793,7 +798,7 @@ input::-webkit-inner-spin-button {
 .com-ss {
   width: 111px;
   height: 40px;
-  background: #2B3546 0% 0% no-repeat padding-box;
+  background: #2b3546 0% 0% no-repeat padding-box;
   box-shadow: -12px -12px 20px #00000026;
   border-radius: 5px;
   opacity: 1;
@@ -808,13 +813,12 @@ input::-webkit-inner-spin-button {
   padding: 10px;
   left: -42%;
   top: 57%;
-
 }
 
 .copied-ss {
   width: 65px;
   height: 34px;
-  background: #2B3546 0% 0% no-repeat padding-box;
+  background: #2b3546 0% 0% no-repeat padding-box;
   box-shadow: -12px -12px 20px #00000026;
   border-radius: 5px;
   opacity: 1;
@@ -1017,8 +1021,16 @@ px
   margin-top: -63px;
 }
 
+.ml-neg20 {
+  margin-left: -20px;
+}
+
 .w-90 {
   width: 90%;
+}
+
+.w-80 {
+  width: 80%;
 }
 
 .icon-lp-svg-1 {
@@ -1056,7 +1068,7 @@ px
   opacity: 1;
   border-radius: 0px 12px 12px 0px;
   display: flex;
-  padding: 9px
+  padding: 9px;
 }
 
 .menu-icon {
@@ -1155,7 +1167,7 @@ px
   margin-right: 22px;
 }
 
-.show>.dropdown-menu {
+.show > .dropdown-menu {
   display: block;
   position: absolute;
   background: #142130;
@@ -1538,9 +1550,9 @@ px
 }
 
 .progress-bar {
-  background: transparent linear-gradient(290deg, #4d37c2 0%, #3f55ee 100%) 0% 0% no-repeat padding-box;
+  background: transparent linear-gradient(290deg, #4d37c2 0%, #3f55ee 100%) 0%
+    0% no-repeat padding-box;
 }
-
 
 .progress-ido {
   height: 30px !important;
